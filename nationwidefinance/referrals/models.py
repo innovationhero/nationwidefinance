@@ -6,38 +6,38 @@ class Country(models.Model):
 	name = models.CharField(max_length=100)
 	code = models.CharField(max_length=3)
 
-class Entity(User):
-	
-	created_date = models.DateTimeField()
-	updated_date = models.DateTimeField()
-	entity_active = models.BooleanField()
+	def __unicode__(self):
+		return self.name
 
-
-
-class Organization(Entity):
-	
-	entity = models.ForeignKey(Entity,related_name='org_entity')
+class Organization(models.Model):
+	user = models.ForeignKey(User,null=False,blank=False)
 	name = models.CharField(max_length=100)
 
+	def __unicode__(self):
+		return self.name
 
-class Person(Entity):
-	
-	entity = models.ForeignKey(Entity,related_name='person_entity')
+
+class Person(models.Model):
+	user = models.ForeignKey(User,null=False,blank=False)
 	first_name = models.CharField(max_length=100)
 	last_name = models.CharField(max_length=100)
 	dob = models.DateField()
+
+	def __unicode__(self):
+		return '%s %s' % (self.first_name, self.last_name)
 
 
 
 class EntityReferral(models.Model):
 	
-	users = models.ManyToManyField(Entity, related_name='u+')
-	referents = models.ManyToManyField(Entity, related_name='ref+')
+	referrer = models.ForeignKey(User,related_name='referrer')
+	referred = models.ManyToManyField(User, related_name='ref+')
+	referred_to = models.ForeignKey(User,related_name='referred_to')
 	created_date = models.DateTimeField()
 	updated_date = models.DateTimeField()
 	entity_active = models.BooleanField()
 
-class ReferalValue(models.Model):
+class ReferralValue(models.Model):
 
 	referal = models.ForeignKey(EntityReferral,null=False,blank=False)
 	code = models.CharField(max_length=10)
@@ -46,9 +46,12 @@ class ReferalValue(models.Model):
 	entity_active = models.BooleanField()
 
 class EntityProfile(models.Model):
-
+	user = models.ForeignKey(User,null=False,blank=False)
 	address1 = models.CharField(max_length=100)
 	address2 = models.CharField(max_length=100)
 	city = models.CharField(max_length=100)
-	provide = models.CharField(max_length=100)
-	county = models.ForeignKey(Country,blank=False,null=False)
+	province = models.CharField(max_length=100)
+	country = models.ForeignKey(Country,blank=False,null=False)
+
+	def __unicode__(self):
+		return '%s -- %s -- %s' % (self.address1, self.city, self.province)

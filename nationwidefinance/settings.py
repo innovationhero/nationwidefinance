@@ -116,7 +116,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
-    'nationwidefinance',
+    #'nationwidefinance',
     'nationwidefinance.referrals',
     'django_openid_auth',
     'django.contrib.admin',
@@ -136,7 +136,7 @@ AUTHENTICATION_BACKENDS = (
     'social_auth.backends.contrib.flickr.FlickrBackend',
     'social_auth.backends.OpenIDBackend',
     'social_auth.backends.contrib.livejournal.LiveJournalBackend',
-    'backends.backends.EntityAuthenticationBackend',
+    
     'django.contrib.auth.backends.ModelBackend',
 )
 

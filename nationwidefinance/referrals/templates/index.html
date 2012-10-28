@@ -6,15 +6,27 @@
 	<div style="float:right;width:150px;"><a href="{% url socialauth_begin 'google' %}">GMail Login</a></div> 
 	<div style="float:right;width:150px;"><a href="{%url socialauth_begin 'yahoo'%}">Yahoo Login</a></div> 
 	<div style="float:right;width:150px;"><a href="{%url socialauth_begin 'facebook'%}">Facebook Login</a></div>
-	<div style="float:right;width:150px;"><a href="{%url openid_login 'gmail'%}">Nationwide Login</a></div> 
-	<div style="float:right;width:150px;"><a href="{%url openid_login 'gmail'%}">Create Account</a></div> 
+	<div style="float:right;width:150px;"><a href="">Nationwide Login</a></div> 
+	<div style="float:right;width:150px;"><a href="">Create Account</a></div> 
 </div>
 <div>
 	<br/></br>
 	{%if user.is_authenticated%}
-		<h3>Authencated</h3>
-	{%else%}
-		<h3>NO GOOD</h3>
+		<h3>Check Entity</h3>
+		<script>
+			nationwide.helpers.check_profile_success = function(data) {
+				data = eval(data);
+				status = data[0].status;
+				//status 0 means the user has no profile on the system
+				if (status == 0) {window.location.href = '{%url create_profile %}'}
+			}
+			$(function(){
+				nationwide.utils.do_ajax('get',
+					'{%url check_user_profile %}',
+					{},
+					function(data){nationwide.helpers.check_profile_success(data);});
+			});
+		</script>
 	{%endif%}
 </div>
 {%endblock%}
