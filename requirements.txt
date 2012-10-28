@@ -3,3 +3,4 @@ setuptools-git
 python-dateutil==2.1
 mock
 django-social-auth
+psycopg2
