@@ -56,5 +56,8 @@
                 '//connect.facebook.net/ru_RU/all.js';
         document.getElementById('fb-root').appendChild(e);
     }());
+    FB.Event.subscribe('auth.login', function () {
+          window.location = "http://webiken.net/";
+      });
     </script>
 {% endblock %}
