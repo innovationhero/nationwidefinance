@@ -32,13 +32,19 @@ nationwide.utils.show_hide = function() {
 
 nationwide.utils.select_processor = function() {
 	var args = arguments;
-	var result_function = args[0];
-	var result_args = arguments.slice(1,args.lenght);
-
 	var $select = args[0];
+	var conditions = args[1];
+	var result_function = args[2];
+	//var result_args = arguments.slice(1,args.lenght);
 
-	if ($select.val() == '1') {
-		result_function(result_args);
+	for (key in conditions) {
+		if ($select.val() == key) {
+			result_args = conditons[key];
+			for (i =0; i < result_args.length; i++) {
+				result_function.apply(this||window,result_args[i]);
+			}
+			break;
+		}
 	}
 }
 

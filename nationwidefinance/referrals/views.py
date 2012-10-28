@@ -4,15 +4,13 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.utils import simplejson
 from django.conf import settings
+from django.contrib.auth.models import User
 
 from nationwidefinance.referrals import models
 from nationwidefinance.referrals import forms
 
 
 def home(request,template='index.html'):
-	#profile = request.user.get_profile()
-	#print profile
-	#print '>>>>>>>>>>>>>>>>>>>> %s' % profile.address1
 
 	return render_to_response(template,
                               dict(title='Welcome to Nationwide Finance',),
@@ -72,6 +70,37 @@ def create_profile(request,template='create_profile.html'):
                               dict(title='Creating a Profile',form = form),
                               context_instance=RequestContext(request))
 
-		return render_to_response('add_referral.html',
-                              dict(title='Creating a Profile',form = form),
-                              context_instance=RequestContext(request))
+		
+		return HttpResponseRedirect('/referrals/add_referral')
+
+def add_referral(request):
+	users = User.objects.all()
+	aaData = []
+	for user in users:
+		if user.is_staff or user.is_superuser: continue
+		list = []
+		type = ''
+		list.append(user.id)
+		try:
+			org = models.Organization.objects.get(user__username=user.username)
+			type = 'Organization'
+			list.append(type)
+			list.append(str(org.name))
+			list.append(str(''))
+		except models.Organization.DoesNotExist:
+			pass
+
+		try:
+			person = models.Person.objects.get(user__username=user.username)
+			type = 'Person'
+			list.append(type)
+			list.append(str(person.first_name))
+			list.append(str(person.last_name))
+		except models.Person.DoesNotExist:
+			pass
+
+		
+		aaData.append(list)
+	return render_to_response('add_referral.html',
+                         dict(title='Adding A Referral',aaData = aaData),
+                          context_instance=RequestContext(request))
