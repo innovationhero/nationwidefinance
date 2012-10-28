@@ -126,11 +126,27 @@ INSTALLED_APPS = (
 )
 
 AUTHENTICATION_BACKENDS = (
+     'social_auth.backends.twitter.TwitterBackend',
+    'social_auth.backends.facebook.FacebookBackend',
     'social_auth.backends.google.GoogleOAuthBackend',
     'social_auth.backends.google.GoogleOAuth2Backend',
-    'social_auth.backends.google.GoogleBackend'
+    'social_auth.backends.google.GoogleBackend',
+    'social_auth.backends.yahoo.YahooBackend',
+    'social_auth.backends.contrib.linkedin.LinkedinBackend',
+    'social_auth.backends.contrib.flickr.FlickrBackend',
+    'social_auth.backends.OpenIDBackend',
+    'social_auth.backends.contrib.livejournal.LiveJournalBackend',
     'backends.backends.EntityAuthenticationBackend',
     'django.contrib.auth.backends.ModelBackend',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.contrib.messages.context_processors.messages',
+    'social_auth.context_processors.social_auth_by_type_backends',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -158,16 +174,10 @@ LOGGING = {
 
 AUTH_PROFILE_MODULE = 'referrals.entityprofile'
 LOGIN_REDIRECT_URL = '/'
-
-# Tell django.contrib.auth to use the OpenID signin URLs.
-# OPENID_CREATE_USERS = True
-# OPENID_UPDATE_DETAILS_FROM_SREG = True
-# OPENID_SSO_SERVER_URL = ''
-
-# OPENID_GMAIL_URL = 'https://www.google.com/accounts/o8/id'
-# OPENID_YAHOO_URL = 'https://me.yahoo.com/a/rEOH03k2oZKSWDlu_x22Z12oud0-'
-
-try:
-    from oauthsettigs import*
-except:
-    pass
+FACEBOOK_APP_ID                   = '361510763943252'
+FACEBOOK_API_SECRET               = '2f02398f50a91ac1aea21676a098c53b'
+FACEBOOK_EXTENDED_PERMISSIONS     = ['email']
+# try:
+#     from oathsettings import *
+# except:
+#     pass

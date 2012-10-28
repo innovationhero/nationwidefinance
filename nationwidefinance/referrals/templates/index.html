@@ -2,10 +2,19 @@
 
 {%block content%}
 <div style="width:100%">
-	<div style="float:right;width:150px;"><a href="{%url openid_login 'gmail'%}">GMail Login</a></div> 
-	<div style="float:right;width:150px;"><a href="{%url openid_login 'yahoo'%}">Yahoo Login</a></div> 
-	<div style="float:right;width:150px;"><a href="{%url openid_login 'gmail'%}">Facebook Login</a></div>
+	{%if user.is_authenticated%}<div style="float:right;width:150px;"><a href="{% url logout_user %}">Logout</a></div>{%endif%}
+	<div style="float:right;width:150px;"><a href="{% url socialauth_begin 'google' %}">GMail Login</a></div> 
+	<div style="float:right;width:150px;"><a href="{%url socialauth_begin 'yahoo'%}">Yahoo Login</a></div> 
+	<div style="float:right;width:150px;"><a href="{%url socialauth_begin 'facebook'%}">Facebook Login</a></div>
 	<div style="float:right;width:150px;"><a href="{%url openid_login 'gmail'%}">Nationwide Login</a></div> 
 	<div style="float:right;width:150px;"><a href="{%url openid_login 'gmail'%}">Create Account</a></div> 
+</div>
+<div>
+	<br/></br>
+	{%if user.is_authenticated%}
+		<h3>Authencated</h3>
+	{%else%}
+		<h3>NO GOOD</h3>
+	{%endif%}
 </div>
 {%endblock%}
