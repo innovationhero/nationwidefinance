@@ -5,13 +5,9 @@ from django.conf.urls.defaults import patterns, include, url
 # admin.autodiscover()
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'nationwidefinance.views.home', name='home'),
-    # url(r'^nationwidefinance/', include('nationwidefinance.foo.urls')),
-
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    # Uncomment the next line to enable the admin:
-    # url(r'^admin/', include(admin.site.urls)),
+	url(r'^', include('nationwidefinance.referrals.urls')),
+	url(r'', include('social_auth.urls')),
+	url(r'^openid/', include('django_openid_auth.urls')),
+	url(r'^accounts/profile','nationwidefinance.referrals.views.redirect_to_home'),
+    
 )

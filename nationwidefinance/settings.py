@@ -11,10 +11,10 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '',                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'nationwide',                      # Or path to database file if using sqlite3.
+        'USER': 'nationwide',                      # Not used with sqlite3.
+        'PASSWORD': 'Nation!23Wide',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
@@ -115,10 +115,22 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
-    # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
+    'django.contrib.admin',
+    'nationwidefinance',
+    'nationwidefinance.referrals',
+    'django_openid_auth',
+    'django.contrib.admin',
+    'social_auth',
+    
+
+)
+
+AUTHENTICATION_BACKENDS = (
+    'social_auth.backends.google.GoogleOAuthBackend',
+    'social_auth.backends.google.GoogleOAuth2Backend',
+    'social_auth.backends.google.GoogleBackend'
+    'backends.backends.EntityAuthenticationBackend',
+    'django.contrib.auth.backends.ModelBackend',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -143,3 +155,19 @@ LOGGING = {
         },
     }
 }
+
+AUTH_PROFILE_MODULE = 'referrals.entityprofile'
+LOGIN_REDIRECT_URL = '/'
+
+# Tell django.contrib.auth to use the OpenID signin URLs.
+# OPENID_CREATE_USERS = True
+# OPENID_UPDATE_DETAILS_FROM_SREG = True
+# OPENID_SSO_SERVER_URL = ''
+
+# OPENID_GMAIL_URL = 'https://www.google.com/accounts/o8/id'
+# OPENID_YAHOO_URL = 'https://me.yahoo.com/a/rEOH03k2oZKSWDlu_x22Z12oud0-'
+
+try:
+    from oauthsettigs import*
+except:
+    pass
