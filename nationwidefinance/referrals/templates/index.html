@@ -18,7 +18,7 @@
 				data = eval(data);
 				status = data[0].status;
 				//status 0 means the user has no profile on the system
-				if (status == 0) {window.location.href = '{%url create_profile %}'}
+				//if (status == 0) {window.location.href = '{%url create_profile %}'}
 			}
 			$(function(){
 				nationwide.utils.do_ajax('get',

@@ -124,7 +124,8 @@ def sign_up(request,template='sign_up.html'):
 			username = request.POST['username']
 			password = request.POST['password1']
 			user = authenticate(username=username, password=password)
-			login(request,user)
+			##commented the login of user out as it throws error when loading the home page
+			##login(request,user)
 
 		else:
 			return render_to_response(template,
