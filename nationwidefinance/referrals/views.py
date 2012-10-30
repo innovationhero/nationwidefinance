@@ -104,3 +104,24 @@ def add_referral(request):
 	return render_to_response('add_referral.html',
                          dict(title='Adding A Referral',aaData = aaData),
                           context_instance=RequestContext(request))
+
+	
+def sign_up(request,template='sign_up.html'):
+	if request.method == 'GET':
+		form = forms.CreateSignupForm()
+		return render_to_response(template,
+                              dict(title='Sign up',form = form),
+                              context_instance=RequestContext(request))
+
+	else:
+		form = forms.CreateSignupForm(user=request.user,data=request.POST)
+		if form.is_valid():
+			form.save()
+
+		else:
+			return render_to_response(template,
+                              dict(title='Sign up',form = form),
+                              context_instance=RequestContext(request))
+
+		
+		return HttpResponseRedirect('/')
