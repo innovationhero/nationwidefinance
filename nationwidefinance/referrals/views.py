@@ -5,7 +5,8 @@ from django.template import RequestContext
 from django.utils import simplejson
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import authenticate, login
+
 
 from nationwidefinance.referrals import models
 from nationwidefinance.referrals import forms
@@ -106,18 +107,24 @@ def add_referral(request):
                          dict(title='Adding A Referral',aaData = aaData),
                           context_instance=RequestContext(request))
 
+
 	
-def sign_up(request,template='sign_up.html'):
+def sign_up(request,template='sign_up.html'):	
+
 	if request.method == 'GET':
-		form = UserCreateForm()
+		form = forms.UserCreationForm()
 		return render_to_response(template,
                               dict(title='Sign up',form = form),
                               context_instance=RequestContext(request))
 
 	else:
-		form = UserCreateForm(user=request.user,data=request.POST)
+		form = forms.UserCreationForm(data=request.POST)
 		if form.is_valid():
 			form.save()
+			username = request.POST['username']
+			password = request.POST['password1']
+			user = authenticate(username=username, password=password)
+			login(request,user)
 
 		else:
 			return render_to_response(template,
