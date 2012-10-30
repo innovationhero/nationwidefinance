@@ -4,3 +4,4 @@ python-dateutil==2.1
 mock
 django-social-auth
 psycopg2
+django_openid_auth

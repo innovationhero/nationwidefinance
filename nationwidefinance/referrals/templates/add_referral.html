@@ -2,7 +2,12 @@
 {% block header_tag%}
 {% autoescape off %}
 	<script>
+
+
+
 	$(document).ready(function() {
+		
+
 		var aoColumns = [
 			{"sTitle" : ""},
 			{"sTitle" : "Entity Type"},
@@ -18,26 +23,17 @@
 		};
 		
 		var referrer_table = nationwide.utils.datatable_factory(false, {{aaData}}, aoColumns, btn);
+		$("#referrer_table").dataTable(referrer_table);
 		
-		var aoColumns = [
-			{"sTitle" : ""},
-			{"sTitle" : "Entity Type"},
-			{"sTitle" : "First Name"},
-			{"sTitle" : "Last Name"}
-		]
-		var btn = {
-			'tag' : 'select',
+		var select = {
+			'tag' : 'checkbox',
 			'props' : {
-				options : [],
-				text : 'Select',
-				click : function() {$("#referral_id").val($(this).attr('id'))}
 			}
 		};
-		
-		var referrer_table = nationwide.utils.datatable_factory(false, {{aaData}}, aoColumns, btn);
 
+		var referred_table = nationwide.utils.datatable_factory(false, {{aaData}}, aoColumns, select);
 		
-		$("#referrer_table").dataTable(referrer_table);
+		$("#referred_table").dataTable(referred_table);
 	});
 	</script>
 {%endautoescape%}
@@ -49,8 +45,8 @@
 	</div>
 	<br/>
 	<br/>
-	<div id="referrer_table_div" style="width:50%;">
-		<table cellpadding="0" cellspacing="0" border="0" class="display" id="referrer_table" style="width:100%;"></table>
+	<div id="referred_table_div" style="width:50%;">
+		<table cellpadding="0" cellspacing="0" border="0" class="display" id="referred_table" style="width:100%;"></table>
 	</div>
 	
 {%endblock%}
