@@ -1,0 +1,82 @@
+{%extends "base.html" %}
+
+{%block content%}
+<!--div style="float:right;">{%if user.is_authenticated%}<div style="float:right;width:150px;"><a href="{% url logout_user %}">Logout</a></div>{%endif%}</div>
+<div-->
+	<h3>Worked</h3>
+	<br/></br>
+		<form method="post" name="frm_sign_up">
+			{%csrf_token%}
+			{{form.errors}}
+			{{form.non_field_errors}}
+			<div style="width:100%;height:150px;">
+				<h3>Please enter your details to sign up Nationwide Finance</h3>
+			</div>
+			<div style="width:100%;height:150px;">
+				<div>
+					<div style="width:10%;height:75px;float:left;">
+						Username
+					</div>	
+					<div style="width:70%;float:left;height:75px;">
+						<div style="width:30%;float:left;height:75px;">
+							{{form.username}}
+						</div>
+					</div>
+				</div>
+			<div>
+			<div style="float:left;width:100%;">		
+				<div style="width:10%;height:75px;float:left;"><div style="float:left;width:100%;">	
+						Password
+				</div>	
+				<div style="width:70%;float:left;height:75px;">
+					<div style="width:30%;float:left;height:75px;">
+						{{form.password1}}
+					</div>
+				</div>
+			</div>	
+			<div style="float:left;width:100%;">		
+				<div style="width:10%;height:75px;float:left;"><div style="float:left;width:100%;">	
+						Confirm Password
+				</div>	
+				<div style="width:70%;float:left;height:75px;">
+					<div style="width:30%;float:left;height:75px;">
+						{{form.password2}}
+					</div>
+				</div>
+			</div>				
+			<div style="float:left;width:100%;">
+				<div style="width:100%;display:block;">
+					<div style="width:10%;height:75px;float:left;">
+						First name:
+					</div>
+					<div style="width:30%;float:left;height:75px;">
+						{{form.first_name}}
+					</div>
+				</div>
+				<div style="width:100%;display:block;">
+					<div style="width:10%;height:75px;float:left;">
+						Last name:
+					</div>
+					<div style="width:30%;float:left;height:75px;">
+						{{form.last_name}}
+					</div>
+				</div>
+			</div>
+				<div style="float:left;width:100%;">		
+				<div style="width:10%;height:75px;float:left;"><div style="float:left;width:100%;">	
+						Email Adreess
+				</div>	
+				<div style="width:70%;float:left;height:75px;">
+					<div style="width:30%;float:left;height:75px;">
+						{{form.email}}
+					</div>
+				</div>
+			</div>			
+		</div>
+		<div style="float:left;width:100%;">		
+			<div style="width:100%;height:100px;align:center">
+				<input type="submit" value="Sign up"/>
+			</div>
+		</div>	
+</div>
+{%endblock%}
