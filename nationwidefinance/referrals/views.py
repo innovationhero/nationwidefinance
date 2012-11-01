@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login as django_login, logout as django_logout
 from django.shortcuts import render_to_response
@@ -11,6 +13,7 @@ from django.core.urlresolvers import reverse
 
 from nationwidefinance.referrals import models
 from nationwidefinance.referrals import forms
+from nationwidefinance.referrals import utils
 
 
 def home(request,template='index.html'):
@@ -24,14 +27,12 @@ def redirect_to_home(request):
 
 def logout(request,template='index.html'):
 	django_logout(request)
-	return render_to_response(template,
-                              dict(title='Welcome to ',),
-                              context_instance=RequestContext(request))
+	return HttpResponseRedirect('/')
 
 
 def check_user_profile(request):
 	is_entity = False
-	print models.Organization.objects.all()
+	
 	if request.user.is_authenticated:
 		
 		try:
@@ -40,19 +41,11 @@ def check_user_profile(request):
 		except models.Organization.DoesNotExist:
 			pass
 
-		try:
-			models.Person.objects.get(user=request.user)
-			is_entity = True
-		except models.Person.DoesNotExist:
-			pass		
-
 		if not is_entity:
-			#user has not created a profile 
-			#status 0 means user need to create a profile
+			#status = 0 means organization needs to create a profile
 			return HttpResponse(simplejson.dumps([dict(status = 0)]),content_type = 'application/javascript; charset=utf8')
 
-		#user is new to site, and has not created a profile
-		#status 10 indicated user must create a profile
+		#status = 10 means organization already has a profile
 		return HttpResponse(simplejson.dumps([dict(statuc = 10)]),content_type = 'application/javascript; charset=utf8')
 	
 
@@ -76,6 +69,62 @@ def create_profile(request,template='create_profile.html'):
 		
 		return HttpResponseRedirect('/referrals/add_referral')
 
+def add_referral(request):
+	
+	if request.method == 'GET':
+		form = forms.CreateEntity(prefix='referrer', initial={'entity_type' : 'org'})
+		form1 = forms.CreateEntity(prefix='referred', initial={'entity_type' : 'org'})
+
+	else:
+		
+		form = forms.CreateEntity(data=request.POST, prefix='referrer')
+		form1 = forms.CreateEntity(data=request.POST, prefix='referred')
+		if form.is_valid() and form1.is_valid():
+			referrer = form.save()
+			referred = form1.save()
+
+			referral_id = request.POST.get('referral_id',None)
+
+			if referral_id:
+				referral = models.EntityReferral.objects.get(pk=referral_id)
+				referral.referred.add(referred)
+				referral.save()
+			else:
+				#save the ferral
+				referral = models.EntityReferral()
+				referral.referrer = referrer
+				referral.entity_active = True
+				referral.created_date = datetime.now()
+				referral.updated_date = datetime.now()
+				referral.save()
+				referral.referred = [referred]
+				referral.save()
+
+				#calculate points accumelated by this new referral
+				referral_points = models.ReferrerPoints()
+				referral_points.referrer = referrer
+				referral_points.value = utils.calculate_points([referrer.pk,], 1)
+				referral_points.entity_active = True
+				referral_points.save()
+
+
+			if request.POST.get('action') == 'add_another':
+				form1 = forms.CreateEntity(prefix='referred', initial={'entity_type' : 'org'})
+				return render_to_response('add_referral.html',
+                	dict(title='Adding A Referral',
+                		form = form,
+                		form1 = form1,
+                		referral_id = referral.pk),
+                		context_instance=RequestContext(request))
+			else:
+				return HttpResponseRedirect('/')
+	return render_to_response('add_referral.html',
+                dict(title='Adding A Referral',
+                	form = form,
+                	form1 = form1),
+                context_instance=RequestContext(request))
+
+"""
 def add_referral(request):
 	if request.method == 'GET':
 		return render_to_response('add_referral.html',
@@ -115,6 +164,7 @@ def add_referral(request):
                 	 action = action,
                 	 aaData = aaData),
                 context_instance=RequestContext(request))
+"""
 
 def add_referred(request, user_id=None, template='add_referred.html'):
 	if not user_id:

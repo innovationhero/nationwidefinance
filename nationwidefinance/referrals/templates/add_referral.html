@@ -6,160 +6,164 @@
 
 
 	$(document).ready(function() {
-		
-		{%ifequal action 'org_search' %}
-			{%if aaData %}
-				var aoColumns = [
-					{"sTitle" : ""},
-					{"sTitle" : "Organization Name"}
-				];
-				var btn = {
-					'tag' : 'button',
-					'props' : {
-						text : 'Select',
-						click : function() {
-							$("#user_id").val($(this).attr('id'));
-							nationwide.utils.modal_factory('Are you sure you want to select ' + $(this).attr('name'),
-								'Please Confirm',
-								{
-									Yes : function () { $("form[name=pick_referred]").submit(); $(this).dialog("close");},
-                            		No  : function () { $(this).dialog("close");}
-								},
-								500,
-								200
-							)
-						}
-					}
-				};
-				
-				var referrer_table = nationwide.utils.datatable_factory(false, {{aaData}}, aoColumns, btn);
-				$("#referrer_table").dataTable(referrer_table);
-			{%endif%}
+		$("#add_another").on('click',function(){
+			$("input[name=action]").val('add_another');
+		});	
+		{%ifequal form.entity_type.value 'org' %}
+			$("#referrer_org_div").show();
+			$("#referrer_person_div").hide();
+
 		{%endifequal%}
-		{%ifequal action 'person_search' %}
-			{%if aaData %}
-				var aoColumns = [
-					{"sTitle" : ""},
-					{"sTitle" : "Email"},
-					{"sTitle" : "First Name"},
-					{"sTitle" : "Last Name"}
-				];
-				var btn = {
-					'tag' : 'button',
-					'props' : {
-						text : 'Select',
-						click : function() {
-							$("#user_id").val($(this).attr('id'));
-							nationwide.utils.modal_factory('Are you sure you want to select ' + $(this).attr('name'),
-								'Please Confirm',
-								{
-									Yes : function () { $("form[name=pick_referred]").submit(); $(this).dialog("close");},
-                            		No  : function () { $(this).dialog("close");}
-								},
-								500,
-								200
-							)
-						}
-					}
-				};
-				
-				var referrer_table = nationwide.utils.datatable_factory(false, {{aaData}}, aoColumns, btn);
-				$("#referrer_table").dataTable(referrer_table);
-			{%endif%}
-		{%endifequal%}		
+		{%ifequal form.entity_type.value 'person' %}
+			$("#referrer_person_div").show();
+			$("#referrer_org_div").hide();
+
+		{%endifequal%}
+		{%ifequal form1.entity_type.value 'org' %}
+			$("#referred_org_div").show();
+			$("#referred_person_div").hide();
+
+		{%endifequal%}
+		{%ifequal form1.entity_type.value 'person' %}
+			$("#referred_person_div").show();
+			$("#referred_org_div").hide();
+
+		{%endifequal%}
 	});
 	</script>
 {%endautoescape%}
 {% endblock %}
 
 {%block content %}
-<!--
-	<div id="referrer_table_div" style="width:50%;">
-		<table cellpadding="0" cellspacing="0" border="0" class="display" id="referrer_table" style="width:100%;"></table>
-	</div>
-	<br/>
-	<br/>
-	<div id="referred_table_div" style="width:50%;">
-		<table cellpadding="0" cellspacing="0" border="0" class="display" id="referred_table" style="width:100%;"></table>
-	</div>
--->
 	<div style="width:100%;height:50px;">
-		<h3>Recordng A Referral for {{user.first_name}}</h3>
-		<h3>Who made the referral... Search:</h3>
+		<h3>Who made the referral...</h3>
 	</div>
 	
 	<br/><br/>
 	<div style="width:100%;height:200px;">
-		<form name="org_search" method="post">
-			<div style="width:100%;height:50px;">
-				<div style="width:15%;float:left;">
-					First Name:
+		<form name="add_referrer" method="post">
+			<div style="width:100%;height:90px;">
+				<div style="width:30%;height:50px;">
+					<b>Add the referrer: &nbsp;&nbsp;</b><br/> Is the referrer a person or organization
 				</div>
-				<div style="width:70%;float:left;">
-					{%csrf_token%}
-					<input type="text" name="first_name"/>
-				</div>
-			</div>
-			<div style="width:100%;height:50px;">
-				<div style="width:15%;float:left;">
-					Last Name:
-				</div>
-				<div style="width:70%;float:left;">
-					<input type="text" name="last_name"/>
+				<div style="width:70%;height:30px;">
+					{{form.entity_type}}
 				</div>
 			</div>
 			<div style="width:100%;height:50px;">
-				<div style="width:15%;float:left;">
-					Email:
+					<div style="width:15%;float:left;">
+						Email:
+					</div>
+					<div style="width:70%;float:left;">
+						{{form.email_address}}
+					</div>
 				</div>
-				<div style="width:70%;float:left;">
-					<input type="text" name="email"/>
+			<div id="referrer_person_div" style="display:none;height:200px;">
+				<div style="width:100%;height:50px;">
+					<div style="width:15%;float:left;">
+						First Name:
+					</div>
+					<div style="width:70%;float:left;">
+						{%csrf_token%}
+						{{form.first_name}}
+					</div>
+				</div>
+				<div style="width:100%;height:50px;">
+					<div style="width:15%;float:left;">
+						Last Name:
+					</div>
+					<div style="width:70%;float:left;">
+						{{form.last_name}}
+					</div>
+				</div>
+				<div style="width:100%;height:50px;">
+					<div style="width:15%;float:left;">
+						DOB:
+					</div>
+					<div style="width:70%;float:left;">
+						{{form.dob}}
+					</div>
 				</div>
 			</div>
+			<div style="display:block;height:100px;" id="referrer_org_div" >
+				<div style="width:100%;height:50px;">
+					<div style="width:15%;float:left;">
+						Organization Name:
+					</div>
+					<div style="width:70%;float:left;">
+						{{form.org_name}}
+					</div>
+				</div>
+			</div>
+			<div>
+					{{form.errors}}
+					{{form.non_field_errors}}
+				</div>
+			<div id="breaker" style="height:50px;"></div>
+			<div style="width:100%;height:90px;">
+				<div style="width:30%;height:50px;">
+					<b>Add the referred: &nbsp;&nbsp;</b><br/> Is the referred a person or organization
+				</div>
+				<div style="width:70%;height:30px;">
+					{{form1.entity_type}}
+				</div>
+			</div>
+			<div style="width:100%;height:50px;">
+					<div style="width:15%;float:left;">
+						Email:
+					</div>
+					<div style="width:70%;float:left;">
+						{{form1.email_address}}
+					</div>
+			</div>
+			<div style="display:none;height:200px;" id="referred_person_div" >
+				<div style="width:100%;height:50px;">
+					<div style="width:15%;float:left;">
+						First Name:
+					</div>
+					<div style="width:70%;float:left;">
+						{{form1.first_name}}
+					</div>
+				</div>
+				<div style="width:100%;height:50px;">
+					<div style="width:15%;float:left;">
+						Last Name:
+					</div>
+					<div style="width:70%;float:left;">
+						{{form1.last_name}}
+					</div>
+				</div>
+				<div style="width:100%;height:50px;">
+					<div style="width:15%;float:left;">
+						DOB:
+					</div>
+					<div style="width:70%;float:left;">
+						{{form1.dob}}
+					</div>
+				</div>
+			</div>
+			<div style="display:block;height:100px;" id="referred_org_div">
+				<div style="width:15%;float:left;">
+					Organization Name:
+				</div>
+				<div style="width:70%;float:left;">
+					{{form1.org_name}}
+				</div>
+			</div>	
+			<div>
+					{{form1.errors}}
+					{{form1.non_field_error}}
+				</div>
 			<div style="width:100%;height:50px;">
 				<div style="width:60%;height:50px;">
-					<input type="hidden" name="action" value="person_search"/>
-					<input type="submit" value="Search"/>
+					<input type="hidden" name="referral_id" value="{{referral_id}}"/>
+					<input type="hidden" name="action" value="add_referrer"/>
+					<input type="submit" value="Add Another" id="add_another"/> &nbsp;&nbsp;
+					<input type="submit" value="Finished" id="finished"/>
 				</div>
 			</div>
 		</form>
 	</div>
 
-	<div style="width:100%;height:100px;">
-		<form name="org_search" method="post">
-			<div style="width:100%;height:50px;">
-				<div style="width:15%;float:left;">
-					Organization Name:
-				</div>
-				<div style="width:70%;float:left;">
-					{%csrf_token%}
-					<input type="text" name="org_name"/>
-				</div>
-			</div>
-			<div style="width:100%;height:50px;">
-				<div style="width:60%;height:50px;">
-					<input type="hidden" name="action" value="org_search"/>
-					<input type="submit" value="Search"/>
-				</div>
-			</div>
-		</form>
-	</div>
 	
-	<div style="width:100%;">
-		<div id="referrer_table_div" style="width:50%;">
-			<table cellpadding="0" cellspacing="0" border="0" class="display" id="referrer_table" style="width:100%;"></table>
-			
-		</div>
-	</div>
-	<br/>
-	<br/>
-	<div style="width:100%;">
-		{%if aaData %}
-		<form name="pick_referred" method="post" >
-			{%csrf_token%}
-			<input type="hidden" name="user_id" id="user_id"/>
-			<input type="hidden" name="action" value="next"/>
-		</form>
-		{%endif%}
-	</div>
 {%endblock%}

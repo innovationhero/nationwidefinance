@@ -20,14 +20,26 @@ nationwide.utils.do_ajax = function (type, url, data, success, error) {
 	    });
 }
 
+nationwide.utils.update = function(obj1, obj2) {
+	$.each(obj2, function(key,value){
+		if (type(obj1[key]) == 'undefined') {
+			obj1[key] = value;
+		} else {
+			obj1[key] = obj2[key];
+		}
+	});
+}
+
 nationwide.utils.show_hide = function() {
 	var show = arguments[0];
 	var $elm = arguments[1];
+	
 	if (show) {
 		$elm.show();
 	} else{
 		$elm.hide();
 	}
+
 }
 
 nationwide.utils.select_processor = function() {
@@ -39,7 +51,7 @@ nationwide.utils.select_processor = function() {
 
 	for (key in conditions) {
 		if ($select.val() == key) {
-			result_args = conditons[key];
+			result_args = conditions[key];
 			for (i =0; i < result_args.length; i++) {
 				result_function.apply(this||window,result_args[i]);
 			}

@@ -16,33 +16,41 @@ class Organization(models.Model):
 	def __unicode__(self):
 		return self.name
 
-
-class Person(models.Model):
-	user = models.ForeignKey(User,null=False,blank=False)
-	first_name = models.CharField(max_length=100)
-	last_name = models.CharField(max_length=100)
-	dob = models.DateField()
+class Entity(models.Model):
+	entity_type = models.CharField(max_length=10)
+	org_name = models.CharField(max_length=100, null=True, blank=True)
+	first_name = models.CharField(max_length=100, null=True, blank=True)
+	last_name = models.CharField(max_length=100, null=True, blank=True)
+	email_address = models.CharField(max_length=100, null=True, blank=True)
+	dob = models.DateTimeField(null=True, blank=True)
+	created_date = models.DateTimeField()
+	updated_date = models.DateTimeField()
+	entity_active = models.BooleanField()
 
 	def __unicode__(self):
+		if self.entity_type == 'org':
+			return self.org_name
 		return '%s %s' % (self.first_name, self.last_name)
 
 
 
 class EntityReferral(models.Model):
 	
-	referrer = models.ForeignKey(User,related_name='referrer')
-	referred = models.ManyToManyField(User, related_name='ref+')
-	referred_to = models.ForeignKey(User,related_name='referred_to')
+	referrer = models.ForeignKey(Entity, related_name='referrer')
+	referred = models.ManyToManyField(Entity, related_name='referred')
 	created_date = models.DateTimeField()
 	updated_date = models.DateTimeField()
 	entity_active = models.BooleanField()
 
-class ReferralValue(models.Model):
+	def __unicode__(self):
+		return '%s referred %s' % (
+			self.referrer.org_name if self.referrer.entity_type == 'org' else self.referrer.first_name + ' ' + self.referrer.last_name,
+			' and '.join(entity['org_name'] if entity['entity_type'] == 'org' else entity['first_name'] + ' ' + entity['last_name'] for entity in self.referred.values()))
 
-	referal = models.ForeignKey(EntityReferral,null=False,blank=False)
-	code = models.CharField(max_length=10)
-	description = models.CharField(max_length=200)
-	value = models.FloatField()
+class ReferrerPoints(models.Model):
+
+	referrer = models.ForeignKey(Entity, null=False, blank=False)
+	value = models.IntegerField()
 	entity_active = models.BooleanField()
 
 class EntityProfile(models.Model):
