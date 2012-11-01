@@ -48,31 +48,15 @@ class CreateProfileForm(forms.ModelForm):
 			self.user.save()
 			person.save()
 
-class Meta:
-	model = models.EntityProfile
-	exclude = ('user',)
+	class Meta:
+		model = models.EntityProfile
+		exclude = ('user',)
 
 class UserCreationForm(UserCreationForm):
-    email = forms.EmailField(required=True)
+    #email = forms.EmailField(required=True)   
+	#address2 = forms.CharField(required=False)
+	#country = forms.ModelChoiceField(queryset=models.Country.objects.all(), empty_label="Select...")
 
-    class Meta:
-        model = User
-        fields = ("username", "email", "password1", "password2", "first_name", "last_name")
- 
-    ##form = forms.UserCreationForm(data=request.POST)
-
-   ## if form.is_valid():
-    ##	form.save()
-    ##	user = form.save()
-    ##	login(request,user)
-
-    #def save(self, commit=True):
-     #   user = super(UserCreateForm, self).save(commit=False)
-      #  user.email = self.cleaned_data["email"]
-       # if commit:
-        #    user.save()
-        #return user
-
-
-
-
+	class Meta:
+		model = User
+		fields = ("username", "password1", "password2")

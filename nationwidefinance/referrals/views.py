@@ -65,15 +65,17 @@ def create_profile(request,template='create_profile.html'):
 	else:
 		form = forms.CreateProfileForm(user=request.user,data=request.POST)
 		if form.is_valid():
-			form.save()
+			form.save() 
+			#do nothing as the record would have been saved already
 
 		else:
 			return render_to_response(template,
                               dict(title='Creating a Profile',form = form),
                               context_instance=RequestContext(request))
 
-		
-		return HttpResponseRedirect('/referrals/add_referral')
+		# redirect to home for now as add_referral is failing 
+		return HttpResponseRedirect('/')
+		#return HttpResponseRedirect('/referrals/add_referral')
 
 def add_referral(request):
 	users = User.objects.all()
@@ -120,12 +122,13 @@ def sign_up(request,template='sign_up.html'):
 	else:
 		form = forms.UserCreationForm(data=request.POST)
 		if form.is_valid():
-			form.save()
-			username = request.POST['username']
-			password = request.POST['password1']
-			user = authenticate(username=username, password=password)
+			#user = form.save()		form.data['field_name']
+			user = User.objects.create_user(form.data['username'], '', form.data['password1'])
+
+			user = authenticate(username=form.data['password1'], password=form.data['password1'])
+
 			##commented the login of user out as it throws error when loading the home page
-			##login(request,user)
+			login(request,user)
 
 		else:
 			return render_to_response(template,
@@ -133,4 +136,4 @@ def sign_up(request,template='sign_up.html'):
                               context_instance=RequestContext(request))
 
 		
-		return HttpResponseRedirect('/')
+		return HttpResponseRedirect('/referrals/create_profile')
