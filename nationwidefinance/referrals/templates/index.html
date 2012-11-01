@@ -1,14 +1,7 @@
 {%extends "base.html" %}
 
 {%block content%}
-<div style="width:100%">
-	{%if user.is_authenticated%}<div style="float:right;width:150px;"><a href="{% url logout_user %}">Logout</a></div>{%endif%}
-	<div style="float:right;width:150px;"><a href="{% url socialauth_begin 'google' %}">GMail Login</a></div> 
-	<div style="float:right;width:150px;"><a href="{%url socialauth_begin 'yahoo'%}">Yahoo Login</a></div> 
-	<div style="float:right;width:150px;"><a href="{%url socialauth_begin 'facebook'%}">Facebook Login</a></div>
-	<div style="float:right;width:150px;"><a href="">Nationwide Login</a></div> 
-	<div style="float:right;width:150px;"><a href="{%url sign_up %}">Create Account</a></div> 
-</div>
+
 <div>
 	<br/></br>
 	{%if user.is_authenticated%}
@@ -18,7 +11,7 @@
 				data = eval(data);
 				status = data[0].status;
 				//status 0 means the user has no profile on the system
-				//if (status == 0) {window.location.href = '{%url create_profile %}'}
+				if (status == 0) {window.location.href = '{%url create_profile %}'}
 			}
 			$(function(){
 				nationwide.utils.do_ajax('get',
