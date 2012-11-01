@@ -7,39 +7,73 @@
 
 	$(document).ready(function() {
 		
-
-		var aoColumns = [
-			{"sTitle" : ""},
-			{"sTitle" : "Entity Type"},
-			{"sTitle" : "First Name"},
-			{"sTitle" : "Last Name"}
-		]
-		var btn = {
-			'tag' : 'button',
-			'props' : {
-				text : 'Select',
-				click : function() {$("#referral_id").val($(this).attr('id'))}
-			}
-		};
-		
-		var referrer_table = nationwide.utils.datatable_factory(false, {{aaData}}, aoColumns, btn);
-		$("#referrer_table").dataTable(referrer_table);
-		
-		var select = {
-			'tag' : 'checkbox',
-			'props' : {
-			}
-		};
-
-		var referred_table = nationwide.utils.datatable_factory(false, {{aaData}}, aoColumns, select);
-		
-		$("#referred_table").dataTable(referred_table);
+		{%ifequal action 'org_search' %}
+			{%if aaData %}
+				var aoColumns = [
+					{"sTitle" : ""},
+					{"sTitle" : "Organization Name"}
+				];
+				var btn = {
+					'tag' : 'button',
+					'props' : {
+						text : 'Select',
+						click : function() {
+							$("#user_id").val($(this).attr('id'));
+							nationwide.utils.modal_factory('Are you sure you want to select ' + $(this).attr('name'),
+								'Please Confirm',
+								{
+									Yes : function () { $("form[name=pick_referred]").submit(); $(this).dialog("close");},
+                            		No  : function () { $(this).dialog("close");}
+								},
+								500,
+								200
+							)
+						}
+					}
+				};
+				
+				var referrer_table = nationwide.utils.datatable_factory(false, {{aaData}}, aoColumns, btn);
+				$("#referrer_table").dataTable(referrer_table);
+			{%endif%}
+		{%endifequal%}
+		{%ifequal action 'person_search' %}
+			{%if aaData %}
+				var aoColumns = [
+					{"sTitle" : ""},
+					{"sTitle" : "Email"},
+					{"sTitle" : "First Name"},
+					{"sTitle" : "Last Name"}
+				];
+				var btn = {
+					'tag' : 'button',
+					'props' : {
+						text : 'Select',
+						click : function() {
+							$("#user_id").val($(this).attr('id'));
+							nationwide.utils.modal_factory('Are you sure you want to select ' + $(this).attr('name'),
+								'Please Confirm',
+								{
+									Yes : function () { $("form[name=pick_referred]").submit(); $(this).dialog("close");},
+                            		No  : function () { $(this).dialog("close");}
+								},
+								500,
+								200
+							)
+						}
+					}
+				};
+				
+				var referrer_table = nationwide.utils.datatable_factory(false, {{aaData}}, aoColumns, btn);
+				$("#referrer_table").dataTable(referrer_table);
+			{%endif%}
+		{%endifequal%}		
 	});
 	</script>
 {%endautoescape%}
 {% endblock %}
 
 {%block content %}
+<!--
 	<div id="referrer_table_div" style="width:50%;">
 		<table cellpadding="0" cellspacing="0" border="0" class="display" id="referrer_table" style="width:100%;"></table>
 	</div>
@@ -48,5 +82,84 @@
 	<div id="referred_table_div" style="width:50%;">
 		<table cellpadding="0" cellspacing="0" border="0" class="display" id="referred_table" style="width:100%;"></table>
 	</div>
+-->
+	<div style="width:100%;height:50px;">
+		<h3>Recordng A Referral for {{user.first_name}}</h3>
+		<h3>Who made the referral... Search:</h3>
+	</div>
 	
+	<br/><br/>
+	<div style="width:100%;height:200px;">
+		<form name="org_search" method="post">
+			<div style="width:100%;height:50px;">
+				<div style="width:15%;float:left;">
+					First Name:
+				</div>
+				<div style="width:70%;float:left;">
+					{%csrf_token%}
+					<input type="text" name="first_name"/>
+				</div>
+			</div>
+			<div style="width:100%;height:50px;">
+				<div style="width:15%;float:left;">
+					Last Name:
+				</div>
+				<div style="width:70%;float:left;">
+					<input type="text" name="last_name"/>
+				</div>
+			</div>
+			<div style="width:100%;height:50px;">
+				<div style="width:15%;float:left;">
+					Email:
+				</div>
+				<div style="width:70%;float:left;">
+					<input type="text" name="email"/>
+				</div>
+			</div>
+			<div style="width:100%;height:50px;">
+				<div style="width:60%;height:50px;">
+					<input type="hidden" name="action" value="person_search"/>
+					<input type="submit" value="Search"/>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div style="width:100%;height:100px;">
+		<form name="org_search" method="post">
+			<div style="width:100%;height:50px;">
+				<div style="width:15%;float:left;">
+					Organization Name:
+				</div>
+				<div style="width:70%;float:left;">
+					{%csrf_token%}
+					<input type="text" name="org_name"/>
+				</div>
+			</div>
+			<div style="width:100%;height:50px;">
+				<div style="width:60%;height:50px;">
+					<input type="hidden" name="action" value="org_search"/>
+					<input type="submit" value="Search"/>
+				</div>
+			</div>
+		</form>
+	</div>
+	
+	<div style="width:100%;">
+		<div id="referrer_table_div" style="width:50%;">
+			<table cellpadding="0" cellspacing="0" border="0" class="display" id="referrer_table" style="width:100%;"></table>
+			
+		</div>
+	</div>
+	<br/>
+	<br/>
+	<div style="width:100%;">
+		{%if aaData %}
+		<form name="pick_referred" method="post" >
+			{%csrf_token%}
+			<input type="hidden" name="user_id" id="user_id"/>
+			<input type="hidden" name="action" value="next"/>
+		</form>
+		{%endif%}
+	</div>
 {%endblock%}

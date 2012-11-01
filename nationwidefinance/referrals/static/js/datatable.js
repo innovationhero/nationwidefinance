@@ -10,7 +10,7 @@ nationwide.utils.datatable_factory = function(server_side,aaData,aoColumns,col0)
 		"bPaginate"       : true,
         "bLengthChange"   : false,
         "iDisplayLength"  : 15,
-        "bFilter"         : true,
+        "bFilter"         : false,
         "bSort"           : true,
         "bInfo"           : true,
         "bAutoWidth"      : false,
@@ -22,10 +22,12 @@ nationwide.utils.datatable_factory = function(server_side,aaData,aoColumns,col0)
 		fnRowCallback     : function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
 			if (typeof(col0) != 'undefined') {
 				var id = aData[0];
+				var email = aData[1];
 				var $elm = $("<"+col0['tag']+"/>",
 						col0['props']
 					);
 				$elm.attr('id',id);
+				$elm.attr('name',email);
 				$('td:eq(0)', nRow).html($elm);
 			}
 

@@ -10,18 +10,34 @@
 <script src="/static/js/create_profile.js"></script>
 <script src="/static/js/datatable.js"></script>
 <script src="/static/js/jquery.dataTables.min.js"></script>
+<script src="/static/js/modals.js"></script>
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery.ui.all.css">
 <link rel="stylesheet" href="/static/css/demo_table.css">
 <link rel="stylesheet" href="/static/css/demo_table_jui.css">
 <link rel="stylesheet" href="/static/css/jquery.dataTables.css">
 
 
+
 {% block header_tag%}
 {% endblock %}
 </head>
 <body>
+	<div style="width:100%">
+		{%if user.is_authenticated%}
+			<div style="float:right;width:150px;">
+				<a href="{% url logout_user %}">Logout</a>
+			</div>
+		{%endif%}
+		{%if request.path == '/' %}
+			<div style="float:right;width:150px;"><a href="{% url socialauth_begin 'google' %}">GMail Login</a></div> 
+			<div style="float:right;width:150px;"><a href="{%url socialauth_begin 'yahoo'%}">Yahoo Login</a></div> 
+			<div style="float:right;width:150px;"><a href="{%url socialauth_begin 'facebook'%}">Facebook Login</a></div>
+			<div style="float:right;width:150px;"><a href="">Nationwide Login</a></div> 
+			<div style="float:right;width:150px;"><a href="{%url sign_up %}">Create Account</a></div> 
+		{%endif%}
+	</div>
 {%block content%}
-<div id="main" class="container switch-width"></div>
+
 {%endblock%}
 </body>
 </html>

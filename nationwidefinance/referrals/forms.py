@@ -5,6 +5,10 @@ from nationwidefinance.referrals import models
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
+class AddReferralForm(forms.ModelForm):
+
+	class Meta:
+		model = models.EntityReferral
 
 ## It appears one form class can be used for creating a profile and signing up
 class CreateProfileForm(forms.ModelForm):
