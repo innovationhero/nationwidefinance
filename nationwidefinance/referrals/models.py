@@ -63,6 +63,3 @@ class EntityProfile(models.Model):
 
 	def __unicode__(self):
 		return '%s -- %s -- %s' % (self.address1, self.city, self.province)
-
-
-
