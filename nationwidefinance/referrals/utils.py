@@ -1,13 +1,24 @@
 from nationwidefinance.referrals import models
 
-def calculate_points(referrer_list, count, processed=None):
-	referrals = models.EntityReferral.objects.filter(referrer__pk__in = referrer_list)
-	if not processed:
-		processed = set([referral.referrer.id for referral in referrals])
-	else:
-		processed|=set([referral.referrer.id for referral in referrals])
-	print 'processed = ', processed
-	print 'referrals = ', referrals
-	if len(referrals) == 0: return count
-	count += sum([len(referral.referred.values()) for referral in referrals])
-	return calculate_points([entity['id'] for referral in referrals for entity in referral.referred.values() if entity['id'] not in processed],count,processed=processed)
+def calculate_points(referred_list, processed=None):
+	referrals = models.EntityReferral.objects.filter(referred__pk__in=referred_list)
+	if len(referrals) == 0: return
+	referred_list = []
+	for referral in referrals:
+		referred_list.append(referral.referrer.pk)
+
+		try:
+			referral_point = models.ReferrerPoints.objects.get(referrer__pk=referral.referrer.pk)
+			referral_point.value += 1
+		except models.ReferrerPoints.DoesNotExist:
+			referral_point = models.ReferrerPoints(referrer=referral.referrer, entity_active=True, value=1)
+
+		referral_point.save()
+	if not processed: 
+		processed = set([entity['id'] for referral in referrals for entity in referral.referred.values()])
+	else: 
+		processed|=set([entity['id'] for referral in referrals for entity in referral.referred.values()])
+	print processed
+	print referred_list
+
+	return calculate_points([referral.referrer.id for referral in referrals if referral.referrer.id not in processed], processed=processed)

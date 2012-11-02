@@ -142,14 +142,6 @@ def add_referral(request):
 				referral.referred = [referred]
 				referral.save()
 
-				#calculate points accumelated by this new referral
-				# referral_points = models.ReferrerPoints()
-				# referral_points.referrer = referrer
-				# referral_points.value = utils.calculate_points([referrer.pk,], 1)
-				# referral_points.entity_active = True
-				# referral_points.save()
-
-
 			if request.POST.get('action') == 'add_another':
 				form1 = forms.CreateEntity(prefix='referred', initial={'entity_type' : 'org'})
 				return render_to_response('add_referral.html',
@@ -159,6 +151,7 @@ def add_referral(request):
                 		referral_id = referral.pk),
                 		context_instance=RequestContext(request))
 			else:
+				utils.calculate_points([referrer.pk,])
 				return HttpResponseRedirect('/')
 	return render_to_response('add_referral.html',
                 dict(title='Adding A Referral',
