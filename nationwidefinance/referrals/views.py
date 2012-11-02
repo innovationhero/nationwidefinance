@@ -143,11 +143,11 @@ def add_referral(request):
 				referral.save()
 
 				#calculate points accumelated by this new referral
-				referral_points = models.ReferrerPoints()
-				referral_points.referrer = referrer
-				referral_points.value = utils.calculate_points([referrer.pk,], 1)
-				referral_points.entity_active = True
-				referral_points.save()
+				# referral_points = models.ReferrerPoints()
+				# referral_points.referrer = referrer
+				# referral_points.value = utils.calculate_points([referrer.pk,], 1)
+				# referral_points.entity_active = True
+				# referral_points.save()
 
 
 			if request.POST.get('action') == 'add_another':
@@ -208,85 +208,6 @@ def add_referral(request):
                 context_instance=RequestContext(request))
 """
 
-def add_referred(request, user_id=None, template='add_referred.html'):
-	if not user_id:
-		raise RuntimeError('Error')
-	if request.method == 'GET':
-		return render_to_response(template,
-                dict(title='Sign up', user_id = user_id),
-                context_instance=RequestContext(request))
-	else:
-		aaData = []
-		user_id = request.POST.get('referrer')
-		referred_ids = request.POST.get('referred',[])
-		if request.POST.get('select_referred_id',None):
-			referred_ids.append(request.POST.get('select_referred_id'))
-		
-<<<<<<< HEAD
-		aaData.append(list)
-	return render_to_response('add_referral.html',
-                         dict(title='Adding A Referral',aaData = aaData),
-                          context_instance=RequestContext(request))
-
-
-=======
-		action = request.POST.get('action','')
-
-		if action == 'org_search':
-			name = request.POST.get('org_name','')
-			orgs = models.Organization.objects.filter(name__icontains=name)
-			for org in orgs:
-				sublist = []
-				sublist.append(org.user.id)
-				sublist.append(str(org.name))
-				aaData.append(sublist)
-
-		elif action == 'person_search':
-
-			first_name = request.POST.get('first_name','')
-			last_name = request.POST.get('last_name','')
-			email = request.POST.get('email','')
-
-			persons = models.Person.objects.filter(
-				first_name__icontains=first_name,
-				last_name__icontains=last_name,
-				user__email__icontains=email)
-			for p in persons:
-				sublist = []
-				sublist.append(p.user.id)
-				sublist.append(str(p.user.email))
-				sublist.append(str(p.first_name))
-				sublist.append(str(p.last_name))
-				aaData.append(sublist)
-		elif action == 'another':
-			#reset the form for another search
-			return render_to_response('add_referred.html',
-                dict(title='Adding A Referral',
-                	 action = action,
-                	 aaData = [],
-                	 referred_ids = referred_ids,
-                	 user_id = user_id),
-                context_instance=RequestContext(request))
-		elif action == 'save':
-			#time to create a form and save the referrer and referred
-			form = forms.AddReferralForm(data=request.POST)
-			print '>>>>>>>>>>>>>>>>>>>>> ', request.POST
-			if form.is_valid():
-				print '>>>>>>>>>>> VALID'
-				form.save()
-			else:
-				print '>>>>>>>>>>>>>> INVALID'
-				return HttpResponseRedirect('/')
-
-		return render_to_response('add_referred.html',
-                dict(title='Adding A Referral',
-                	 action = action,
-                	 aaData = aaData,
-                	 referred_ids = referred_ids,
-                	 user_id = user_id),
-                context_instance=RequestContext(request))	
-	
->>>>>>> dfdb474c289894353adafac5eba055c4e19397ae
 def sign_up(request,template='sign_up.html'):	
 
 	if request.method == 'GET':
