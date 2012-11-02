@@ -53,6 +53,10 @@ class ReferrerPoints(models.Model):
 	value = models.IntegerField()
 	entity_active = models.BooleanField()
 
+	def __unicode__(self):
+		return '%s has %d points' % (self.referrer.org_name if self.referrer.entity_type == 'org' else self.referrer.first_name + ' ' + self.referrer.last_name,
+			self.value)
+
 class EntityProfile(models.Model):
 	user = models.ForeignKey(User,null=False,blank=False)
 	address1 = models.CharField(max_length=100)
