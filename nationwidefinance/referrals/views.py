@@ -151,6 +151,14 @@ def add_referral(request):
                 		referral_id = referral.pk),
                 		context_instance=RequestContext(request))
 			else:
+				#add a referrer point for this referral
+				try:
+					referral_point = models.ReferrerPoints.objects.get(referrer__pk=referrer.pk)
+					referral_point.value += 1
+				except models.ReferrerPoints.DoesNotExist:
+					referral_point = models.ReferrerPoints(referrer=referrer, entity_active=True, value=1)
+
+					referral_point.save()
 				utils.calculate_points([referrer.pk,])
 				return HttpResponseRedirect('/')
 	return render_to_response('add_referral.html',
