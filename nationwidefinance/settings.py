@@ -111,6 +111,7 @@ TEMPLATE_DIRS = (
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
+    'registration',
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
@@ -182,3 +183,11 @@ FACEBOOK_EXTENDED_PERMISSIONS     = ['email']
 #     from oathsettings import *
 # except:
 #     pass
+
+ACCOUNT_ACTIVATION_DAYS = 7
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = '25'
+EMAIL_HOST_USER = 'info@webiken.net'
+EMAIL_HOST_PASSWORD = 'Web12Iken'
+EMAIL_USE_TLS = True
+
