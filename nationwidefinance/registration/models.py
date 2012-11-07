@@ -103,7 +103,9 @@ class RegistrationManager(models.Manager):
                                          'expiration_days': settings.ACCOUNT_ACTIVATION_DAYS,
                                          'site': current_site })
             
-            send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [new_user.email])
+            from nationwidefinance.mailer import send_email as send_mail
+            send_mail(subject=subject, body=message, to_email=[new_user.email])
+
         return new_user
     
     def create_profile(self, user):

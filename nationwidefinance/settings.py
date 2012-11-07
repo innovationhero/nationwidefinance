@@ -184,6 +184,8 @@ FACEBOOK_EXTENDED_PERMISSIONS     = ['email']
 #     pass
 
 ACCOUNT_ACTIVATION_DAYS = 7
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = '25'
 EMAIL_HOST_USER = 'info@webiken.net'
