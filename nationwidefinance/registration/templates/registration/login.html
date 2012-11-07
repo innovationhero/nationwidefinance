@@ -1,6 +1,38 @@
-{% extends "base.html" %}
+{%extends "base.html"%}
 
-{% block title %}Log in{% endblock %}
+{%block header_tag %}
+<style>
+.error, .errorlist li {
+	color: red;
+}
+</style>
+{%endblock%}
+{%block content%}
+<h3>Please enter your user name and password to login to get started</h3>
 
-{% block content_header %}Log in{% endblock %}
 
+<p>
+	{{form.non_field_errors}}
+</p>
+
+
+
+<form method="post" >
+	<div style="width:100%;height:50px;">
+		<div style="width:15%;float:left;">User Name:</div>
+		<div style="width:20%;float:left;">{{form.username}}</div>
+		<div>{% if form.username.errors %} <span class="error">{{ form.username.errors|join:", " }}</span>{% endif %}</div>
+	</div>
+    <div style="width:100%;height:50px;">
+		<div style="width:15%;float:left;">Password:</div>
+		<div style="width:20%;float:left;">{{form.password}}</div>
+		<div>{% if form.password.errors %} <span class="error">{{ form.password.errors|join:", " }}</span>{% endif %}</div>
+	</div>
+	<div style="width:20%;height:50px;text-align:center;">
+		{%csrf_token%}
+		<div style="width:15%"><input type="submit" value="Log In" /> </div>
+	</div>			
+</form>
+
+
+{%endblock%}
