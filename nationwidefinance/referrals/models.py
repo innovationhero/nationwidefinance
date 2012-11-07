@@ -57,8 +57,21 @@ class ReferrerPoints(models.Model):
 		return '%s has %d points' % (self.referrer.org_name if self.referrer.entity_type == 'org' else self.referrer.first_name + ' ' + self.referrer.last_name,
 			self.value)
 
+class EntityPackage(models.Model):
+	package_name = models.CharField(max_length=100)
+	package_description = models.CharField(max_length=2000)
+	max_referrals_allowed = models.IntegerField()
+	unlimited_referrals = models.BooleanField()
+	entity_active = models.BooleanField()
+
+class EntityAdditionalEntities(models.Model):
+	entity = models.ForeignKey(Entity)
+	user = models.ForeignKey(User,null=False,blank=False)
+	entity_active = models.BooleanField()
+
 class EntityProfile(models.Model):
 	user = models.ForeignKey(User,null=False,blank=False)
+
 	address1 = models.CharField(max_length=100)
 	address2 = models.CharField(max_length=100)
 	city = models.CharField(max_length=100)
