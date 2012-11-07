@@ -33,7 +33,7 @@
 			<div style="float:right;width:150px;"><a href="{% url socialauth_begin 'google' %}">GMail Login</a></div> 
 			<div style="float:right;width:150px;"><a href="{%url socialauth_begin 'yahoo'%}">Yahoo Login</a></div> 
 			<div style="float:right;width:150px;"><a href="{%url socialauth_begin 'facebook'%}">Facebook Login</a></div>
-			<div style="float:right;width:150px;"><a href="">Nationwide Login</a></div> 
+			<div style="float:right;width:150px;"><a href="{%url auth_login %}">Nationwide Login</a></div> 
 			<div style="float:right;width:150px;"><a href="{%url registration_register %}">Register</a></div> 
 		{%endif%}
 	</div>
