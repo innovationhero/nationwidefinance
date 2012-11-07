@@ -122,8 +122,7 @@ INSTALLED_APPS = (
     'django_openid_auth',
     'django.contrib.admin',
     'social_auth',
-    
-
+    'south',
 )
 
 AUTHENTICATION_BACKENDS = (

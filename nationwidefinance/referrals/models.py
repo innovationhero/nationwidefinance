@@ -62,6 +62,8 @@ class EntityPackage(models.Model):
 	package_description = models.CharField(max_length=2000)
 	max_referrals_allowed = models.IntegerField()
 	unlimited_referrals = models.BooleanField()
+	can_add_entity = models.BooleanField()
+	can_use_social_media = models.BooleanField()
 	entity_active = models.BooleanField()
 
 class EntityAdditionalEntities(models.Model):
@@ -71,7 +73,7 @@ class EntityAdditionalEntities(models.Model):
 
 class EntityProfile(models.Model):
 	user = models.ForeignKey(User,null=False,blank=False)
-
+	package = models.ForeignKey(EntityPackage, blank=True, null=True)
 	address1 = models.CharField(max_length=100)
 	address2 = models.CharField(max_length=100)
 	city = models.CharField(max_length=100)
