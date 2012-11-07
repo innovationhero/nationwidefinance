@@ -111,7 +111,7 @@ TEMPLATE_DIRS = (
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
-    'registration',
+    'nationwidefinance.registration',
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
