@@ -174,8 +174,8 @@ def calculate_gifts_check(request):
 			result = AsyncResult(task_id)
 			if result.ready():
 				return HttpResponse(simplejson.dumps([dict(status = 200)]), content_type = 'application/javascript; charset=utf8')
-		else:
-			return HttpResponse(simplejson.dumps([dict(status = 100)]), content_type = 'application/javascript; charset=utf8')
+			else:
+				return HttpResponse(simplejson.dumps([dict(status = 100)]), content_type = 'application/javascript; charset=utf8')
 	return HttpResponse(simplejson.dumps([dict(status = 500)]), content_type = 'application/javascript; charset=utf8')
 
 def sign_up(request,template='sign_up.html'):	
