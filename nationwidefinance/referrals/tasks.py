@@ -16,7 +16,7 @@ class CalculateGifts(Task):
 		for entity in self.referrers:
 			self.d[entity] = entity.referrerpoints.value
 
-	def self.send_emails(self):
+	def send_emails(self):
 		self.subject = 'You Have Earned A Gift'
 		for entity in self.email_list:
 			t = get_template('gifts_notification_emai.html')
