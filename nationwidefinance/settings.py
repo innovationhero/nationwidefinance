@@ -194,3 +194,5 @@ EMAIL_HOST_USER = 'info@webiken.net'
 EMAIL_HOST_PASSWORD = 'Web12Iken'
 EMAIL_USE_TLS = True
 
+
+BROKER_URL = 'django://'
