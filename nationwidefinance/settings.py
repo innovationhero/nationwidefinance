@@ -7,6 +7,9 @@ ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
 
+import djcelery
+djcelery.setup_loader()
+
 MANAGERS = ADMINS
 
 DATABASES = {
