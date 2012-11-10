@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.core.urlresolvers import reverse
 
+from celery.result import AsyncResult
 
 from nationwidefinance.referrals import models
 from nationwidefinance.referrals import forms
