@@ -11,7 +11,6 @@ def send_email(subject=None, body=None, to_email=None, fail_silently=False):
         from_email = 'admin@webiken.net',
         to = to_email,
     )
-                
     try:
         connection = mail.get_connection(fail_silently=fail_silently)
         connection.open()
