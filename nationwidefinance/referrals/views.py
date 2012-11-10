@@ -168,8 +168,8 @@ def calculate_gifts(request, template='calcluate_gifts_wait.html'):
                     context_instance=RequestContext(request))
 
 def calculate_gifts_check(request):
-	if request.method == 'POST':
-		task_id = request.session.get('task_id',None)
+	if request.method == 'GET':
+		task_id = request.session.get('task_id', None)
 		if task_id:
 			result = AsyncResult(task_id)
 			if result.ready():

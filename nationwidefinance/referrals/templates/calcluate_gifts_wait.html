@@ -5,7 +5,7 @@
 				var finished = false;
 				var poll = function() {
 					if (!finished) {
-					nationwide.utils.do_ajax('post',
+					nationwide.utils.do_ajax('get',
 						'{% url calculate_gifts_check %}',
 						{},
 						function(data){
