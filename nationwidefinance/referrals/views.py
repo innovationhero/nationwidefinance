@@ -145,6 +145,7 @@ def add_referral(request):
 				try:
 					referral_point = models.ReferrerPoints.objects.get(referrer__pk=referrer.pk)
 					referral_point.value += 1
+					referral_point.save()
 				except models.ReferrerPoints.DoesNotExist:
 					referral_point = models.ReferrerPoints(referrer=referrer, entity_active=True, value=1)
 
