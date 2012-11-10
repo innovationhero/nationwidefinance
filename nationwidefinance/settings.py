@@ -123,6 +123,8 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'social_auth',
     'south',
+    'djcelery',
+    'kombu.transport.django',
 )
 
 AUTHENTICATION_BACKENDS = (

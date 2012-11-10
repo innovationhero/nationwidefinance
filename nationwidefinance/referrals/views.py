@@ -15,6 +15,8 @@ from nationwidefinance.referrals import models
 from nationwidefinance.referrals import forms
 from nationwidefinance.referrals import utils
 
+from reverse_dns.lookup.tasks import CalculateGifts
+
 
 def home(request,template='index.html'):
 
@@ -29,37 +31,6 @@ def errorHandle(request, error):
 				'error' : error,
 				'form' : form,
 		}, context_instance=RequestContext(request))
-
-def nationwidelogin(request,template='login.html'):
-	#do login
-	if request.method == 'POST': # If the form has been submitted...
-		form = LoginForm(request.POST) # A form bound to the POST data
-		if form.is_valid(): # All validation rules pass
-			username = request.POST['username']
-			password = request.POST['password']
-			user = authenticate(username=username, password=password)
-			if user is not None:
-				if user.is_active:
-					# Redirect to a success page.
-					login(request, user)				
-					return HttpResponseRedirect('/')
-
-				else:
-					# Return a 'disabled account' error message				
-					error = u'account disabled'
-					return errorHandle(request, error)
-			else:
-				 # Return an 'invalid login' error message.			
-				error = u'invalid login'
-				return errorHandle(request, error)
-		else: 
-			username = ''
-			password = ''
-			error = u'form is invalid'
-			return errorHandle(request, error)		
-	else:
-		form = LoginForm() # An unbound form
-		return render_to_response('login.html', dict(title='Nationwide Login ',), context_instance=RequestContext(request))	
 
 
 def redirect_to_home(request):
@@ -76,9 +47,9 @@ def check_user_profile(request):
 	if request.user.is_authenticated:
 		
 		try:
-			models.Organization.objects.get(user__username=request.user.username)
+			profile = request.user.get_profile()
 			is_entity = True
-		except models.Organization.DoesNotExist:
+		except:
 			pass
 
 		if not is_entity:
@@ -119,13 +90,32 @@ def add_referral(request):
 
 	else:
 		
-		form = forms.CreateEntity(data=request.POST, prefix='referrer')
-		form1 = forms.CreateEntity(data=request.POST, prefix='referred')
+		#check that org has not exceeded max referrals allowed
+		profile = request.user.get_profile()
+		referral_allowed = False
+
+		if profile.plan.unlimited_referrals:
+			referral_allowed = True
+
+		if profile.plan.max_referrals_allowed > profile.referrals_made:
+			referral_allowed = True
+
+		if not referral_allowed:
+			return render_to_response('referral_not_allowed.html',
+                	dict(title='Referral Not Allowed',),
+                		context_instance=RequestContext(request))
+
+		form = forms.CreateEntity(user=request.user, data=request.POST, prefix='referrer')
+		form1 = forms.CreateEntity(user=request.user, data=request.POST, prefix='referred')
 		if form.is_valid() and form1.is_valid():
 			referrer = form.save()
 			referred = form1.save()
 
 			referral_id = request.POST.get('referral_id',None)
+
+			# +1 on number of referrals this organization has recorded
+			profile.referrals_made += 1
+			profile.save()
 
 			if referral_id:
 				referral = models.EntityReferral.objects.get(pk=referral_id)
@@ -167,47 +157,24 @@ def add_referral(request):
                 	form1 = form1),
                 context_instance=RequestContext(request))
 
-"""
-def add_referral(request):
-	if request.method == 'GET':
-		return render_to_response('add_referral.html',
-                dict(title='Adding A Referral'),
-                context_instance=RequestContext(request))
-	else:
-		aaData = []
-		action = request.POST.get('action','')
-		if action == 'org_search':
-			name = request.POST.get('org_name','')
-			orgs = models.Organization.objects.filter(name__icontains=name)
-			for org in orgs:
-				sublist = []
-				sublist.append(org.user.id)
-				sublist.append(str(org.name))
-				aaData.append(sublist)
-		elif action == 'person_search':
-			first_name = request.POST.get('first_name','')
-			last_name = request.POST.get('last_name','')
-			email = request.POST.get('email','')
-			persons = models.Person.objects.filter(
-				first_name__icontains=first_name,
-				last_name__icontains=last_name,
-				user__email__icontains=email)
-			for p in persons:
-				sublist = []
-				sublist.append(p.user.id)
-				sublist.append(str(p.user.email))
-				sublist.append(str(p.first_name))
-				sublist.append(str(p.last_name))
-				aaData.append(sublist)
-		else:
-			return HttpResponseRedirect(reverse('add_referred', kwargs={'user_id' : request.POST.get('user_id'),}))
+def calculate_gifts(request, template='calcluate_gifts_wait.html'):
+	
+	task = CalculateGifts.delay(request.user)
+	request.session['task_id'] = task.id
+	return render_to_response(template,
+                    dict(),
+                    context_instance=RequestContext(request))
 
-		return render_to_response('add_referral.html',
-                dict(title='Adding A Referral',
-                	 action = action,
-                	 aaData = aaData),
-                context_instance=RequestContext(request))
-"""
+def calculate_gifts_check(request):
+	if request.method == 'POST':
+		task_id = request.session.get('task_id',None)
+		if task_id:
+			result = AsyncResult(task_id)
+			if result.ready():
+				return HttpResponse(simplejson.dumps([dict(status = 200)]), content_type = 'application/javascript; charset=utf8')
+		else:
+			return HttpResponse(simplejson.dumps([dict(status = 100)]), content_type = 'application/javascript; charset=utf8')
+	return HttpResponse(simplejson.dumps([dict(status = 500)]), content_type = 'application/javascript; charset=utf8')
 
 def sign_up(request,template='sign_up.html'):	
 

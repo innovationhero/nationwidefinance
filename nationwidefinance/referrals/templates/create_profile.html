@@ -11,19 +11,34 @@
 			{{form.errors}}
 			{{form.non_field_errors}}
 		<div style="width:100%;height:150px;">
-			<h3>You are logged on but don't have a profile yet.</h3>
-		</div>
-		<div style="width:100%;height:150px;">
 			<h3>Please create a profile to continue using the site</h3>
 		</div>
-		<div style="width:100%;height:150px;">
-			<div id="org_div" style="width:100%;float:left;">
-				<div style="width:20%;height:75px;float:left;">
+		<div style="width:100%;height:200px;">
+			<div id="org_div" style="width:100%;float:left;height:50px;">
+				<div style="width:20%;float:left;">
 					Organization name:
 				</div>
-				<div style="width:70%;float:left;height:75px;">
-					{{form.name}}
+				<div style="width:70%;float:left;height:50px;">
+					{{form.organization_name}}  
 				</div>
+			</div>
+			<div id="org_div" style="width:100%;float:left;height:50px;">
+				<div style="width:20%;float:left;">
+					Select Plan:
+				</div>
+				<div style="width:70%;float:left;height:50px;">
+					{{form.plan}}
+				</div>
+			</div>
+			<div id="org_div" style="width:100%;float:left;height:50px;">
+				<div style="width:20%;height:50px;float:left;">
+					Number of Referrals<br/> to achieve a gift:
+				</div>
+				<div style="width:70%;float:left;">
+					{{form.num_referrals_for_gift}}
+				</div>
+			</div>
+			<div id="org_div" style="width:100%;float:left;height:50px;">
 			</div>
 		</div>
 		<div style="width:100%;height:250px;">

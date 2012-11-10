@@ -9,14 +9,11 @@ class Country(models.Model):
 	def __unicode__(self):
 		return self.name
 
-class Organization(models.Model):
-	user = models.ForeignKey(User,null=False,blank=False)
-	name = models.CharField(max_length=100)
-
-	def __unicode__(self):
-		return self.name
+	class Meta:
+		verbose_name_plural = "Countries"
 
 class Entity(models.Model):
+	organization = models.ForeignKey(User)
 	entity_type = models.CharField(max_length=10)
 	org_name = models.CharField(max_length=100, null=True, blank=True)
 	first_name = models.CharField(max_length=100, null=True, blank=True)
@@ -31,6 +28,9 @@ class Entity(models.Model):
 		if self.entity_type == 'org':
 			return self.org_name
 		return '%s %s' % (self.first_name, self.last_name)
+
+	class Meta:
+		verbose_name_plural = "Entities"
 
 
 
@@ -47,6 +47,9 @@ class EntityReferral(models.Model):
 			self.referrer.org_name if self.referrer.entity_type == 'org' else self.referrer.first_name + ' ' + self.referrer.last_name,
 			' and '.join(entity['org_name'] if entity['entity_type'] == 'org' else entity['first_name'] + ' ' + entity['last_name'] for entity in self.referred.values()))
 
+	class Meta:
+		verbose_name_plural = "Entity Referrals"
+
 class ReferrerPoints(models.Model):
 
 	referrer = models.ForeignKey(Entity, null=False, blank=False)
@@ -57,23 +60,38 @@ class ReferrerPoints(models.Model):
 		return '%s has %d points' % (self.referrer.org_name if self.referrer.entity_type == 'org' else self.referrer.first_name + ' ' + self.referrer.last_name,
 			self.value)
 
-class EntityPackage(models.Model):
-	package_name = models.CharField(max_length=100)
-	package_description = models.CharField(max_length=2000)
-	max_referrals_allowed = models.IntegerField()
+	class Meta:
+		verbose_name_plural = "Referral Points"
+
+class EntityPlan(models.Model):
+	plan_name = models.CharField(max_length=100)
+	plan_description = models.CharField(max_length=2000)
+	max_referrals_allowed = models.IntegerField(null=True, blank=True)
 	unlimited_referrals = models.BooleanField()
 	can_add_entity = models.BooleanField()
 	can_use_social_media = models.BooleanField()
 	entity_active = models.BooleanField()
+
+	def __unicode__(self):
+		return self.plan_name
+
+	class Meta:
+		verbose_name_plural = "Entity Plans"
 
 class EntityAdditionalEntities(models.Model):
 	entity = models.ForeignKey(Entity)
 	user = models.ForeignKey(User,null=False,blank=False)
 	entity_active = models.BooleanField()
 
+	class Meta:
+		verbose_name_plural = "Entity Additional Entities"
+
 class EntityProfile(models.Model):
-	user = models.ForeignKey(User,null=False,blank=False)
-	package = models.ForeignKey(EntityPackage, blank=True, null=True)
+	user = models.ForeignKey(User,null=False, blank=False)
+	plan = models.ForeignKey(EntityPlan, blank=True, null=True)
+	referrals_made = models.IntegerField(null=True, blank=True)
+	num_referrals_for_gift = models.IntegerField(null=False)
+	organization_name = models.CharField(max_length=100)
 	address1 = models.CharField(max_length=100)
 	address2 = models.CharField(max_length=100)
 	city = models.CharField(max_length=100)
@@ -82,3 +100,6 @@ class EntityProfile(models.Model):
 
 	def __unicode__(self):
 		return '%s -- %s -- %s' % (self.address1, self.city, self.province)
+
+	class Meta:
+		verbose_name_plural = "Entity Profiles"

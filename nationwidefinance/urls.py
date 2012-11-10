@@ -11,7 +11,7 @@ urlpatterns = patterns('',
 	url(r'referrals/', include('nationwidefinance.referrals.urls')),
 	url(r'', include('social_auth.urls')),
 	url(r'^fb/', facebook_view, name='fb_app'),
-	url(r'^accounts/', include('registration.urls')),
+	url(r'^accounts/', include('nationwidefinance.registration.urls')),
 	#url(r'^openid/', include('django_openid_auth.urls')),
 	#url(r'^accounts/profile','nationwidefinance.referrals.views.redirect_to_home'),
     

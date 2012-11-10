@@ -25,22 +25,26 @@
 <body>
 	<div style="width:100%">
 		{%if user.is_authenticated%}
-			<div style="float:right;width:150px;">
+			<div style="float:right;width:100px;">
 				<a href="{% url logout_user %}">Logout</a>
+			</div>
+			<div style="float:right;width:100px;">
+				<a href="{% url calculate_gifts %}" style="color:green;font-weight:bold;">Send Gifts</a>
+			</div>
+			<div style="float:right;width:100px;">
+				<a href="{% url add_referral %}">Add Referral</a>
 			</div>
 		{%endif%}
 		{%if request.path == '/' %}
-			<div style="float:right;width:150px;"><a href="{% url socialauth_begin 'google' %}">GMail Login</a></div> 
-			<div style="float:right;width:150px;"><a href="{%url socialauth_begin 'yahoo'%}">Yahoo Login</a></div> 
-			<div style="float:right;width:150px;"><a href="{%url socialauth_begin 'facebook'%}">Facebook Login</a></div>
+			<div style="float:right;width:120px;"><a href="{% url socialauth_begin 'google' %}">GMail Login</a></div> 
+			<div style="float:right;width:120px;"><a href="{%url socialauth_begin 'yahoo'%}">Yahoo Login</a></div> 
+			<div style="float:right;width:120px;"><a href="{%url socialauth_begin 'facebook'%}">Facebook Login</a></div>
 			<div style="float:right;width:150px;"><a href="{%url auth_login %}">Nationwide Login</a></div> 
-			<div style="float:right;width:150px;"><a href="{%url registration_register %}">Register</a></div> 
+			<div style="float:right;width:120px;"><a href="{%url registration_register %}">Register</a></div> 
 		{%endif%}
-	</div>
-	<div style="width:100%">
-			<div style="float:right;width:150px;">
-				<a href="{% url auth_password_reset %}">Reset Password</a>
-			</div>
+		<div style="float:right;width:120px;">
+			<a href="{% url auth_password_reset %}">Reset Password</a>
+		</div>
 	</div>
 {%block content%}
 
