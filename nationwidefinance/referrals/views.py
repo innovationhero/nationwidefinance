@@ -15,7 +15,7 @@ from nationwidefinance.referrals import models
 from nationwidefinance.referrals import forms
 from nationwidefinance.referrals import utils
 
-from nationwidefinance.lookup.tasks import CalculateGifts
+from nationwidefinance.referrals.tasks import CalculateGifts
 
 
 def home(request,template='index.html'):
