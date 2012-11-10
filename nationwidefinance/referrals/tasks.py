@@ -14,7 +14,7 @@ class CalculateGifts(Task):
 	def set_referral_points(self):
 		self.d = dict()
 		for entity in self.referrers:
-			self.d[entity] = entity.referrerpoints.value
+			self.d[entity] = entity.referrerpoints_set.get().value
 
 	def send_emails(self):
 		self.subject = 'You Have Earned A Gift'
