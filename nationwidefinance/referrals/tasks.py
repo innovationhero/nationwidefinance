@@ -22,7 +22,7 @@ class CalculateGifts(Task):
 	def send_emails(self):
 		self.subject = 'You Have Earned A Gift'
 		for entity in self.email_list:
-			t = get_template('gifts_notification_emai.html')
+			t = get_template('gifts_notification_email.html')
 			c = Context(dict(org_name=self.profile.organization_name, name = entity.org_name if entity.entity_type == 'org' else '%s %s' % (entity.first_name, entity.last_name)))
 			body = t.render(c)
 			send_email(subject=subject, body=body, to_email=[entity.email,])
