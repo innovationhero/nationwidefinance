@@ -7,6 +7,8 @@ class CheckProfileMiddleware():
 
 		if request.path == '/referrals/create_profile/': return None
 
+		print '>>>>>>>>>>>>>>>>>>>>>>>  ', request.user
+
 		if not request.user: return None
 		
 		try:
