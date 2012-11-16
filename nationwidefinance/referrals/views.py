@@ -35,11 +35,11 @@ def errorHandle(request, error):
 
 
 def redirect_to_home(request):
-	return HttpResponseRedirect('/')
+	return HttpResponseRedirect('/nationwide/referrals')
 
 def logout(request,template='index.html'):
 	django_logout(request)
-	return HttpResponseRedirect('/')
+	return HttpResponseRedirect('/nationwide/referrals')
 
 
 def check_user_profile(request):
@@ -80,7 +80,7 @@ def create_profile(request,template='create_profile.html'):
                               context_instance=RequestContext(request))
 
 		# redirect to home for now as add_referral is failing 
-		return HttpResponseRedirect('/')
+		return HttpResponseRedirect('/nationwide/referrals')
 		#return HttpResponseRedirect('/referrals/add_referral')
 
 def add_referral(request):
@@ -152,7 +152,7 @@ def add_referral(request):
 
 					referral_point.save()
 				utils.calculate_points([referrer.pk,])
-				return HttpResponseRedirect('/')
+				return HttpResponseRedirect('/nationwide/referrals')
 	return render_to_response('add_referral.html',
                 dict(title='Adding A Referral',
                 	form = form,
@@ -178,29 +178,3 @@ def calculate_gifts_check(request):
 				return HttpResponse(simplejson.dumps([dict(status = 100)]), content_type = 'application/javascript; charset=utf8')
 	return HttpResponse(simplejson.dumps([dict(status = 500)]), content_type = 'application/javascript; charset=utf8')
 
-def sign_up(request,template='sign_up.html'):	
-
-	if request.method == 'GET':
-		form = forms.UserCreationForm()
-		return render_to_response(template,
-                              dict(title='Sign up',form = form),
-                              context_instance=RequestContext(request))
-
-	else:
-		form = forms.UserCreationForm(data=request.POST)
-		if form.is_valid():
-			#user = form.save()		form.data['field_name']
-			user = User.objects.create_user(form.data['username'], '', form.data['password1'])
-
-			user = authenticate(username=form.data['password1'], password=form.data['password1'])
-
-			##commented the login of user out as it throws error when loading the home page
-			login(request,user)
-
-		else:
-			return render_to_response(template,
-                              dict(title='Sign up',form = form),
-                              context_instance=RequestContext(request))
-
-		
-		return HttpResponseRedirect('/referrals/create_profile')
