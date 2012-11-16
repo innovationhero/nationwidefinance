@@ -53,6 +53,7 @@ def check_user_profile(request):
 	
 
 def create_profile(request,template='create_profile.html'):
+	from nationwidefinance.referrals import forms
 	if request.method == 'GET':
 		form = forms.CreateProfileForm()
 		return render_to_response(template,
