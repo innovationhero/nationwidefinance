@@ -1,8 +1,5 @@
 # Django settings for nationwidefinance project.
 
-SUB_SITE = 'nationwide/'
-
-
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -104,6 +101,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'nationwidefinance.middleware.checkprofile.CheckProfileMiddleware',
 )
 
 ROOT_URLCONF = 'nationwidefinance.urls'
@@ -181,7 +179,7 @@ LOGGING = {
     }
 }
 
-AUTH_PROFILE_MODULE = 'referrals.entityprofile'
+AUTH_PROFILE_MODULE = 'nationwidefinance.referrals.entityprofile'
 LOGIN_REDIRECT_URL = '/nationwide/referrals/'
 FACEBOOK_APP_ID                   = '361510763943252'
 FACEBOOK_API_SECRET               = '2f02398f50a91ac1aea21676a098c53b'

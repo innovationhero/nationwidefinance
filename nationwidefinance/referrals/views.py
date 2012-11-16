@@ -13,7 +13,6 @@ from django.core.urlresolvers import reverse
 from celery.result import AsyncResult
 
 from nationwidefinance.referrals import models
-from nationwidefinance.referrals import forms
 from nationwidefinance.referrals import utils
 
 from nationwidefinance.referrals.tasks import CalculateGifts
@@ -24,14 +23,6 @@ def home(request,template='index.html'):
 	return render_to_response(template,
                               dict(title='Welcome to Nationwide Finance',),
                               context_instance=RequestContext(request))
-
-
-def errorHandle(request, error):
-		form = LoginForm()
-		return render_to_response('login.html', {
-				'error' : error,
-				'form' : form,
-		}, context_instance=RequestContext(request))
 
 
 def redirect_to_home(request):
