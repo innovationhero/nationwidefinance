@@ -1,5 +1,8 @@
 # Django settings for nationwidefinance project.
 
+SUB_SITE = 'nationwide/'
+
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 

@@ -4,14 +4,10 @@ from django.conf.urls.defaults import patterns, include, url
 # from django.contrib import admin
 # admin.autodiscover()
 
-from referrals.facebook import facebook_view
+import settings
 
 urlpatterns = patterns('',
-	url(r'^', include('nationwidefinance.referrals.urls')),
-	url(r'referrals/', include('nationwidefinance.referrals.urls')),
-	url(r'', include('social_auth.urls')),
-	url(r'^fb/', facebook_view, name='fb_app'),
-	url(r'^accounts/', include('nationwidefinance.registration.urls')),
+	url(r'^%s' % (settings.SUB_SITE,), include('nationwidefinance.urls_subsite')),
 	#url(r'^openid/', include('django_openid_auth.urls')),
 	#url(r'^accounts/profile','nationwidefinance.referrals.views.redirect_to_home'),
     
