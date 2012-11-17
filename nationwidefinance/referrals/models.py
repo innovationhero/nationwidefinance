@@ -60,7 +60,7 @@ class ReferrerPoints(models.Model):
 	entity_active = models.BooleanField()
 
 	def __unicode__(self):
-		return '%s has %d points' % (self.referrer.org_name if self.referrer.entity_type == 'org' else self.referrer.first_name + ' ' + self.referrer.last_name,
+		return '%s %s has %d points' % (self.referrer.first_name, self.referrer.last_name,
 			self.value)
 
 	class Meta:
