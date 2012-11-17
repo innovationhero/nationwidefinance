@@ -28,6 +28,7 @@ class EntityContact(models.Model):
 
 	first_name = models.CharField(max_length=100)
 	last_name = models.CharField(max_length=100)
+	email = models.CharField(max_length=100,default='')
 	phone = models.CharField(max_length=100)
 
 	def __unicode__(self):
@@ -66,9 +67,15 @@ class ReferrerPoints(models.Model):
 		verbose_name_plural = "Referral Points"
 
 class EntityPlan(models.Model):
+	
 	plan_name = models.CharField(max_length=100)
 	plan_description = models.CharField(max_length=2000)
 	max_referrals_allowed = models.IntegerField(null=True, blank=True)
+
+	num_referrals_for_gift = models.IntegerField(null=True)
+	direct_referal_value = models.FloatField(null=True, blank=True)
+	indirect_referral_value = models.FloatField(null=True, blank=True)
+	
 	unlimited_referrals = models.BooleanField()
 	can_add_entity = models.BooleanField()
 	can_use_social_media = models.BooleanField()
@@ -80,21 +87,27 @@ class EntityPlan(models.Model):
 	class Meta:
 		verbose_name_plural = "Entity Plans"
 
+class EntityReferrerRelation(models.Model):
+
+	organization = models.ForeignKey(User, related_name='organization')
+	referrers = models.ManyToManyField(User, related_name='referrers')
+
 class EntityProfile(models.Model):
 	
+	entity_type = models.CharField(max_length=10)
+
 	user = models.ForeignKey(User,null=False, blank=False)
 	plan = models.ForeignKey(EntityPlan, blank=True, null=True)
 	industry = models.ForeignKey(Industry, null=True, blank=True)
 	entity_contact = models.ForeignKey(EntityContact)
 
 	referrals_made = models.IntegerField(null=True, blank=True)
-	entity_type = models.CharField(max_length=10)
 	
 	business_name = models.CharField(max_length=100, null=True, blank=True)
 	
-	num_referrals_for_gift = models.IntegerField(null=False)
+	num_referrals_for_gift = models.IntegerField(null=True, blank=True, default=10)
 	direct_referal_value = models.FloatField(null=True, blank=True)
-	indirect_reverral_value = models.FloatField(null=True, blank=True)
+	indirect_referral_value = models.FloatField(null=True, blank=True)
 
 	address1 = models.CharField(max_length=100)
 	address2 = models.CharField(max_length=100)

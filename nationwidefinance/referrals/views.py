@@ -61,9 +61,10 @@ def create_profile(request,template='create_profile.html'):
                               context_instance=RequestContext(request))
 
 	else:
+
 		form = forms.CreateProfileForm(user=request.user,data=request.POST)
 		if form.is_valid():
-			form.save() 
+			profile = form.save() 
 			#do nothing as the record would have been saved already
 
 		else:
@@ -72,7 +73,7 @@ def create_profile(request,template='create_profile.html'):
                               context_instance=RequestContext(request))
 
 		# redirect to home for now as add_referral is failing 
-		return HttpResponseRedirect('/nationwide/referrals')
+		return HttpResponseRedirect('/')
 		#return HttpResponseRedirect('/referrals/add_referral')
 
 def add_referral(request):
