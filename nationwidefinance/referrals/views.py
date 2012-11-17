@@ -113,7 +113,7 @@ def add_referral(request):
 			try:
 				org_referrers = models.OrganizationReferrerEntity.objects.get(organization__email=request.user.email)
 			except models.OrganizationReferrerEntity.DoesNotExist:
-				org_referrers = OrganizationReferrerEntity(organization=request.user)
+				org_referrers = models.OrganizationReferrerEntity(organization=request.user)
 				org_referrers.save()
 
 			org_referrers.referrers.add(referrer)
