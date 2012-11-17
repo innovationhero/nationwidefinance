@@ -7,6 +7,33 @@ from django.contrib.auth.forms import UserCreationForm
 
 from nationwidefinance.referrals import models
 
+class FirstLoginForm(forms.Form):
+
+	email = forms.CharField(required=True)
+	password1 = forms.CharField(required=True, widget=forms.PasswordInput)
+	password2 = forms.CharField(required=True, widget=forms.PasswordInput)
+
+	def clean_email(self):
+		try:
+			user = User.objects.get(email=self.cleaned_data.get('email'))
+			return self.cleaned_data.get('email')
+		except User.DoesNotExist:
+			raise froms.ValidationError('This email address is not attached to an account')
+
+	def clean_password1(self):
+		if self.data.get('password1') != self.data.get('password2'):
+			raise forms.ValidationError('Passwords do not match')
+
+		if len(self.data.get('password1')) < 6:
+			raise forms.ValidationError('Password must be at least 6 characters')
+
+		return self.cleaned_data.get('password1')
+
+	def save(self):
+		user = User.objects.get(email=self.cleaned_data.get('email'))
+		user.set_password(self.cleaned_data.get('password1'))
+		user.save()
+
 class CreateUserForm(forms.ModelForm):
 	
 	

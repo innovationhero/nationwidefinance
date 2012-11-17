@@ -201,3 +201,20 @@ def calculate_gifts_check(request):
 				return HttpResponse(simplejson.dumps([dict(status = 100)]), content_type = 'application/javascript; charset=utf8')
 	return HttpResponse(simplejson.dumps([dict(status = 500)]), content_type = 'application/javascript; charset=utf8')
 
+
+def referrer_first_login(request):
+	from nationwidefinance.referrals import forms
+	if request.method == 'GET':
+		form = forms.FirstLoginForm()
+		return render_to_response('referrer_first_login.html',
+                dict(title='First Login',form = form),
+                context_instance=RequestContext(request))
+
+	else:
+		form = forms.FirstLoginForm(data=request.POST)
+		if form.is_valid():
+			form.save()
+			return HttpResponseRedirect('/accounts/login')
+		return render_to_response('referrer_first_login.html',
+                dict(title='First Login',form = form),
+                context_instance=RequestContext(request))
