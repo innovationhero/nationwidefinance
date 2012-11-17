@@ -7,7 +7,7 @@
 		<div style="width:100%;height:50px;">
 			<div style="width:30%;height:50px;margin-left:100px;">
 				<b>Set your password:</b>
-					
+					{%csrf_token%}
 			</div>
 		</div>
 		<div style="width:100%;height:50px;">
@@ -37,6 +37,10 @@
 			</div>
 			<div>{% if form.password2.errors %} <span class="error">{{ form.password2.errors|join:", " }}</span>{% endif %}</div>
 		</div>
+		<div style="width:50%;height:50px;text-align:center;display:none;" id="submit_btn">
+			<input type="submit" value="Create Profile"/>
+		</div>
+	</form>
 </div>
 
 {%endblock%}
