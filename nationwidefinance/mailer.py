@@ -23,7 +23,7 @@ def send_email(subject=None, body=None, to_email=None, fail_silently=False):
 		raise ValueError('Invalid backend argument')
 
 def send_new_user_email(referrer=None, referred=None, business_name=None):
-	t = get_template('referrals/new_referrer_email.html')
+	t = get_template('new_referrer_email.html')
 
 	c1 = Context(dict(user = referrer, business_name = business_name))
 	c2 = Context(dict(user = referred, business_name = business_name))
