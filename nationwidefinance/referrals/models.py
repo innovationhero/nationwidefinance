@@ -46,9 +46,9 @@ class EntityReferral(models.Model):
 	entity_active = models.BooleanField()
 
 	def __unicode__(self):
-		return '%s referred %s' % (
-			self.referrer.org_name if self.referrer.entity_type == 'org' else self.referrer.first_name + ' ' + self.referrer.last_name,
-			' and '.join(entity['org_name'] if entity['entity_type'] == 'org' else entity['first_name'] + ' ' + entity['last_name'] for entity in self.referred.values()))
+		return '%s %s referred %s %s' % (self.referrer.first_name, self.referrer.last_name, 
+			self.referred.first_name, self.referrer.last_name)
+			
 
 	class Meta:
 		verbose_name_plural = "Entity Referrals"
@@ -87,10 +87,27 @@ class EntityPlan(models.Model):
 	class Meta:
 		verbose_name_plural = "Entity Plans"
 
-class EntityReferrerRelation(models.Model):
+class OrganizationReferrerEntity(models.Model):
 
-	organization = models.ForeignKey(User, related_name='organization')
-	referrers = models.ManyToManyField(User, related_name='referrers')
+	organization = models.ForeignKey(User, related_name='org_referred')
+	referrers = models.ManyToManyField(User, related_name='org_referrer')
+
+	def __unicode__(self):
+		return '%s has %d referrers' % (self.organization.get_profile().business_name, len(self.referrers.all()))
+
+	class Meta:
+		verbose_name_plural = "Organization Referrers"
+
+class OrganizationReferredRelation(models.Model):
+	
+	organization = models.ForeignKey(User, related_name='org_referral')
+	referred = models.ManyToManyField(User, related_name='org_referred_persons')
+
+	def __unicode__(self):
+		return '%d have been referred to %s' % (len(self.referred.all()), self.organization.get_profile().business_name, )
+
+	class Meta:
+		verbose_name_plural = "Referred to Organization"
 
 class EntityProfile(models.Model):
 	

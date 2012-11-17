@@ -1,5 +1,57 @@
 [
   {
+    "model": "referrals.EntityPlan",
+    "pk": 1,
+    "fields": {
+      "plan_name": "Basic Plan",
+      "plan_description": "Basic Plan",
+      "max_referrals_allowed" : "10",
+      "num_referrals_for_gift" : "10",
+      "direct_referal_value" : "5",
+      "indirect_referral_value" : "2",
+      "unlimited_referrals" : "False",
+      "can_add_entity" : "False",
+      "can_use_social_media" : "False",
+      "entity_active" : "True"
+
+    }
+  },
+  {
+    "model": "referrals.EntityPlan",
+    "pk": 2,
+    "fields": {
+      "plan_name": "Premium Plan",
+      "plan_description": "Premim Plan",
+      "max_referrals_allowed" : "20",
+      "num_referrals_for_gift" : "10",
+      "direct_referal_value" : "10",
+      "indirect_referral_value" : "4",
+      "unlimited_referrals" : "False",
+      "can_add_entity" : "False",
+      "can_use_social_media" : "False",
+      "entity_active" : "True"
+
+    }
+  },
+  {
+    "model": "referrals.Industry",
+    "pk": 1,
+    "fields": {
+      "name": "Accounting",
+      "description": "Accounting",
+      "entity_active" : "True"
+    }
+  },
+  {
+    "model": "referrals.Industry",
+    "pk": 1,
+    "fields": {
+      "name": "Accounting",
+      "description": "Accounting",
+      "entity_active" : "True"
+    }
+  },
+  {
     "model": "referrals.Industry",
     "pk": 1,
     "fields": {

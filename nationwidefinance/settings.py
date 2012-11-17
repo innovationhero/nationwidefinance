@@ -180,7 +180,7 @@ LOGGING = {
     }
 }
 
-AUTH_PROFILE_MODULE = 'nationwidefinance.referrals.entityprofile'
+AUTH_PROFILE_MODULE = 'referrals.EntityProfile'
 LOGIN_REDIRECT_URL = '/nationwide/referrals/'
 FACEBOOK_APP_ID                   = '361510763943252'
 FACEBOOK_API_SECRET               = '2f02398f50a91ac1aea21676a098c53b'
@@ -201,3 +201,6 @@ EMAIL_USE_TLS = True
 
 
 BROKER_URL = 'django://'
+
+DATE_INPUT_FORMATS = ('%d/%m/%Y','%Y/%m/%d')
+USE_L10N = True

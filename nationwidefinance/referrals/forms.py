@@ -1,69 +1,48 @@
 from datetime import datetime 
 
 from django import forms
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
 from nationwidefinance.referrals import models
 
-class CreateEntity(forms.Form):
+class CreateUserForm(forms.ModelForm):
 	
 	
-	first_name = forms.CharField(required=False)
-	last_name = forms.CharField(required=False)
-	email_address = forms.CharField(required=True)
-	dob = forms.DateTimeField(required=False)
+	first_name = forms.CharField(required=True)
+	last_name = forms.CharField(required=True)
+	email = forms.CharField(required=True)
+	dob = forms.DateTimeField(required=True, input_formats=settings.DATE_INPUT_FORMATS)
 
 
-	def __init__(self, user=None, *args, **kwargs):
-		super(CreateEntity, self).__init__(*args,**kwargs)
-		self.user = user
+	def __init__(self, user=None, tmp_password=None, *args, **kwargs):
+		super(CreateUserForm, self).__init__(*args,**kwargs)
+		self.organization = user
+		if tmp_password:
+			self.tmp_password = tmp_password
 
-	def clean_org_name(self):
-		if self.cleaned_data.get('entity_type')  \
-			and self.cleaned_data['entity_type'] == 'org' \
-			and not self.cleaned_data.get('org_name'):
-				raise forms.ValidationError('Organization name required')
-		return self.cleaned_data['org_name']
 
-	def clean_first_name(self):
-		if self.cleaned_data.get('entity_type') \
-			and self.cleaned_data['entity_type'] == 'person' \
-			and not self.cleaned_data.get('first_name'):
-				raise forms.ValidationError('First name required')
-		return self.cleaned_data['first_name']
-
-	def clean_last_name(self):
-		if self.cleaned_data.get('entity_type') \
-			and self.cleaned_data['entity_type'] == 'person' \
-			and not self.cleaned_data['last_name']:
-				raise forms.ValidationError('Last name required')
-		return self.cleaned_data['last_name']	
-
-	def clean_dob(self):
-		if self.cleaned_data.get('entity_type') \
-			and self.cleaned_data['entity_type'] == 'person' \
-			and not self.cleaned_data.get('dob'):
-				raise forms.ValidationError('DOB required')
-		return self.cleaned_data['dob']	
 
 	def save(self):
 		try:
-			entity = models.Entity.objects.get(email_address=self.cleaned_data['email_address'])
+			entity = User.objects.get(email=self.cleaned_data.get('email'))
 			return entity
-		except models.Entity.DoesNotExist, e:
-			entity = super(CreateEntity,self).save(commit=False)
-			entity.organization = self.user
-			entity.entity_active = True
-			entity.updated_date = datetime.now()
-			entity.created_date = datetime.now()
+		except User.DoesNotExist, e:
+			entity = super(CreateUserForm,self).save(commit=False)
+			entity.username = self.cleaned_data.get('email')
+			entity.set_password(self.tmp_password)
+			entity.date_joined = datetime.now()
+			entity.is_active = True
+			entity.is_superuser = False
+			entity.is_staff = False
 			entity.save()
 			return entity
 
 
 	class Meta:
-		model = models.EntityProfile
-		exclude = ('organization', 'entity_active', 'created_date', 'updated_date',)
+		model = User
+		exclude = ('is_active', 'last_login', 'date_joined','is_superuser','is_staff','username','password')
 
 class CreateReferralForm(forms.Form):
 

@@ -77,10 +77,12 @@ def create_profile(request,template='create_profile.html'):
 		#return HttpResponseRedirect('/referrals/add_referral')
 
 def add_referral(request):
+
+	from nationwidefinance.referrals import forms
 	
 	if request.method == 'GET':
-		form = forms.CreateEntity(prefix='referrer', initial={'entity_type' : 'org'})
-		form1 = forms.CreateEntity(prefix='referred', initial={'entity_type' : 'org'})
+		form = forms.CreateUserForm(prefix='referrer')
+		form1 = forms.CreateUserForm(prefix='referred')
 
 	else:
 		
@@ -99,11 +101,33 @@ def add_referral(request):
                 	dict(title='Referral Not Allowed',),
                 		context_instance=RequestContext(request))
 
-		form = forms.CreateEntity(user=request.user, data=request.POST, prefix='referrer')
-		form1 = forms.CreateEntity(user=request.user, data=request.POST, prefix='referred')
+		import random
+		tmp_password = random.getrandbits(128)
+
+		form = forms.CreateUserForm(user=request.user, tmp_password=tmp_password, data=request.POST, prefix='referrer')
+		form1 = forms.CreateUserForm(user=request.user, tmp_password=tmp_password, data=request.POST, prefix='referred')
 		if form.is_valid() and form1.is_valid():
 			referrer = form.save()
 			referred = form1.save()
+
+			try:
+				org_referrers = models.OrganizationReferrerEntity.objects.get(organization__email=request.user.email)
+			except models.OrganizationReferrerEntity.DoesNotExist:
+				org_referrers = OrganizationReferrerEntity(organization=request.user)
+				org_referrers.save()
+
+			org_referrers.referrers.add(referrer)
+			org_referrers.save()
+
+			try:
+				org_referred_to = models.OrganizationReferredRelation.objects.get(organization__email=request.user.email)
+			except models.OrganizationReferredRelation.DoesNotExist:
+				org_referred_to = models.OrganizationReferredRelation(organization=request.user)
+				org_referred_to.save()
+
+			org_referred_to.referred.add(referred)
+			org_referred_to.save()
+
 
 			referral_id = request.POST.get('referral_id',None)
 
@@ -126,8 +150,12 @@ def add_referral(request):
 				referral.referred = [referred]
 				referral.save()
 
+			#send email to referrer and referred
+			from nationwidefinance.mailer import send_new_user_email
+			send_new_user_email(referrer=referrer, referred=referred, business_name=request.user.get_profile().business_name)
+
 			if request.POST.get('action') == 'add_another':
-				form1 = forms.CreateEntity(prefix='referred', initial={'entity_type' : 'org'})
+				form1 = forms.CreateUserForm(prefix='referred')
 				return render_to_response('add_referral.html',
                 	dict(title='Adding A Referral',
                 		form = form,
@@ -145,6 +173,8 @@ def add_referral(request):
 
 					referral_point.save()
 				utils.calculate_points([referrer.pk,])
+
+
 				return HttpResponseRedirect('/nationwide/referrals')
 	return render_to_response('add_referral.html',
                 dict(title='Adding A Referral',

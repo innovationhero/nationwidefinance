@@ -1,5 +1,10 @@
 {%extends "base.html"%}
 {% block header_tag%}
+<style>
+.error {
+	color : red;
+}
+</style>
 {% autoescape off %}
 	<script>
 
@@ -9,156 +14,111 @@
 		$("#add_another").on('click',function(){
 			$("input[name=action]").val('add_another');
 		});	
-		{%ifequal form.entity_type.value 'org' %}
-			$("#referrer_org_div").show();
-			$("#referrer_person_div").hide();
-
-		{%endifequal%}
-		{%ifequal form.entity_type.value 'person' %}
-			$("#referrer_person_div").show();
-			$("#referrer_org_div").hide();
-
-		{%endifequal%}
-		{%ifequal form1.entity_type.value 'org' %}
-			$("#referred_org_div").show();
-			$("#referred_person_div").hide();
-
-		{%endifequal%}
-		{%ifequal form1.entity_type.value 'person' %}
-			$("#referred_person_div").show();
-			$("#referred_org_div").hide();
-
-		{%endifequal%}
+		
 	});
 	</script>
 {%endautoescape%}
 {% endblock %}
 
 {%block content %}
-	<div style="width:100%;height:50px;">
-		<h3>Who made the referral...</h3>
-	</div>
 	
-	<br/><br/>
 	<div style="width:100%;height:200px;">
 		<form name="add_referrer" method="post">
-			<div style="width:100%;height:90px;">
-				<div style="width:30%;height:50px;">
-					<b>Add the referrer: &nbsp;&nbsp;</b><br/> Is the referrer a person or organization
-				</div>
-				<div style="width:70%;height:30px;">
-					{{form.entity_type}}
+			<div style="width:100%;height:50px;">
+				<div style="width:30%;height:50px;margin-left:100px;">
+					<b>Add the referrer:</b>
+					
 				</div>
 			</div>
 			<div style="width:100%;height:50px;">
-					<div style="width:15%;float:left;">
+					<div style="width:20%;float:left;text-align:right;">
 						Email:
 					</div>
-					<div style="width:70%;float:left;">
-						{{form.email_address}}
+					<div style="width:20%;float:left;padding-left:20px;">
+						{{form.email}}
 					</div>
+					<div>{% if form.email.errors %} <span class="error">{{ form.email.errors|join:", " }}</span>{% endif %}</div>
 				</div>
-			<div id="referrer_person_div" style="display:none;height:200px;">
+			
 				<div style="width:100%;height:50px;">
-					<div style="width:15%;float:left;">
+					<div style="width:20%;float:left;text-align:right;">
 						First Name:
 					</div>
-					<div style="width:70%;float:left;">
+					<div style="width:20%;float:left;padding-left:20px;">
 						{%csrf_token%}
 						{{form.first_name}}
 					</div>
+					<div>{% if form.first_name.errors %} <span class="error">{{ form.first_name.errors|join:", " }}</span>{% endif %}</div>
 				</div>
 				<div style="width:100%;height:50px;">
-					<div style="width:15%;float:left;">
+					<div style="width:20%;float:left;text-align:right;">
 						Last Name:
 					</div>
-					<div style="width:70%;float:left;">
+					<div style="width:20%;float:left;padding-left:20px;">
 						{{form.last_name}}
 					</div>
+					<div>{% if form.last_name.errors %} <span class="error">{{ form.last_name.errors|join:", " }}</span>{% endif %}</div>
 				</div>
 				<div style="width:100%;height:50px;">
-					<div style="width:15%;float:left;">
+					<div style="width:20%;float:left;text-align:right;">
 						DOB:
 					</div>
-					<div style="width:70%;float:left;">
+					<div style="width:20%;float:left;padding-left:20px;">
 						{{form.dob}}
 					</div>
+					<div>{% if form.dob.errors %} <span class="error">{{ form.dob.errors|join:", " }}</span>{% endif %}</div>
 				</div>
-			</div>
-			<div style="display:block;height:100px;" id="referrer_org_div" >
-				<div style="width:100%;height:50px;">
-					<div style="width:15%;float:left;">
-						Organization Name:
-					</div>
-					<div style="width:70%;float:left;">
-						{{form.org_name}}
-					</div>
-				</div>
-			</div>
-			<div>
-					{{form.errors}}
-					{{form.non_field_errors}}
-				</div>
+			
+			
 			<div id="breaker" style="height:50px;"></div>
-			<div style="width:100%;height:90px;">
-				<div style="width:30%;height:50px;">
-					<b>Add the referred: &nbsp;&nbsp;</b><br/> Is the referred a person or organization
-				</div>
-				<div style="width:70%;height:30px;">
-					{{form1.entity_type}}
+			<div style="width:100%;height:50px;">
+				<div style="width:30%;height:50px;margin-left:100px;">
+					<b>Add the person referred</b>
 				</div>
 			</div>
 			<div style="width:100%;height:50px;">
-					<div style="width:15%;float:left;">
+					<div style="width:20%;float:left;text-align:right;">
 						Email:
 					</div>
-					<div style="width:70%;float:left;">
-						{{form1.email_address}}
+					<div style="width:20%;float:left;padding-left:20px;">
+						{{form1.email}}
 					</div>
+					<div>{% if form1.email.errors %} <span class="error">{{ form1.email.errors|join:", " }}</span>{% endif %}</div>
 			</div>
-			<div style="display:none;height:200px;" id="referred_person_div" >
+			
 				<div style="width:100%;height:50px;">
-					<div style="width:15%;float:left;">
+					<div style="width:20%;float:left;text-align:right;">
 						First Name:
 					</div>
-					<div style="width:70%;float:left;">
+					<div style="width:20%;float:left;padding-left:20px;">
 						{{form1.first_name}}
 					</div>
+					<div>{% if form1.first_name.errors %} <span class="error">{{ form1.first_name.errors|join:", " }}</span>{% endif %}</div>
 				</div>
 				<div style="width:100%;height:50px;">
-					<div style="width:15%;float:left;">
+					<div style="width:20%;float:left;text-align:right;">
 						Last Name:
 					</div>
-					<div style="width:70%;float:left;">
+					<div style="width:20%;float:left;padding-left:20px;">
 						{{form1.last_name}}
 					</div>
+					<div>{% if form1.last_name.errors %} <span class="error">{{ form1.last_name.errors|join:", " }}</span>{% endif %}</div>
 				</div>
 				<div style="width:100%;height:50px;">
-					<div style="width:15%;float:left;">
+					<div style="width:20%;float:left;text-align:right;">
 						DOB:
 					</div>
-					<div style="width:70%;float:left;">
+					<div style="width:20%;float:left;padding-left:20px;">
 						{{form1.dob}}
 					</div>
+					<div>{% if form1.dob.errors %} <span class="error">{{ form1.dob.errors|join:", " }}</span>{% endif %}</div>
 				</div>
-			</div>
-			<div style="display:block;height:100px;" id="referred_org_div">
-				<div style="width:15%;float:left;">
-					Organization Name:
-				</div>
-				<div style="width:70%;float:left;">
-					{{form1.org_name}}
-				</div>
-			</div>	
-			<div>
-					{{form1.errors}}
-					{{form1.non_field_error}}
-				</div>
+			
 			<div style="width:100%;height:50px;">
 				<div style="width:60%;height:50px;">
 					<input type="hidden" name="referral_id" value="{{referral_id}}"/>
 					<input type="hidden" name="action" value="add_referrer"/>
-					<input type="submit" value="Add Another" id="add_another"/> &nbsp;&nbsp;
+					<input type="submit" value="Add Another" id="add_another"/> 
 					<input type="submit" value="Finished" id="finished"/>
 				</div>
 			</div>
