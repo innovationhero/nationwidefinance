@@ -18,7 +18,7 @@ class FirstLoginForm(forms.Form):
 			user = User.objects.get(email=self.cleaned_data.get('email'))
 			return self.cleaned_data.get('email')
 		except User.DoesNotExist:
-			raise froms.ValidationError('This email address is not attached to an account')
+			raise forms.ValidationError('This email address is not attached to an account')
 
 	def clean_password1(self):
 		if self.data.get('password1') != self.data.get('password2'):
