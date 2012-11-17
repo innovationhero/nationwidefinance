@@ -45,9 +45,9 @@ class EntityReferral(models.Model):
 	updated_date = models.DateTimeField()
 	entity_active = models.BooleanField()
 
-	def __unicode__(self):
-		return '%s %s referred %s %s' % (self.referrer.first_name, self.referrer.last_name, 
-			self.referred.first_name, self.referrer.last_name)
+	# def __unicode__(self):
+	# 	return '%s %s referred %s %s' % (self.referrer.first_name, self.referrer.last_name, 
+	# 		self.referred.first_name, self.referrer.last_name)
 			
 
 	class Meta:
