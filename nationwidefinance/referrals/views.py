@@ -152,7 +152,7 @@ def add_referral(request):
 
 			#send email to referrer and referred
 			from nationwidefinance.mailer import send_new_user_email
-			send_new_user_email(referrer=referrer, referred=referred, business_name=request.user.get_profile().business_name)
+			#send_new_user_email(referrer=referrer, referred=referred, business_name=request.user.get_profile().business_name)
 
 			if request.POST.get('action') == 'add_another':
 				form1 = forms.CreateUserForm(prefix='referred')
@@ -166,13 +166,14 @@ def add_referral(request):
 				#add a referrer point for this referral
 				try:
 					referral_point = models.ReferrerPoints.objects.get(referrer__pk=referrer.pk)
-					referral_point.value += 1
+					referral_point.value += request.user.get_profile().direct_referal_value
 					referral_point.save()
 				except models.ReferrerPoints.DoesNotExist:
-					referral_point = models.ReferrerPoints(referrer=referrer, entity_active=True, value=1)
+					referral_point = models.ReferrerPoints(referrer=referrer, entity_active=True, value=request.user.get_profile().direct_referal_value)
 
 					referral_point.save()
-				utils.calculate_points([referrer.pk,])
+
+				utils.calculate_points([referrer.pk,], value=request.user.get_profile().indirect_referral_value)
 
 
 				return HttpResponseRedirect('/nationwide/referrals')
@@ -218,3 +219,49 @@ def referrer_first_login(request):
 		return render_to_response('referrer_first_login.html',
                 dict(title='First Login',form = form),
                 context_instance=RequestContext(request))
+
+def view_referrers(request):
+	try:
+		org_referrers = models.OrganizationReferrerEntity.objects.get(organization__email=request.user.email)
+	except models.OrganizationReferrerEntity.DoesNotExist:
+		return render_to_response('no_referrers.html',
+                dict(title='Error!',),
+                context_instance=RequestContext(request))
+		
+	referrers = org_referrers.referrers.all()
+	aaData = []
+	for referrer in referrers:
+		sublist = []
+		sublist.append(str(referrer.first_name))
+		sublist.append(str(referrer.last_name))
+		sublist.append(str(models.ReferrerPoints.objects.get(referrer__email=referrer.email).value))
+		aaData.append(sublist)
+
+
+	return render_to_response('referrers.html',
+            dict(title='Viewing Referrers',aaData = aaData),
+            context_instance=RequestContext(request))
+
+def view_referred(request):
+	try:
+		referrals = models.EntityReferral.objects.get(referrer__email=request.user.email)
+	except models.EntityReferral.DoesNotExist:
+		return render_to_response('none_referred.html',
+                dict(title='Error!',),
+                context_instance=RequestContext(request))
+
+	referred = referrals.referred.all()
+	aaData = []
+	for r in referred:
+		sublist = []
+		sublist.append(str(r.first_name))
+		sublist.append(str(r.last_name))
+		aaData.append(sublist)
+
+
+	return render_to_response('referred.html',
+            dict(title='Viewing Referrers',aaData = aaData),
+            context_instance=RequestContext(request))
+
+
+

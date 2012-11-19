@@ -20,20 +20,30 @@
 
 
 {% block header_tag%}
+
 {% endblock %}
 </head>
 <body>
 	<div style="width:100%">
 		{%if user.is_authenticated%}
-			<div style="float:right;width:100px;">
+			<div style="float:right;width:150px;">
 				<a href="{% url logout_user %}">Logout</a>
 			</div>
-			<div style="float:right;width:100px;">
+			<div style="float:right;width:150px;">
 				<a href="{% url calculate_gifts %}" style="color:green;font-weight:bold;">Send Gifts</a>
 			</div>
-			<div style="float:right;width:100px;">
+			<div style="float:right;width:150px;">
 				<a href="{% url add_referral %}">Add Referral</a>
 			</div>
+			{%if not user.get_profile.business_name %}
+				<div style="float:right;width:150px;">
+					<a href="{% url view_referred %}">View Referred</a>
+				</div>
+			{%else%}
+				<div style="float:right;width:150px;">
+					<a href="{% url view_referrers %}">View Referrers</a>
+				</div>
+			{%endif%}
 		{%else%}
 		
 			<div style="float:right;width:120px;"><a href="{% url socialauth_begin 'google' %}">GMail Login</a></div> 
