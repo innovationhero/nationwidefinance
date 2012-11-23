@@ -78,7 +78,7 @@ def create_profile(request,template='create_profile.html'):
 
 def edit_profile(request, template='create_profile.html'):
 	from nationwidefinance.referrals import forms
-	
+
 	if request.method == 'GET':
 		form = forms.CreateProfileForm(instance=request.user.get_profile())
 		
@@ -168,7 +168,7 @@ def add_referral(request):
 
 			#send email to referrer and referred
 			from nationwidefinance.mailer import send_new_user_email
-			#send_new_user_email(referrer=referrer, referred=referred, business_name=request.user.get_profile().business_name)
+			send_new_user_email(referrer=referrer, referred=referred, business_name=request.user.get_profile().business_name)
 
 			if request.POST.get('action') == 'add_another':
 				form1 = forms.CreateUserForm(prefix='referred')
