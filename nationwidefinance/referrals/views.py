@@ -283,13 +283,15 @@ def view_referred(request):
                 dict(title='Error!',),
                 context_instance=RequestContext(request))
 
-	referred = referrals.referred.all()
 	aaData = []
-	for r in referred:
-		sublist = []
-		sublist.append(str(r.first_name))
-		sublist.append(str(r.last_name))
-		aaData.append(sublist)
+	for referral in referrals:
+		referred = referral.referred.all()
+		for r in referred:
+			sublist = []
+			sublist.append(str(r.first_name))
+			sublist.append(str(r.last_name))
+			sublist.append(str(r.organization.get_profile().business_name))
+			aaData.append(sublist)
 
 
 	return render_to_response('referred.html',
