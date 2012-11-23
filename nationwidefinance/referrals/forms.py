@@ -88,11 +88,13 @@ class CreateReferralForm(forms.Form):
 ## It appears one form class can be used for creating a profile and signing up
 class CreateProfileForm(forms.ModelForm):
 
-	metrics = forms.ChoiceField(required=True, choices=[('inherit', 'Inherit from plan'), ('custom', 'Custom Choice')])
+	inherit_from_plan = forms.ChoiceField(required=True, choices=[('1', 'Inherit from plan'), ('0', 'Custom Choice')])
 	entity_type = forms.ChoiceField(required=True, choices=[('','Select'), ('org', 'Organization'), ('indv', 'Individual')])
 	plan = forms.ModelChoiceField(required=False, widget=forms.Select, queryset=models.EntityPlan.objects.filter(entity_active=True))
 	industry = forms.ModelChoiceField(required=False, widget=forms.Select, queryset=models.Industry.objects.filter(entity_active=True))
 	country = forms.ModelChoiceField(required=True, widget=forms.Select, queryset=models.Country.objects.all())
+
+	referrals_made = forms.CharField(widget=forms.HiddenInput(), required=False)
 	
 	business_name = forms.CharField(required=False, widget=forms.TextInput(attrs=dict(style = 'width:200px;')))
 	first_name = forms.CharField(required=True)
@@ -103,14 +105,27 @@ class CreateProfileForm(forms.ModelForm):
 	num_referrals_for_gift = forms.IntegerField(required=False)
 	direct_referal_value = forms.FloatField(required=False)
 	indirect_referral_value = forms.FloatField(required=False)
-	
+
 
 	address2 = forms.CharField(required=False)
 
 	def __init__(self,user=None,*args,**kwargs):
+
 		self.user = user
 		super(CreateProfileForm,self).__init__(*args,**kwargs)
-		self.fields['country'].initial = models.Country.objects.get(code='AU').pk
+
+		if self.instance.pk:
+
+			self.initial['inherit_from_plan'] = '1' if self.instance.inherit_from_plan else '0'
+
+			self.initial['first_name'] = self.instance.entity_contact.first_name
+			self.initial['last_name'] = self.instance.entity_contact.last_name
+			self.initial['email'] = self.instance.entity_contact.email
+			self.initial['phone'] = self.instance.entity_contact.phone
+			self.initial['contry'] = self.instance.country.pk
+
+		else:
+			self.initial['country'] = models.Country.objects.get(code='AU').pk
 
 
 	def clean_business_name(self):
@@ -135,50 +150,60 @@ class CreateProfileForm(forms.ModelForm):
 		return self.cleaned_data.get('industry')
 
 	def clean_num_referrals_for_gift(self):
-		if self.data.get('metrics') == 'custom':
+		if not bool(int(self.data.get('inherit_from_plan'))):
 			if not self.cleaned_data.get('num_referrals_for_gift'):
 				raise forms.ValidationError('This field is required')
 
 		return self.cleaned_data.get('num_referrals_for_gift')
 
 	def clean_direct_referal_value(self):
-		if self.data.get('metrics') == 'custom':
+		if not bool(int(self.data.get('inherit_from_plan'))):
 			if not self.cleaned_data.get('direct_referal_value'):
 				raise forms.ValidationError('This field is required')
 
 		return self.cleaned_data.get('direct_referal_value')	
 
 	def clean_indirect_referral_value(self):
-		if self.data.get('metrics') == 'custom':
+		if not bool(int(self.data.get('inherit_from_plan'))):
 			if not self.cleaned_data.get('indirect_referral_value'):
 				raise forms.ValidationError('This field is required')
 
 		return self.cleaned_data.get('indirect_referral_value')	
 
 	def save(self):
-		#save the contact
-		contact = models.EntityContact(first_name=self.cleaned_data['first_name'], 
-			last_name=self.cleaned_data['last_name'], 
-			email=self.cleaned_data['email'],
-			phone = self.cleaned_data.get('phone'))
-		contact.save()
+		if not self.instance.pk:
+			#create a new contact the contact
+			contact = models.EntityContact(first_name=self.cleaned_data['first_name'], 
+				last_name=self.cleaned_data['last_name'], 
+				email=self.cleaned_data['email'],
+				phone = self.cleaned_data.get('phone'))
+			contact.save()
+		else:
+			self.instance.entity_contact.first_name = self.cleaned_data['first_name']
+			self.instance.entity_contact.last_name = self.cleaned_data['last_name']
+			self.instance.entity_contact.email = self.cleaned_data['email']
+			self.instance.entity_contact.phone = self.cleaned_data['phone']
+			self.instance.entity_contact.save()
 
-		profile = super(CreateProfileForm,self).save(commit=False)
-		profile.user = self.user
-		profile.entity_contact = contact
-		profile.referrals_made = 0
+		self.instance = super(CreateProfileForm,self).save(commit=False)
 
-		if self.cleaned_data.get('entity_type') == 'org' and self.data.get('metrics') == 'inherit':
+		if not self.instance.pk:
+			self.instance.user = self.user
+			self.instance.entity_contact = contact
+			self.instance.referrals_made = 0
+			
+			self.instance.created_date = datetime.now()
+
+		if self.cleaned_data.get('entity_type') == 'org' and bool(int(self.data.get('inherit_from_plan'))):
 			plan = self.cleaned_data.get('plan')
-			profile.num_referrals_for_gift = plan.num_referrals_for_gift
-			profile.direct_referal_value = plan.direct_referal_value
-			profile.indirect_referral_value = plan.indirect_referral_value
+			self.instance.num_referrals_for_gift = plan.num_referrals_for_gift
+			self.instance.direct_referal_value = plan.direct_referal_value
+			self.instance.indirect_referral_value = plan.indirect_referral_value
+		
+		self.instance.entity_active = True
+		self.instance.updated_date = datetime.now()
 
-		profile.entity_active = True
-		profile.created_date = datetime.now()
-		profile.updated_date = datetime.now()
-
-		profile.save()
+		self.instance.save()
 		
 
 	class Meta:

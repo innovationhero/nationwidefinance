@@ -6,7 +6,7 @@ $(function(){
 	nationwide.utils.entity_selector_helper = function($select) {
 		org_list = [[true,$("#org")],[true,$("#contact")],[true,$("#address")],[true, $("#submit_btn")]];
 		
-		if ($("select[name=metrics]").val() == 'custom') {
+		if ($("select[name=inherit_from_plan]").val() == '0') {
 			org_list.push([true,$("#customize")]);
 		} else {
 			org_list.push([false,$("#customize")]);
@@ -26,10 +26,10 @@ $(function(){
 		nationwide.utils.entity_selector_helper($(this));
 	});
 
-	$("select[name=metrics]").on('change',function(event){
+	$("select[name=inherit_from_plan]").on('change',function(event){
 		conditons = {
-			'inherit' : [[false, $("#customize")]],
-			'custom'  : [[true, $("#customize")]]
+			'1' : [[false, $("#customize")]],
+			'0'  : [[true, $("#customize")]]
 		}
 
 		result_function = nationwide.utils.show_hide;

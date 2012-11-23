@@ -119,6 +119,8 @@ class EntityProfile(models.Model):
 	entity_contact = models.ForeignKey(EntityContact)
 
 	referrals_made = models.IntegerField(null=True, blank=True)
+
+	inherit_from_plan = models.BooleanField()
 	
 	business_name = models.CharField(max_length=100, null=True, blank=True)
 	

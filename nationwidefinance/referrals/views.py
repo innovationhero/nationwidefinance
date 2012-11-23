@@ -55,7 +55,7 @@ def check_user_profile(request):
 def create_profile(request,template='create_profile.html'):
 	from nationwidefinance.referrals import forms
 	if request.method == 'GET':
-		form = forms.CreateProfileForm()
+		form = forms.CreateProfileForm(instance=None)
 		return render_to_response(template,
                               dict(title='Creating a Profile',form = form),
                               context_instance=RequestContext(request))
@@ -75,6 +75,22 @@ def create_profile(request,template='create_profile.html'):
 		# redirect to home for now as add_referral is failing 
 		return HttpResponseRedirect('/')
 		#return HttpResponseRedirect('/referrals/add_referral')
+
+def edit_profile(request, template='create_profile.html'):
+	from nationwidefinance.referrals import forms
+	
+	if request.method == 'GET':
+		form = forms.CreateProfileForm(instance=request.user.get_profile())
+		
+	else:
+		form = forms.CreateProfileForm(data=request.POST, instance=request.user.get_profile())
+		if form.is_valid():
+			form.save()
+			return HttpResponseRedirect('/')
+
+	return render_to_response(template,
+                              dict(title='Creating a Profile',form = form),
+                              context_instance=RequestContext(request))
 
 def add_referral(request):
 

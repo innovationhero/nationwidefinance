@@ -35,6 +35,11 @@
 			<div style="float:right;width:150px;">
 				<a href="{% url add_referral %}">Add Referral</a>
 			</div>
+			{%if user.get_profile %}
+				<div style="float:right;width:150px;">
+					<a href="{% url edit_profile %}">Edit Profile</a>
+				</div>
+			{%endif%}
 			{%if not user.get_profile.business_name %}
 				<div style="float:right;width:150px;">
 					<a href="{% url view_referred %}">View Referred</a>
