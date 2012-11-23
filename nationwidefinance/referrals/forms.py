@@ -32,6 +32,7 @@ class FirstLoginForm(forms.Form):
 	def save(self):
 		user = User.objects.get(email=self.cleaned_data.get('email'))
 		user.set_password(self.cleaned_data.get('password1'))
+		user.is_active = True
 		user.save()
 
 class CreateUserForm(forms.ModelForm):
@@ -60,7 +61,7 @@ class CreateUserForm(forms.ModelForm):
 			entity.username = self.cleaned_data.get('email')
 			entity.set_password(self.tmp_password)
 			entity.date_joined = datetime.now()
-			entity.is_active = True
+			entity.is_active = False
 			entity.is_superuser = False
 			entity.is_staff = False
 			entity.save()
