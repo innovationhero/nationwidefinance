@@ -24,7 +24,7 @@
 {% endblock %}
 </head>
 <body>
-	<div style="width:100%">
+	<div style="width:100%;height:50px;">
 		{%if user.is_authenticated%}
 			<div style="float:right;width:150px;">
 				<a href="{% url logout_user %}">Logout</a>
@@ -61,6 +61,11 @@
 			<a href="{% url auth_password_reset %}">Reset Password</a>
 		</div>
 	</div>
+	{%if request.user.is_authenticated %}
+		<div style="width:100%;height:50px">
+			<h3>Welcome {{user.first_name}}.  You are logged in as {% ifequal user.get_profile.entity_type 'org' %} an Organization {%else%} an Individual{%endifequal%}
+		</div>
+	{%endif%}
 {%block content%}
 
 {%endblock%}
