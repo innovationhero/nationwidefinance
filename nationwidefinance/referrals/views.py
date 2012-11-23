@@ -230,8 +230,9 @@ def referrer_first_login(request):
 	else:
 		form = forms.FirstLoginForm(data=request.POST)
 		if form.is_valid():
-			form.save()
-			return HttpResponseRedirect('/accounts/login')
+			user = form.save()
+			login(request, user)
+			return HttpResponseRedirect('/')
 		return render_to_response('referrer_first_login.html',
                 dict(title='First Login',form = form),
                 context_instance=RequestContext(request))
