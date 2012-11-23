@@ -4,7 +4,7 @@
 # ============================================
 #
 # :Usage: /etc/init.d/celeryd {start|stop|force-reload|restart|try-restart|status}
-# :Configuration file: /etc/default/celeryd
+# :Configuration file: /etc/default/celeryd-nationwide
 #
 # See http://docs.celeryq.org/en/latest/cookbook/daemonizing.html#init-script-celeryd
 
@@ -31,11 +31,11 @@ CELERYD_GROUP="celery"
 
 # /etc/init.d/celeryd: start and stop the celery task worker daemon.
 
-CELERY_DEFAULTS=${CELERY_DEFAULTS:-"/etc/default/celeryd"}
+CELERY_DEFAULTS=${CELERY_DEFAULTS:-"/etc/default/celeryd-nationwide"}
 
 test -f "$CELERY_DEFAULTS" && . "$CELERY_DEFAULTS"
-if [ -f "/etc/default/celeryd" ]; then
-    . /etc/default/celeryd
+if [ -f "/etc/default/celeryd-nationwide" ]; then
+    . /etc/default/celeryd-nationwide
 fi
 
 CELERYD_PID_FILE=${CELERYD_PID_FILE:-${CELERYD_PIDFILE:-$DEFAULT_PID_FILE}}
