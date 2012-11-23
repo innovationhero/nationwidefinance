@@ -32,9 +32,11 @@
 			<div style="float:right;width:150px;">
 				<a href="{% url calculate_gifts %}" style="color:green;font-weight:bold;">Send Gifts</a>
 			</div>
-			<div style="float:right;width:150px;">
-				<a href="{% url add_referral %}">Add Referral</a>
-			</div>
+			{% ifequal user.get_profile.entity_type 'org' %}
+				<div style="float:right;width:150px;">
+					<a href="{% url add_referral %}">Add Referral</a>
+				</div>
+			{%endifequal%}
 			{%if user.get_profile %}
 				<div style="float:right;width:150px;">
 					<a href="{% url edit_profile %}">Edit Profile</a>
