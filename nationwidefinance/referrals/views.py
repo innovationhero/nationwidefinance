@@ -130,7 +130,7 @@ def add_referral(request):
 				referral = models.EntityReferral.objects.get(organization__email=request.user.email,
 					referrer__email=referrer.email,
 					referred__email=referred.email)
-				
+
 				return render_to_response('referral_not_allowed.html',
                 	dict(title='Referral Not Allowed',
                 		message = 'This referral has already been recorded'),
@@ -254,9 +254,9 @@ def referrer_first_login(request):
                 context_instance=RequestContext(request))
 
 def view_referrers(request):
-	try:
-		org_referrers = models.OrganizationReferrerEntity.objects.get(organization__email=request.user.email)
-	except models.OrganizationReferrerEntity.DoesNotExist:
+	org_referrers = models.OrganizationReferrerEntity.objects.filter(organization__email=request.user.email)
+
+	if len(org_referrers) == 0:
 		return render_to_response('no_referrers.html',
                 dict(title='Error!',),
                 context_instance=RequestContext(request))
@@ -276,9 +276,9 @@ def view_referrers(request):
             context_instance=RequestContext(request))
 
 def view_referred(request):
-	try:
-		referrals = models.EntityReferral.objects.get(referrer__email=request.user.email)
-	except models.EntityReferral.DoesNotExist:
+
+	referrals = models.EntityReferral.objects.filter(referrer__email=request.user.email)
+	if len(referrals) == 0:
 		return render_to_response('none_referred.html',
                 dict(title='Error!',),
                 context_instance=RequestContext(request))
