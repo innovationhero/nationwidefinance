@@ -168,7 +168,7 @@ def add_referral(request):
 
 			#send email to referrer and referred
 			from nationwidefinance.mailer import send_new_user_email
-			send_new_user_email(referrer=referrer, referred=referred, business_name=request.user.get_profile().business_name)
+			#send_new_user_email(referrer=referrer, referred=referred, business_name=request.user.get_profile().business_name)
 
 			if request.POST.get('action') == 'add_another':
 				form1 = forms.CreateUserForm(prefix='referred')
@@ -230,7 +230,8 @@ def referrer_first_login(request):
 	else:
 		form = forms.FirstLoginForm(data=request.POST)
 		if form.is_valid():
-			user = form.save()
+			form.save()
+			user = authenticate(username=form.cleaned_data['email'], password=form.cleaned_data['password1'])
 			login(request, user)
 			return HttpResponseRedirect('/')
 		return render_to_response('referrer_first_login.html',

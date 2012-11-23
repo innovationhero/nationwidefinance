@@ -33,7 +33,6 @@ class FirstLoginForm(forms.Form):
 		user = User.objects.get(email=self.cleaned_data.get('email'))
 		user.set_password(self.cleaned_data.get('password1'))
 		user.save()
-		return user
 
 class CreateUserForm(forms.ModelForm):
 	
