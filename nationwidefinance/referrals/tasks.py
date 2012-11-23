@@ -9,13 +9,13 @@ from nationwidefinance.mailer import send_email
 class CalculateGifts(Task):
 
 	def get_referrers(self):
-		return models.Entity.objects.filter(organization__username=self.user.username)
+		return [referral.referrer for referral in models.EntityReferral.objects.filter(organization=self.user)]
 
 	def set_referral_points(self):
 		self.d = dict()
-		for entity in self.referrers:
+		for referrer in self.referrers:
 			try:
-				self.d[entity] = entity.referrerpoints_set.get().value
+				self.d[referrer] = referrer.referrerpoints_set.get().value
 			except:
 				pass
 
