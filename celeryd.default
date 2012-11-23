@@ -8,7 +8,7 @@ USER_HOME="/home/admin"
 VIRTUAL_ENV_DIR="$USER_HOME/.virtualenvs/nationwide"
 
 # Where to chdir at start.
-CELERYD_CHDIR="/home/admin/nationwidefinance"
+CELERYD_CHDIR="$USER_HOME/nationwidefinance"
 
 # Python interpreter from environment.
 ENV_PYTHON="$VIRTUAL_ENV_DIR/bin/python"
