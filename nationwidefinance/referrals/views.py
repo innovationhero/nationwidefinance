@@ -290,7 +290,7 @@ def view_referred(request):
 			sublist = []
 			sublist.append(str(r.first_name))
 			sublist.append(str(r.last_name))
-			sublist.append(str(r.organization.get_profile().business_name))
+			sublist.append(str(referrral.organization.get_profile().business_name))
 			aaData.append(sublist)
 
 
