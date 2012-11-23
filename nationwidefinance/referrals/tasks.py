@@ -25,7 +25,7 @@ class CalculateGifts(Task):
 			t = get_template('gifts_notification_email.html')
 			c = Context(dict(org_name=self.profile.business_name, name='%s %s' % (entity.first_name, entity.last_name)))
 			body = t.render(c)
-			send_email(subject=self.subject, body=body, to_email=[entity.email_address,])
+			send_email(subject=self.subject, body=body, to_email=[entity.email,])
 
 
 
