@@ -150,10 +150,10 @@ class CreateProfileForm(forms.ModelForm):
 
 	def clean_indirect_referral_value(self):
 		if self.data.get('metrics') == 'custom':
-			if not self.cleaned_data.get('indirect_reverral_value'):
+			if not self.cleaned_data.get('indirect_referral_value'):
 				raise forms.ValidationError('This field is required')
 
-		return self.cleaned_data.get('indirect_reverral_value')	
+		return self.cleaned_data.get('indirect_referral_value')	
 
 	def save(self):
 		#save the contact
