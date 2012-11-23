@@ -63,7 +63,7 @@
 			<a href="{% url auth_password_reset %}">Reset Password</a>
 		</div>
 	</div>
-	{%if request.user.is_authenticated %}
+	{%if request.user.get_profile %}
 		<div style="width:100%;height:50px">
 			{% ifequal user.get_profile.entity_type 'org' %}
 				<h3>Welcome {{user.get_profile.business_name}}.  You're logged in as an Organization</h3>
