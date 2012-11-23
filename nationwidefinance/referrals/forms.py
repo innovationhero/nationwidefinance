@@ -103,6 +103,7 @@ class CreateProfileForm(forms.ModelForm):
 	num_referrals_for_gift = forms.IntegerField(required=False)
 	direct_referal_value = forms.FloatField(required=False)
 	indirect_referral_value = forms.FloatField(required=False)
+	
 
 	address2 = forms.CharField(required=False)
 
