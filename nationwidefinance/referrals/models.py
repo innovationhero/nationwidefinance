@@ -88,27 +88,6 @@ class EntityPlan(models.Model):
 	class Meta:
 		verbose_name_plural = "Entity Plans"
 
-class OrganizationReferrerEntity(models.Model):
-
-	organization = models.ForeignKey(User, related_name='org_referred')
-	referrers = models.ManyToManyField(User, related_name='org_referrer')
-
-	def __unicode__(self):
-		return '%s has %d referrers' % (self.organization.get_profile().business_name, len(self.referrers.all()))
-
-	class Meta:
-		verbose_name_plural = "Organization Referrers"
-
-class OrganizationReferredRelation(models.Model):
-	
-	organization = models.ForeignKey(User, related_name='org_referral')
-	referred = models.ManyToManyField(User, related_name='org_referred_persons')
-
-	def __unicode__(self):
-		return '%d have been referred to %s' % (len(self.referred.all()), self.organization.get_profile().business_name, )
-
-	class Meta:
-		verbose_name_plural = "Referred to Organization"
 
 class EntityProfile(models.Model):
 	

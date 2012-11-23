@@ -149,26 +149,26 @@ def add_referral(request):
 				referral.save()
 
 
-			try:
-				org_referrers = models.OrganizationReferrerEntity.objects.get(organization__email=request.user.email)
-			except models.OrganizationReferrerEntity.DoesNotExist:
-				org_referrers = models.OrganizationReferrerEntity(organization=request.user)
-				org_referrers.save()
+			# try:
+			# 	org_referrers = models.OrganizationReferrerEntity.objects.get(organization__email=request.user.email)
+			# except models.OrganizationReferrerEntity.DoesNotExist:
+			# 	org_referrers = models.OrganizationReferrerEntity(organization=request.user)
+			# 	org_referrers.save()
 
-			org_referrers.referrers.add(referrer)
-			org_referrers.save()
+			# org_referrers.referrers.add(referrer)
+			# org_referrers.save()
 
-			try:
-				org_referred_to = models.OrganizationReferredRelation.objects.get(organization__email=request.user.email)
-			except models.OrganizationReferredRelation.DoesNotExist:
-				org_referred_to = models.OrganizationReferredRelation(organization=request.user)
-				org_referred_to.save()
+			# try:
+			# 	org_referred_to = models.OrganizationReferredRelation.objects.get(organization__email=request.user.email)
+			# except models.OrganizationReferredRelation.DoesNotExist:
+			# 	org_referred_to = models.OrganizationReferredRelation(organization=request.user)
+			# 	org_referred_to.save()
 
-			org_referred_to.referred.add(referred)
-			org_referred_to.save()
+			# org_referred_to.referred.add(referred)
+			# org_referred_to.save()
 
 
-			referral_id = request.POST.get('referral_id',None)
+			# referral_id = request.POST.get('referral_id',None)
 
 			# +1 on number of referrals this organization has recorded
 			profile.referrals_made += 1
@@ -254,20 +254,19 @@ def referrer_first_login(request):
                 context_instance=RequestContext(request))
 
 def view_referrers(request):
-	org_referrers = models.OrganizationReferrerEntity.objects.filter(organization__email=request.user.email)
+	referrals = models.EntityReferral.objects.filter(organization__email=request.user.email)
 
-	if len(org_referrers) == 0:
+	if len(referrals) == 0:
 		return render_to_response('no_referrers.html',
                 dict(title='Error!',),
                 context_instance=RequestContext(request))
 		
-	referrers = org_referrers.referrers.all()
 	aaData = []
-	for referrer in referrers:
+	for referral in referrals:
 		sublist = []
-		sublist.append(str(referrer.first_name))
-		sublist.append(str(referrer.last_name))
-		sublist.append(str(models.ReferrerPoints.objects.get(referrer__email=referrer.email).value))
+		sublist.append(str(referral.referrer.first_name))
+		sublist.append(str(referral.referrer.last_name))
+		sublist.append(str(models.ReferrerPoints.objects.get(referral.referrer__email=referrer.email).value))
 		aaData.append(sublist)
 
 
