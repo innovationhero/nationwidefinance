@@ -127,17 +127,19 @@ def add_referral(request):
 			referred = form1.save()
 
 			try:
-				referral = models.EntityReferral.objects.get(organization__email=request.user.email,
-					referrer__email=referrer.email,
-					referred__email=referred.email)
+				referral = models.EntityReferral.objects.get(organization=request.user,
+					referrer=referrer)
 
-				return render_to_response('referral_not_allowed.html',
-                	dict(title='Referral Not Allowed',
-                		message = 'This referral has already been recorded'),
-                		context_instance=RequestContext(request))
+				if referred in referral.referred.all():
+					return render_to_response('referral_not_allowed.html',
+                		dict(title='Referral Not Allowed',
+                			message = 'This referral has already been recorded'),
+                			context_instance=RequestContext(request))
+				else:
+					referral.referred.add(referred)
 
 			except models.EntityReferral.DoesNotExist:
-				#save the ferral
+				#save the ferral, but check i
 				referral = models.EntityReferral()
 				referral.referrer = referrer
 				referral.entity_active = True
@@ -145,41 +147,13 @@ def add_referral(request):
 				referral.created_date = datetime.now()
 				referral.updated_date = datetime.now()
 				referral.save()
-				referral.referred = [referred]
+				referral.referred.add(referred)
 				referral.save()
 
 
-			# try:
-			# 	org_referrers = models.OrganizationReferrerEntity.objects.get(organization__email=request.user.email)
-			# except models.OrganizationReferrerEntity.DoesNotExist:
-			# 	org_referrers = models.OrganizationReferrerEntity(organization=request.user)
-			# 	org_referrers.save()
-
-			# org_referrers.referrers.add(referrer)
-			# org_referrers.save()
-
-			# try:
-			# 	org_referred_to = models.OrganizationReferredRelation.objects.get(organization__email=request.user.email)
-			# except models.OrganizationReferredRelation.DoesNotExist:
-			# 	org_referred_to = models.OrganizationReferredRelation(organization=request.user)
-			# 	org_referred_to.save()
-
-			# org_referred_to.referred.add(referred)
-			# org_referred_to.save()
-
-
-			# referral_id = request.POST.get('referral_id',None)
-
 			# +1 on number of referrals this organization has recorded
 			profile.referrals_made += 1
-			profile.save()
-
-			# if referral_id:
-			# 	referral = models.EntityReferral.objects.get(pk=referral_id)
-			# 	referral.referred.add(referred)
-			# 	referral.save()
-			# else:
-				
+			profile.save()				
 
 			#send email to referrer and referred
 			from nationwidefinance.mailer import send_new_user_email
