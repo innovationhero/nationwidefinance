@@ -12,6 +12,7 @@ nationwide.utils.do_ajax = function (type, url, data, success, error) {
             url: url,
 	        type: type,
 	        data: data,
+	        dataType: 'json',
 	        headers: {
 	               "X-CSRFToken": $("input[name='csrfmiddlewaretoken']").val(),
 	        },

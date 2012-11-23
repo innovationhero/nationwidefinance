@@ -16,7 +16,8 @@ urlpatterns = patterns('nationwidefinance.referrals.views',
 	url(r'^calculate_gifts_check/$', 'calculate_gifts_check',name='calculate_gifts_check'),
 	url(r'^first_login', 'referrer_first_login', name='referrer_first_login'),
 	url(r'^view_referrers/', 'view_referrers', name='view_referrers'),
-	url(r'^view_referred/', 'view_referred', name='view_referred')
+	url(r'^view_referred/', 'view_referred', name='view_referred'),
+	url(r'^add_referral_autocomplete/', 'add_referral_autocomplete', name='add_referral_autocomplete'),
 
 	
 )

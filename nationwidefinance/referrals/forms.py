@@ -61,6 +61,7 @@ class CreateUserForm(forms.ModelForm):
 			entity.username = self.cleaned_data.get('email')
 			entity.set_password(self.tmp_password)
 			entity.date_joined = datetime.now()
+			entity.dob = self.cleaned_data.get('dob')
 			entity.is_active = False
 			entity.is_superuser = False
 			entity.is_staff = False

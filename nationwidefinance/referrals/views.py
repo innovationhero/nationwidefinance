@@ -114,7 +114,7 @@ def add_referral(request):
 
 		if not referral_allowed:
 			return render_to_response('referral_not_allowed.html',
-                	dict(title='Referral Not Allowed',),
+                	dict(title='Referral Not Allowed',message = 'You have exceeded your referrals'),
                 		context_instance=RequestContext(request))
 
 		import random
@@ -125,6 +125,29 @@ def add_referral(request):
 		if form.is_valid() and form1.is_valid():
 			referrer = form.save()
 			referred = form1.save()
+
+			try:
+				referral = models.EntityReferral.objects.get(organization__email=request.user.email,
+					referrer__email=referrer.email,
+					referred__email=referred.email)
+				
+				return render_to_response('referral_not_allowed.html',
+                	dict(title='Referral Not Allowed',
+                		message = 'This referral has already been recorded'),
+                		context_instance=RequestContext(request))
+
+			except models.EntityReferral.DoesNotExist:
+				#save the ferral
+				referral = models.EntityReferral()
+				referral.referrer = referrer
+				referral.entity_active = True
+				referral.organization = request.user
+				referral.created_date = datetime.now()
+				referral.updated_date = datetime.now()
+				referral.save()
+				referral.referred = [referred]
+				referral.save()
+
 
 			try:
 				org_referrers = models.OrganizationReferrerEntity.objects.get(organization__email=request.user.email)
@@ -151,24 +174,16 @@ def add_referral(request):
 			profile.referrals_made += 1
 			profile.save()
 
-			if referral_id:
-				referral = models.EntityReferral.objects.get(pk=referral_id)
-				referral.referred.add(referred)
-				referral.save()
-			else:
-				#save the ferral
-				referral = models.EntityReferral()
-				referral.referrer = referrer
-				referral.entity_active = True
-				referral.created_date = datetime.now()
-				referral.updated_date = datetime.now()
-				referral.save()
-				referral.referred = [referred]
-				referral.save()
+			# if referral_id:
+			# 	referral = models.EntityReferral.objects.get(pk=referral_id)
+			# 	referral.referred.add(referred)
+			# 	referral.save()
+			# else:
+				
 
 			#send email to referrer and referred
 			from nationwidefinance.mailer import send_new_user_email
-			send_new_user_email(referrer=referrer, referred=referred, business_name=request.user.get_profile().business_name)
+			#send_new_user_email(referrer=referrer, referred=referred, business_name=request.user.get_profile().business_name)
 
 			if request.POST.get('action') == 'add_another':
 				form1 = forms.CreateUserForm(prefix='referred')
@@ -281,5 +296,11 @@ def view_referred(request):
             dict(title='Viewing Referrers',aaData = aaData),
             context_instance=RequestContext(request))
 
-
+def add_referral_autocomplete(request):
+	if request.method == 'POST':
+		search = request.POST.get('email')
+		users = User.objects.filter(email__icontains=search)
+		result = [dict(email = user.email, first_name = user.first_name, last_name = user.last_name, dob = datetime.strftime(user.dob,'%d/%m/%Y') if user.dob else '') for user in users]
+		return HttpResponse(simplejson.dumps(result))
+	return HttpResponse(simplejson.dumps([dict(status = 500)]))
 

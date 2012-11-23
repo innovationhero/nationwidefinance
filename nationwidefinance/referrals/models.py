@@ -41,13 +41,14 @@ class EntityReferral(models.Model):
 	
 	referrer = models.ForeignKey(User, related_name='referrer')
 	referred = models.ManyToManyField(User, related_name='referred')
+	organization = models.ForeignKey(User, related_name='entity_referred')
+
 	created_date = models.DateTimeField()
 	updated_date = models.DateTimeField()
 	entity_active = models.BooleanField()
 
-	# def __unicode__(self):
-	# 	return '%s %s referred %s %s' % (self.referrer.first_name, self.referrer.last_name, 
-	# 		self.referred.first_name, self.referrer.last_name)
+	def __unicode__(self):
+	 	return '%s %s made a referral' % (self.referrer.first_name, self.referrer.last_name)
 			
 
 	class Meta:
@@ -133,8 +134,6 @@ class EntityProfile(models.Model):
 	city = models.CharField(max_length=100)
 	province = models.CharField(max_length=100)
 	country = models.ForeignKey(Country,blank=False,null=False)
-
-	dob = models.DateTimeField(null=True, blank=True)
 
 	created_date = models.DateTimeField()
 	updated_date = models.DateTimeField()
