@@ -36,6 +36,6 @@ def send_new_user_email(referrer=None, referred=None, business_name=None):
 
 	subject = 'Welcome to Nationwide Finance'
 
-	if referrer: send_email(subject=subject, body=body1, to_email=[referrer.email])
-	if referred: send_email(subject=subject, body=body2, to_email=[referred.email])
+	if not referrer.is_active: send_email(subject=subject, body=body1, to_email=[referrer.email])
+	if not referred.is_active: send_email(subject=subject, body=body2, to_email=[referred.email])
 

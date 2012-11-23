@@ -168,7 +168,7 @@ def add_referral(request):
 
 			#send email to referrer and referred
 			from nationwidefinance.mailer import send_new_user_email
-			send_new_user_email(referrer=referrer if not referrer.is_active else None, referred=referred if not referred.is_active else None, business_name=request.user.get_profile().business_name)
+			send_new_user_email(referrer=referrer, referred=referred, business_name=request.user.get_profile().business_name)
 
 			if request.POST.get('action') == 'add_another':
 				form1 = forms.CreateUserForm(prefix='referred')
