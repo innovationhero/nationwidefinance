@@ -1,8 +1,8 @@
 FACEBOOK_APP_ID                   = '361510763943252'
 FACEBOOK_API_SECRET               = '2f02398f50a91ac1aea21676a098c53b'
-FACEBOOK_EXTENDED_PERMISSIONS     = ['email']
-TWITTER_CONSUMER_KEY              = ''
-TWITTER_CONSUMER_SECRET           = ''
+FACEBOOK_EXTENDED_PERMISSIONS     = ['email', 'manage_pages', 'publish_stream']
+TWITTER_CONSUMER_KEY              = 'brWqfOYENR4q5VMGSTw'
+TWITTER_CONSUMER_SECRET           = 'eVqv0sxKta5bgbitKAGpiBnm9XCLGS0mCJSggB3GYJI'
 LINKEDIN_CONSUMER_KEY             = ''
 LINKEDIN_CONSUMER_SECRET          = ''
 SKYROCK_CONSUMER_KEY              = ''

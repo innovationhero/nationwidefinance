@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 from django.db import models
 
+from social_auth.models import UserSocialAuth
+
 class Country(models.Model):
 
 	name = models.CharField(max_length=100)
@@ -114,9 +116,19 @@ class EntityProfile(models.Model):
 	province = models.CharField(max_length=100)
 	country = models.ForeignKey(Country,blank=False,null=False)
 
+	post_to_facebook = models.BooleanField(default=False)
+
 	created_date = models.DateTimeField()
 	updated_date = models.DateTimeField()
 	entity_active = models.BooleanField()
+
+	def get_facebook_token(self):
+		from nationwidefinance.referrals.facebook import get_access_token
+		return get_access_token(self.user)
+
+	def is_facebook_user(self):
+		return self.get_facebook_token()
+		
 
 
 	def __unicode__(self):
@@ -126,3 +138,15 @@ class EntityProfile(models.Model):
 
 	class Meta:
 		verbose_name_plural = "Entity Profiles"
+
+class FacebookPostMessage(models.Model):
+
+	user = models.OneToOneField(UserSocialAuth)
+	message = models.CharField(max_length=1000)
+	link = models.CharField(max_length=100)
+
+	def __unicode__(self):
+		return self.message
+
+	class Meta:
+		verbose_name_plural = "Facebook Messages"

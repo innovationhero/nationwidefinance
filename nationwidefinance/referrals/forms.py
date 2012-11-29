@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
 from nationwidefinance.referrals import models
+from social_auth.models import UserSocialAuth
 
 class FirstLoginForm(forms.Form):
 
@@ -91,6 +92,7 @@ class CreateReferralForm(forms.Form):
 class CreateProfileForm(forms.ModelForm):
 
 	inherit_from_plan = forms.ChoiceField(required=True, choices=[('1', 'Inherit from plan'), ('0', 'Custom Choice')])
+	post_to_facebook = forms.BooleanField(required=False)
 	entity_type = forms.ChoiceField(required=True, choices=[('','Select'), ('org', 'Organization'), ('indv', 'Individual')])
 	plan = forms.ModelChoiceField(required=False, widget=forms.Select, queryset=models.EntityPlan.objects.filter(entity_active=True))
 	industry = forms.ModelChoiceField(required=False, widget=forms.Select, queryset=models.Industry.objects.filter(entity_active=True))
@@ -211,3 +213,23 @@ class CreateProfileForm(forms.ModelForm):
 	class Meta:
 		model = models.EntityProfile
 		exclude = ('user','created_date', 'updated_date', 'entity_contact')
+
+class FacebookPostForm(forms.ModelForm):
+
+	user = forms.ModelChoiceField(queryset=UserSocialAuth.objects.filter(provider='facebook'), widget=forms.HiddenInput())
+	message = forms.CharField(widget=forms.Textarea())
+	link = forms.URLField(required=False)
+
+	def __init__(self,user=None, *args, **kwargs):
+		super(FacebookPostForm,self).__init__(*args, **kwargs)
+		if user:
+			self.initial['user'] = user.pk
+
+	def clean_user(self):
+		if not self.cleaned_data.get('user'):
+			raise forms.ValidationError('You must be logged in as a Facebook user')
+
+		return self.cleaned_data.get('user')
+
+	class Meta:
+		model = models.FacebookPostMessage

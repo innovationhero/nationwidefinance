@@ -1,10 +1,42 @@
+from datetime import timedelta
+
 from django.template.loader import get_template
 from django.template import Context
+from django.contrib.auth.models import User
+from django.conf import settings
+
+from social_auth.models import UserSocialAuth
 
 from celery.task import Task
+from celery.task.schedules import crontab
+from celery.decorators import periodic_task
 
 from nationwidefinance.referrals import models
 from nationwidefinance.mailer import send_email
+from nationwidefinance.referrals import facebook_sdk
+
+@periodic_task(run_every=timedelta(days=7))
+def post_to_facebook():
+
+	profiles = models.EntityProfile.objects.filter(post_to_facebook=True, entity_active=True)
+	users = UserSocialAuth.objects.filter(user__email__in=[profile.user.email for profile in profiles], provider='facebook')
+
+	for user in users:
+
+		graph = facebook_sdk.GraphAPI(user.extra_data.get('access_token'))
+		graph.extend_access_token(settings.FACEBOOK_APP_ID, settings.FACEBOOK_API_SECRET)
+
+		attachment = dict(
+				description = user.facebookpostmessage.message
+			)
+		if user.facebookpostmessage.link or user.facebookpostmessage.link != '':
+			attachment['link'] = user.facebookpostmessage.link
+	
+		try:
+			graph.put_wall_post(user.facebookpostmessage.message, attachment)
+		except Exception, e:
+			print e.message	
+			pass
 
 class CalculateGifts(Task):
 

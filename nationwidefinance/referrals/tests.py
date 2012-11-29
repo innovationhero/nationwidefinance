@@ -7,14 +7,16 @@ Replace this with more appropriate tests for your application.
 
 from django.test import TestCase
 
+from nationwidefinance.referrals import tasks
+from nationwidefinance.referrals import facebook
 
-class SimpleTest(TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
-        self.assertEqual(1 + 1, 2)
 
+class CeleryTests(TestCase):
+
+    def test_post_to_facebook(self):
+        
+    	tasks.post_to_facebook()
+    	self.assertEqual('1','2')
 
 
 

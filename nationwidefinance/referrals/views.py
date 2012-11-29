@@ -10,12 +10,16 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.core.urlresolvers import reverse
 
+from social_auth.models import UserSocialAuth
+
 from celery.result import AsyncResult
 
 from nationwidefinance.referrals import models
 from nationwidefinance.referrals import utils
 
 from nationwidefinance.referrals.tasks import CalculateGifts
+
+from nationwidefinance.referrals.facebook_sdk import GraphAPI, GraphAPIError
 
 
 def home(request,template='index.html'):
@@ -279,3 +283,54 @@ def add_referral_autocomplete(request):
 		return HttpResponse(simplejson.dumps(result))
 	return HttpResponse(simplejson.dumps([dict(status = 500)]))
 
+def post_to_facebook(request):
+	from nationwidefinance.referrals import forms
+
+	try:
+		instance = models.FacebookPostMessage.objects.get(user=request.user.social_user.id if hasattr(request.user, 'social_user') \
+			else UserSocialAuth.objects.get(user=request.user.id, provider='facebook'))
+	except models.FacebookPostMessage.DoesNotExist:
+		instance = None
+
+	if request.method == 'GET':
+
+		print instance
+
+		form = forms.FacebookPostForm(user=request.user.social_user if hasattr(request.user, 'social_user') \
+                                           else UserSocialAuth.objects.get(user=request.user.id, provider='facebook'),
+                                       instance=instance)
+		return render_to_response('post_to_facebook.html',
+            dict(title='Posting to Facebook',form=form),
+            context_instance=RequestContext(request))
+
+	else:
+		request.user.get_profile().post_to_facebook = True
+		request.user.get_profile().save()
+
+		form = forms.FacebookPostForm(data=request.POST, instance=instance)
+		if form.is_valid():
+			message = form.save()
+			graph = GraphAPI(request.user.get_profile().get_facebook_token())
+			
+			attachment = dict(
+				description = message.message
+			)
+			
+			if message.link or message.link != '':
+				attachment['link'] = message.link
+	
+			try:
+				graph.put_wall_post(message, attachment)
+			except GraphAPIError, e:
+				if int(e.result['error']['code']) == 200:
+					return render_to_response('facebook_authorize_app.html',
+            			dict(title='Viewing Referrers',),
+            			context_instance=RequestContext(request))
+		
+			return render_to_response('success.html',
+            	dict(title='Message Posted', message='Your message was posted to facebok and will be posted once a week'),
+            	context_instance=RequestContext(request))
+
+		return render_to_response('post_to_facebook.html',
+            dict(title='Posting to Facebook',form=form),
+            context_instance=RequestContext(request))

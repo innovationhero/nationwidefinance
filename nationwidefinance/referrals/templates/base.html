@@ -47,6 +47,11 @@
 					<a href="{% url view_referred %}">View Referred</a>
 				</div>
 			{%else%}
+				{%if user.get_profile.is_facebook_user %}
+					<div style="float:right;width:150px;">
+						<a href="{% url post_to_facebook %}">Post to Facebook</a>
+					</div>
+				{%endif%}
 				<div style="float:right;width:150px;">
 					<a href="{% url view_referrers %}">View Referrers</a>
 				</div>
@@ -56,6 +61,7 @@
 			<div style="float:right;width:120px;"><a href="{% url socialauth_begin 'google' %}">GMail Login</a></div> 
 			<div style="float:right;width:120px;"><a href="{%url socialauth_begin 'yahoo'%}">Yahoo Login</a></div> 
 			<div style="float:right;width:120px;"><a href="{%url socialauth_begin 'facebook'%}">Facebook Login</a></div>
+			<div style="float:right;width:120px;"><a href="{%url socialauth_begin 'twitter'%}">Twitter Login</a></div>
 			<div style="float:right;width:150px;"><a href="{%url auth_login %}">Nationwide Login</a></div> 
 			<div style="float:right;width:120px;"><a href="{%url registration_register %}">Register</a></div> 
 		{%endif%}
