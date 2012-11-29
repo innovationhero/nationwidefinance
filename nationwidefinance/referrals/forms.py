@@ -93,6 +93,7 @@ class CreateProfileForm(forms.ModelForm):
 
 	inherit_from_plan = forms.ChoiceField(required=True, choices=[('1', 'Inherit from plan'), ('0', 'Custom Choice')])
 	post_to_facebook = forms.BooleanField(required=False)
+	post_to_twitter = forms.BooleanField(required=False)
 	entity_type = forms.ChoiceField(required=True, choices=[('','Select'), ('org', 'Organization'), ('indv', 'Individual')])
 	plan = forms.ModelChoiceField(required=False, widget=forms.Select, queryset=models.EntityPlan.objects.filter(entity_active=True))
 	industry = forms.ModelChoiceField(required=False, widget=forms.Select, queryset=models.Industry.objects.filter(entity_active=True))
@@ -233,3 +234,23 @@ class FacebookPostForm(forms.ModelForm):
 
 	class Meta:
 		model = models.FacebookPostMessage
+
+
+class TwitterPostForm(forms.ModelForm):
+
+	user = forms.ModelChoiceField(queryset=UserSocialAuth.objects.filter(provider='twitter'), widget=forms.HiddenInput())
+	tweet = forms.CharField(widget=forms.Textarea())
+
+	def __init__(self,user=None, *args, **kwargs):
+		super(TwitterPostForm,self).__init__(*args, **kwargs)
+		if user:
+			self.initial['user'] = user.pk
+
+	def clean_user(self):
+		if not self.cleaned_data.get('user'):
+			raise forms.ValidationError('You must be logged in as a Twitter user')
+
+		return self.cleaned_data.get('user')
+
+	class Meta:
+		model = models.TwitterPostMessage

@@ -1,4 +1,5 @@
 from datetime import datetime
+import urlparse
 
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login as django_login, logout as django_logout
@@ -13,6 +14,7 @@ from django.core.urlresolvers import reverse
 from social_auth.models import UserSocialAuth
 
 from celery.result import AsyncResult
+import twitter
 
 from nationwidefinance.referrals import models
 from nationwidefinance.referrals import utils
@@ -294,8 +296,6 @@ def post_to_facebook(request):
 
 	if request.method == 'GET':
 
-		print instance
-
 		form = forms.FacebookPostForm(user=request.user.social_user if hasattr(request.user, 'social_user') \
                                            else UserSocialAuth.objects.get(user=request.user.id, provider='facebook'),
                                        instance=instance)
@@ -327,10 +327,62 @@ def post_to_facebook(request):
             			dict(title='Viewing Referrers',),
             			context_instance=RequestContext(request))
 		
-			return render_to_response('success.html',
+			return render_to_response('message.html',
             	dict(title='Message Posted', message='Your message was posted to facebok and will be posted once a week'),
             	context_instance=RequestContext(request))
 
 		return render_to_response('post_to_facebook.html',
             dict(title='Posting to Facebook',form=form),
+            context_instance=RequestContext(request))
+
+def post_to_twitter(request):
+	from nationwidefinance.referrals import forms
+
+	try:
+
+		user = request.user.social_user if hasattr(request.user, 'social_user') \
+				else UserSocialAuth.objects.get(user=request.user.id, provider='twitter')
+	except UserSocialAuth.DoesNotExist:
+		return render_to_response('message.html',
+            			dict(title='Invalid Account!', message='Please login with your twitter account'),
+            			context_instance=RequestContext(request))
+
+	try:
+		instance = models.TwitterPostMessage.objects.get(user=user)
+	except models.TwitterPostMessage.DoesNotExist:
+		instance = None
+
+	if request.method == 'GET':
+
+		form = forms.TwitterPostForm(user=user, instance=instance)
+
+		return render_to_response('post_to_twitter.html',
+            dict(title='Posting to Twitter',form=form),
+            context_instance=RequestContext(request))
+
+	else:
+		request.user.get_profile().post_to_twitter = True
+		request.user.get_profile().save()
+
+		form = forms.TwitterPostForm(data=request.POST, instance=instance)
+		if form.is_valid():
+			tweet = form.save()
+		
+			d = urlparse.parse_qs(user.extra_data['access_token'])
+			api = twitter.Api(consumer_key=settings.TWITTER_CONSUMER_KEY, consumer_secret=settings.TWITTER_CONSUMER_SECRET, access_token_key=d['oauth_token'][0], access_token_secret=d['oauth_token_secret'][0])
+		
+			try:
+				status = api.PostUpdate(tweet.tweet)
+			except Exception, e:
+				return render_to_response('message.html',
+            			dict(title='Invalid Tweet!', message='This is a duplicate tweet'),
+            			context_instance=RequestContext(request))
+
+
+			return render_to_response('message.html',
+            			dict(title='Message Posted', message='Your message was posted to Twitter and will be posted once a week'),
+            			context_instance=RequestContext(request))
+
+		return render_to_response('post_to_twitter.html',
+            dict(title='Posting to Twitter',form=form),
             context_instance=RequestContext(request))

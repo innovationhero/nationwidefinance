@@ -117,6 +117,7 @@ class EntityProfile(models.Model):
 	country = models.ForeignKey(Country,blank=False,null=False)
 
 	post_to_facebook = models.BooleanField(default=False)
+	post_to_twitter = models.BooleanField(default=False)
 
 	created_date = models.DateTimeField()
 	updated_date = models.DateTimeField()
@@ -128,8 +129,13 @@ class EntityProfile(models.Model):
 
 	def is_facebook_user(self):
 		return self.get_facebook_token()
-		
 
+	def is_twitter_user(self):
+		try:
+			user = UserSocialAuth.objects.get(user=self.user, provider='twitter')
+			return True
+		except UserSocialAuth.DoesNotExist:
+			return False
 
 	def __unicode__(self):
 		if self.entity_type == 'org':
@@ -150,3 +156,14 @@ class FacebookPostMessage(models.Model):
 
 	class Meta:
 		verbose_name_plural = "Facebook Messages"
+
+class TwitterPostMessage(models.Model):
+
+	user = models.OneToOneField(UserSocialAuth)
+	tweet = models.CharField(max_length=140)
+
+	def __unicode__(self):
+		return self.tweet
+
+	class Meta:
+		verbose_name_plural = "Twitter Tweets"

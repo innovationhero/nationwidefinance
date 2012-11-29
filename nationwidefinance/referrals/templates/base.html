@@ -52,6 +52,11 @@
 						<a href="{% url post_to_facebook %}">Post to Facebook</a>
 					</div>
 				{%endif%}
+				{%if user.get_profile.is_twitter_user %}
+					<div style="float:right;width:150px;">
+						<a href="{% url post_to_twitter %}">Post to Twitter</a>
+					</div>
+				{%endif%}
 				<div style="float:right;width:150px;">
 					<a href="{% url view_referrers %}">View Referrers</a>
 				</div>

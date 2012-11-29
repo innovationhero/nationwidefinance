@@ -1,4 +1,5 @@
 from datetime import timedelta
+import urlparse
 
 from django.template.loader import get_template
 from django.template import Context
@@ -36,6 +37,20 @@ def post_to_facebook():
 			graph.put_wall_post(user.facebookpostmessage.message, attachment)
 		except Exception, e:
 			print e.message	
+			pass
+
+@periodic_task(run_every=timedelta(minutes=2))
+def post_to_facebook():
+
+	profiles = models.EntityProfile.objects.filter(post_to_twitter=True, entity_active=True)
+	users = UserSocialAuth.objects.filter(user__email__in=[profile.user.email for profile in profiles], provider='twitter')
+
+	for user in users:
+		d = urlparse.parse_qs(user.extra_data['access_token'])
+		api = twitter.Api(consumer_key=settings.TWITTER_CONSUMER_KEY, consumer_secret=settings.TWITTER_CONSUMER_SECRET, access_token_key=d['oauth_token'][0], access_token_secret=d['oauth_token_secret'][0])
+		try:
+			status = api.PostUpdate('example django tweet!')
+		except Exception, e:
 			pass
 
 class CalculateGifts(Task):
