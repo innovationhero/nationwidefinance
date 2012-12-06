@@ -91,6 +91,13 @@ class EntityPlan(models.Model):
 		verbose_name_plural = "Entity Plans"
 
 
+class Department(models.Model):
+
+	department = models.CharField(max_length=100)
+
+	def __unicode__(self):
+		return self.department
+
 class EntityProfile(models.Model):
 	
 	entity_type = models.CharField(max_length=10)
@@ -99,6 +106,7 @@ class EntityProfile(models.Model):
 	plan = models.ForeignKey(EntityPlan, blank=True, null=True)
 	industry = models.ForeignKey(Industry, null=True, blank=True)
 	entity_contact = models.ForeignKey(EntityContact)
+	department = models.ManyToManyField(Department)
 
 	referrals_made = models.IntegerField(null=True, blank=True)
 
@@ -144,6 +152,8 @@ class EntityProfile(models.Model):
 
 	class Meta:
 		verbose_name_plural = "Entity Profiles"
+
+
 
 class FacebookPostMessage(models.Model):
 

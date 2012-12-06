@@ -23,6 +23,11 @@ $(function(){
 		nationwide.utils.select_processor($select,conditons,result_function);
 	}
 
+	$("form:button").on('click', function(){
+		alert($(this).attr('id'));
+		return false;
+	});
+
 	$("select[name=entity_type]").on('change',function(event){
 		nationwide.utils.entity_selector_helper($(this));
 	});

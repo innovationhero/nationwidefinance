@@ -94,6 +94,7 @@ class CreateProfileForm(forms.ModelForm):
 	inherit_from_plan = forms.ChoiceField(required=True, choices=[('1', 'Inherit from plan'), ('0', 'Custom Choice')])
 	post_to_facebook = forms.BooleanField(required=False)
 	post_to_twitter = forms.BooleanField(required=False)
+	department = forms.ModelMultipleChoiceField(required=False, queryset=models.Department.objects.all())
 	entity_type = forms.ChoiceField(required=True, choices=[('','Select'), ('org', 'Organization'), ('indv', 'Individual')])
 	plan = forms.ModelChoiceField(required=False, widget=forms.Select, queryset=models.EntityPlan.objects.filter(entity_active=True))
 	industry = forms.ModelChoiceField(required=False, widget=forms.Select, queryset=models.Industry.objects.filter(entity_active=True))
