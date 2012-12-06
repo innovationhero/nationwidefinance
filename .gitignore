@@ -9,4 +9,4 @@ nohup.out
 .project
 .pydevproject
 *._*
-settings.py
+nationwidefiannce/settings.py
