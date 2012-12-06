@@ -1,0 +1,40 @@
+{%extends "base.html"%}
+
+{%block header_tag %}
+
+    
+
+<script>
+var nationwide = nationwide || {};
+nationwide.utils = nationwide.utils || {};
+
+$(function(){
+	
+	
+	var aaColumns = [
+		{'sTitle' : 'First Name'},
+		{'sTitle' : 'Last Name'},
+		{'sTitle' : 'Total Points'}
+	]
+
+
+	var referrer_table = nationwide.utils.datatable_factory(false, {{aaData|safe}}, aaColumns);
+
+	$("#referrer_table").dataTable(referrer_table);
+
+	$("#referrer_table tr td").css('text-align', 'center');
+
+});
+</script>
+
+
+{%endblock%}
+
+{%block content %}
+
+<div style="width:90%;margin-left:50px;padding-top:100px;">
+	<table id="referrer_table"></table>
+</div>
+
+
+{%endblock%}

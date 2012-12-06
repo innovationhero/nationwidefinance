@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Sign up{% endblock %}
+
+{%block header_tag %}
+<style>
+.error {
+	color : red;
+}
+</style>
+{%endblock%}
+
+{% block content %}
+
+{% if form.errors %}
+<p class="error">Please correct the errors below:</p>
+{% endif %}
+
+<form method="post" action="">
+<div style="width:100%;height:50px;">
+	<div style="width:20%;float:left;">
+		<label for="id_username" style="width:100%;">Username:</label>
+	</div>
+	<div style="width:15%;float:left;">{{ form.username }}</div>
+	<div>{% if form.username.errors %} <span class="error">{{ form.username.errors|join:", " }}</span>{% endif %}</div>
+</div>
+
+<div style="width:100%;height:50px;">
+	<div style="width:20%;float:left;">
+		<label for="id_email">Email address:</label>
+	</div>
+	<div style="width:15%;float:left;">{{ form.email }}</div>
+	<div>{% if form.email.errors %} <span class="error">{{ form.email.errors|join:", " }}</span>{% endif %}</div>
+</div>
+<div style="width:100%;height:50px;">
+	<div style="width:20%;float:left;">
+		<label for="id_password1">Password:</label>
+	</div>
+	<div style="width:15%;float:left;">{{ form.password1 }}</div>
+	<div>{% if form.password1.errors %} <span class="error">{{ form.password2.errors|join:", " }}</span>{% endif %}</div>
+</div>
+<div style="width:100%;height:50px;">
+	<div style="width:20%;float:left;">
+		<label for="id_password2">Password <br/>(type again to catch any typos):</label>
+	</div>
+	<div style="width:15%;float:left;">{{ form.password2 }}</div>
+	<div>{% if form.password2.errors %} <span class="error">{{ form.password2.errors|join:", " }}</span>{% endif %}</div>
+</div>
+
+<div style="width:100%;height:50px;">
+	<div style="width:20%;float:left;text-align:center;">
+		{%csrf_token%}
+		<input type="submit" value="Register" /></div>
+</div>
+
+</form>
+{% endblock %}
+

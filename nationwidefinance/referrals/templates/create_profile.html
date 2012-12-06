@@ -1,0 +1,140 @@
+{%extends "base.html" %}
+
+{%block header_tag %}
+<style>
+.error {
+	color : red;
+}
+</style>
+<script src="/static/js/create_profile.js"></script>
+{%endblock%}
+
+
+
+{%block content%}
+
+<div>
+	{%if user.is_authenticated%}
+		<form method="post" name="frm_create_profile">
+			{%csrf_token%}
+		<div style="width:100%;height:50px;">
+			<h3>Please create a profile to continue using the site</h3>
+		</div>
+		<div style="width:100%;height:50px;">
+			<div style="float:left;width:20%;text-align:right;text-align:right;">Select Type:</div>
+			<div style="float:left;width:20%;padding-left:20px;">{{form.entity_type}}</div>
+		</div>
+
+		<div id="org" style="width:100%;display:none;">
+			<div style="width:100%;height:50px">
+				<div style="float:left;width:20%;text-align:right;">Business Name</div>
+				<div style="float:left;width:20%;padding-left:20px;">{{form.business_name}}</div>
+				<div >{% if form.business_name.errors %} <span class="error">{{ form.business_name.errors|join:", " }}</span>{% endif %}</div>
+			</div>
+			<div id="depts" style="width:100%;height:100px">	
+				<div style="float:left;width:20%;text-align:right;">Departments</div>
+				<div style="float:left;width:15%;padding-left:20px;">
+					{{form.departments}}
+				</div>
+			</div>
+			<div id="org_div" style="width:100%;float:left;height:50px">
+				<div style="width:20%;text-align:right;float:left;">Select Plan:</div>
+				<div style="width:20%;float:left;height:50px;padding-left:20px;">{{form.plan}}</div>
+				<div>{% if form.plan.errors %} <span class="error">{{ form.plan.errors|join:", " }}</span>{% endif %}</div>
+			</div>
+			<div style="width:100%;height:100px">
+				<div style="float:left;width:20%;text-align:right;">Industry</div>
+				<div style="float:left;width:20%;padding-left:20px;">{{form.industry}}</div>
+				<div>{% if form.industry.errors %} <span class="error">{{ form.industry.errors|join:", " }}</span>{% endif %}</div>
+			</div>
+			<div style="width:100%;height:50px">
+				<div style="float:left;width:20%;text-align:right;">Points System</div>
+				<div style="float:left;width:20%;padding-left:20px;">{{form.inherit_from_plan}}</div>
+				<div>{% if form.inherit_from_plan.errors %} <span class="error">{{ form.inherit_from_plan.errors|join:", " }}</span>{% endif %}</div>
+			</div>
+		</div>
+		<div id="customize" style="display:none;">
+				<div style="width:100%;height:50px">
+					<div style="float:left;width:20%;text-align:right;">Number of Points to achieve a gift</div>
+					<div style="float:left;width:20%;padding-left:20px;">{{form.num_referrals_for_gift}}</div>
+					<div>{% if form.num_referrals_for_gift.errors %} <span class="error">{{ form.num_referrals_for_gift.errors|join:", " }}</span>{% endif %}</div>
+				</div>
+				<div style="width:100%;height:50px">
+					<div style="float:left;width:20%;text-align:right;">Direct Referral Value</div>
+					<div style="float:left;width:20%;padding-left:20px;">{{form.direct_referal_value}}</div>
+					<div>{% if form.direct_referal_value.errors %} <span class="error">{{ form.direct_referal_value.errors|join:", " }}</span>{% endif %}</div>
+				</div>
+				<div style="width:100%;height:50px">
+					<div style="float:left;width:20%;text-align:right;">Indirect Referral Value</div>
+					<div style="float:left;width:20%;padding-left:20px;">{{form.indirect_referral_value}}</div>
+					<div>{% if form.indirect_referral_value.errors %} <span class="error">{{ form.indirect_referral_value.errors|join:", " }}</span>{% endif %}</div>
+				</div>
+			</div>
+		</div>
+		<div id="contact" style="display:none;">
+			<div style="width:100%;height:50px">
+				<div style="float:left;width:20%;text-align:right;">First name</div>
+				<div style="float:left;width:20%;padding-left:20px;">{{form.first_name}}</div>
+				<div>{% if form.first_name.errors %} <span class="error">{{ form.first_name.errors|join:", " }}</span>{% endif %}</div>
+			</div>
+			<div style="width:100%;height:50px">
+				<div style="float:left;width:20%;text-align:right;">Last name</div>
+				<div style="float:left;width:20%;padding-left:20px;">{{form.last_name}}</div>
+				<div>{% if form.last_name.errors %} <span class="error">{{ form.last_name.errors|join:", " }}</span>{% endif %}</div>
+			</div>
+			<div style="width:100%;height:50px">
+				<div style="float:left;width:20%;text-align:right;">Email</div>
+				<div style="float:left;width:20%;padding-left:20px;">{{form.email}}</div>
+				<div>{% if form.email.errors %} <span class="error">{{ form.email.errors|join:", " }}</span>{% endif %}</div>
+			</div>
+			<div style="width:100%;height:50px">
+				<div style="float:left;width:20%;text-align:right;">Phone (Optional)</div>
+				<div style="float:left;width:20%;padding-left:20px;">{{form.phone}}</div>
+				<div>{% if form.phone.errors %} <span class="error">{{ form.phone.errors|join:", " }}</span>{% endif %}</div>
+			</div>
+			<div style="width:100%;height:50px">
+				<div style="float:left;width:20%;text-align:right;">Post to Facebook</div>
+				<div style="float:left;width:20%;padding-left:20px;">{{form.post_to_facebook}}</div>
+				<div>{% if form.post_to_facebook.errors %} <span class="error">{{ form.post_to_facebook.errors|join:", " }}</span>{% endif %}</div>
+			</div>
+			<div style="width:100%;height:50px">
+				<div style="float:left;width:20%;text-align:right;">Post to Twitter</div>
+				<div style="float:left;width:20%;padding-left:20px;">{{form.post_to_twitter}}</div>
+				<div>{% if form.post_to_twitter.errors %} <span class="error">{{ form.post_to_twitter.errors|join:", " }}</span>{% endif %}</div>
+			</div>
+		</div>
+
+		<div id="address" style="display:none;">
+			<div style="width:100%;height:50px">
+				<div style="float:left;width:20%;text-align:right;">Street Address</div>
+				<div style="float:left;width:20%;padding-left:20px;">{{form.address1}}</div>
+				<div>{% if form.address1.errors %} <span class="error">{{ form.address1.errors|join:", " }}</span>{% endif %}</div>
+			</div>
+			<div style="width:100%;height:50px">
+				<div style="float:left;width:20%;text-align:right;">Suite</div>
+				<div style="float:left;width:20%;padding-left:20px;">{{form.address2}}</div>
+			</div>
+			<div style="width:100%;height:50px">
+				<div style="float:left;width:20%;text-align:right;">City</div>
+				<div style="float:left;width:20%;padding-left:20px;">{{form.city}}</div>
+				<div>{% if form.city.errors %} <span class="error">{{ form.city.errors|join:", " }}</span>{% endif %}</div>
+			</div>
+			<div style="width:100%;height:50px">
+				<div style="float:left;width:20%;text-align:right;">Province</div>
+				<div style="float:left;width:20%;padding-left:20px;">{{form.province}}</div>
+				<div>{% if form.province.errors %} <span class="error">{{ form.province.errors|join:", " }}</span>{% endif %}</div>
+			</div>
+			<div style="width:100%;height:50px">
+				<div style="float:left;width:20%;text-align:right;">Country</div>
+				<div style="float:left;width:20%;padding-left:20px;">{{form.country}}</div>
+				<div>{% if form.country.errors %} <span class="error">{{ form.country.errors|join:", " }}</span>{% endif %}</div>
+			</div>
+		</div>
+		<div style="width:50%;height:50px;text-align:center;display:none;" id="submit_btn">
+			{{form.referrals_made}}
+			<input type="submit" value="Update Profile"/>
+		</div>
+
+	{%endif%}
+</div>
+{%endblock%}

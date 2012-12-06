@@ -1,0 +1,12 @@
+*.pyc
+*.egg-info
+runserver.sh
+build/
+dist/
+*.db
+nohup.out
+.DS_STORE
+.project
+.pydevproject
+*._*
+*settings.py
