@@ -16,6 +16,8 @@ ENV_PYTHON="$VIRTUAL_ENV_DIR/bin/python"
 # How to call "manage.py celeryd_multi"
 CELERYD_MULTI="$ENV_PYTHON $CELERYD_CHDIR/manage.py celeryd_multi"
 
+CELERYBEAT = "$ENV_PYTHON $CELERYD_CHDIR/manage.py celerybeat"
+
 # How to call "manage.py celeryctl"
 CELERYCTL="$ENV_PYTHON $CELERYD_CHDIR/manage.py celeryctl"
 
