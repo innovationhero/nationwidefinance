@@ -39,8 +39,8 @@ def post_to_facebook():
 			print e.message	
 			pass
 
-@periodic_task(run_every=timedelta(minutes=2))
-def post_to_facebook():
+@periodic_task(run_every=timedelta(days=7))
+def post_to_twitter():
 
 	profiles = models.EntityProfile.objects.filter(post_to_twitter=True, entity_active=True)
 	users = UserSocialAuth.objects.filter(user__email__in=[profile.user.email for profile in profiles], provider='twitter')
@@ -52,6 +52,17 @@ def post_to_facebook():
 			status = api.PostUpdate('example django tweet!')
 		except Exception, e:
 			pass
+
+@periodic_task(run_every=timedelta(minutes=2))
+def check_organization_referral_upgrade():
+	profiles = models.EntityProfile.objects.filter(entity_type='org', entity_active=True)
+	for profile in profiles:
+		if not profile.plan.unlimited_referrals:
+			if profile.referrals_made < (profile.plan.max_referrals_allowed - settings.REFERRALS_UPGRADE):
+				t = get_template('organization_plan_upgrade.html')
+				c = Context(dict(referrals_made=profile.referrals_made, business_name=profile.business_name, max_referrals=profile.plan.max_referrals_allowed))
+				body = t.render(c)
+				send_email(subject=self.subject, body=body, to_email=[entity.email,])
 
 class CalculateGifts(Task):
 

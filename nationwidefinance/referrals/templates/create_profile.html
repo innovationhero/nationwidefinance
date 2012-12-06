@@ -111,18 +111,18 @@
 				<div>{% if form.address1.errors %} <span class="error">{{ form.address1.errors|join:", " }}</span>{% endif %}</div>
 			</div>
 			<div style="width:100%;height:50px">
-				<div style="float:left;width:20%;text-align:right;">Suite</div>
-				<div style="float:left;width:20%;padding-left:20px;">{{form.address2}}</div>
-			</div>
-			<div style="width:100%;height:50px">
 				<div style="float:left;width:20%;text-align:right;">City</div>
 				<div style="float:left;width:20%;padding-left:20px;">{{form.city}}</div>
 				<div>{% if form.city.errors %} <span class="error">{{ form.city.errors|join:", " }}</span>{% endif %}</div>
 			</div>
 			<div style="width:100%;height:50px">
-				<div style="float:left;width:20%;text-align:right;">Province</div>
-				<div style="float:left;width:20%;padding-left:20px;">{{form.province}}</div>
-				<div>{% if form.province.errors %} <span class="error">{{ form.province.errors|join:", " }}</span>{% endif %}</div>
+				<div style="float:left;width:20%;text-align:right;">Suburb</div>
+				<div style="float:left;width:20%;padding-left:20px;">{{form.suburb}}</div>
+			</div>
+			<div style="width:100%;height:50px">
+				<div style="float:left;width:20%;text-align:right;">State</div>
+				<div style="float:left;width:20%;padding-left:20px;">{{form.state}}</div>
+				<div>{% if form.state.errors %} <span class="error">{{ form.state.errors|join:", " }}</span>{% endif %}</div>
 			</div>
 			<div style="width:100%;height:50px">
 				<div style="float:left;width:20%;text-align:right;">Country</div>

@@ -151,7 +151,7 @@ class CreateProfileForm(forms.ModelForm):
 	indirect_referral_value = forms.FloatField(required=False)
 
 
-	address2 = forms.CharField(required=False)
+	suburb = forms.CharField(required=False)
 
 	def __init__(self,user=None,*args,**kwargs):
 

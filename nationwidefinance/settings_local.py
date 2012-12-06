@@ -176,3 +176,5 @@ DATE_INPUT_FORMATS = ('%d/%m/%Y','%Y/%m/%d')
 USE_L10N = True
 
 SOUTH_TESTS_MIGRATE = False
+
+REFERRALS_UPGRADE = 5

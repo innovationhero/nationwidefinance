@@ -124,9 +124,9 @@ class EntityProfile(models.Model):
 	indirect_referral_value = models.FloatField(null=True, blank=True)
 
 	address1 = models.CharField(max_length=100)
-	address2 = models.CharField(max_length=100)
 	city = models.CharField(max_length=100)
-	province = models.CharField(max_length=100)
+	suburb = models.CharField(max_length=100)
+	state = models.CharField(max_length=100)
 	country = models.ForeignKey(Country,blank=False,null=False)
 
 	post_to_facebook = models.BooleanField(default=False)
