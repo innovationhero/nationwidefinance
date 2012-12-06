@@ -58,7 +58,7 @@ def check_organization_referral_upgrade():
 	profiles = models.EntityProfile.objects.filter(entity_type='org', entity_active=True)
 	for profile in profiles:
 		if not profile.plan.unlimited_referrals:
-			if profile.referrals_made < (profile.plan.max_referrals_allowed - settings.REFERRALS_UPGRADE):
+			if profile.referrals_made > (profile.plan.max_referrals_allowed - settings.REFERRALS_UPGRADE):
 				subject = 'Upgrading your Nationwide Finance Plan'
 				t = get_template('organization_plan_upgrade.html')
 				c = Context(dict(referrals_made=profile.referrals_made, business_name=profile.business_name, max_referrals=profile.plan.max_referrals_allowed))

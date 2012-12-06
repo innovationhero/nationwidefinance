@@ -33,5 +33,8 @@ CELERYD_PID_FILE="/var/run/celery/%n.pid"
 CELERYD_USER="celery"
 CELERYD_GROUP="celery"
 
+CELERYBEAT_USER="celery"
+CELERYBEAT_GROUP="celery"
+
 # Name of the projects settings module.
 export DJANGO_SETTINGS_MODULE="nationwidefinance.settings"
