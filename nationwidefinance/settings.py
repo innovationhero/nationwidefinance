@@ -11,6 +11,8 @@ DATABASES = {
     }
 }
 
+STATIC_ROOT = '/home/admin/nationwidefinance/nationwidefinance/static'
+
 FACEBOOK_APP_ID                   = '361510763943252'
 FACEBOOK_API_SECRET               = '2f02398f50a91ac1aea21676a098c53b'
 FACEBOOK_EXTENDED_PERMISSIONS     = ['email', 'publish_stream']

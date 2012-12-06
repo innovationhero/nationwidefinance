@@ -62,7 +62,7 @@ class CalculateGifts(Task):
 		self.d = dict()
 		for referrer in self.referrers:
 			try:
-				self.d[referrer] = models.ReferralPoints.objects.get(organization=self.user, referrer=referrer)
+				self.d[referrer] = models.ReferralPoints.objects.get(organization=self.user, referrer=referrer).value
 			except:
 				pass
 
