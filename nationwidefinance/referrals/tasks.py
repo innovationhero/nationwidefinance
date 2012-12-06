@@ -62,7 +62,7 @@ def check_organization_referral_upgrade():
 				t = get_template('organization_plan_upgrade.html')
 				c = Context(dict(referrals_made=profile.referrals_made, business_name=profile.business_name, max_referrals=profile.plan.max_referrals_allowed))
 				body = t.render(c)
-				send_email(subject=self.subject, body=body, to_email=[entity.email,])
+				send_email(subject=self.subject, body=body, to_email=[profile.user.email,])
 
 class CalculateGifts(Task):
 
