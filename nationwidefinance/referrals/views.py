@@ -60,6 +60,7 @@ def check_user_profile(request):
 
 def create_profile(request,template='create_profile.html'):
 	from nationwidefinance.referrals import forms
+	
 	if request.method == 'GET':
 		form = forms.CreateProfileForm(instance=None)
 		return render_to_response(template,
@@ -69,6 +70,9 @@ def create_profile(request,template='create_profile.html'):
 	else:
 
 		form = forms.CreateProfileForm(user=request.user,data=request.POST)
+
+		
+
 		if form.is_valid():
 			profile = form.save() 
 			#do nothing as the record would have been saved already
@@ -90,6 +94,7 @@ def edit_profile(request, template='create_profile.html'):
 		
 	else:
 		form = forms.CreateProfileForm(data=request.POST, instance=request.user.get_profile())
+
 		if form.is_valid():
 			form.save()
 			return HttpResponseRedirect('/')
@@ -105,6 +110,7 @@ def add_referral(request):
 	if request.method == 'GET':
 		form = forms.CreateUserForm(prefix='referrer')
 		form1 = forms.CreateUserForm(prefix='referred')
+		form2 = forms.CreateReferralForm(organization=request.user)
 
 	else:
 		
@@ -132,29 +138,20 @@ def add_referral(request):
 			referrer = form.save()
 			referred = form1.save()
 
-			try:
-				referral = models.EntityReferral.objects.get(organization=request.user,
-					referrer=referrer)
+			data = request.POST.copy()
 
-				if referred in referral.referred.all():
-					return render_to_response('referral_not_allowed.html',
-                		dict(title='Referral Not Allowed',
-                			message = 'This referral has already been recorded'),
-                			context_instance=RequestContext(request))
-				else:
-					referral.referred.add(referred)
+			data['referrer'] = referrer.pk
+			data['referred'] = referred.pk
+			data['organization'] = request.user.pk
 
-			except models.EntityReferral.DoesNotExist:
-				#save the ferral, but check i
-				referral = models.EntityReferral()
-				referral.referrer = referrer
-				referral.entity_active = True
-				referral.organization = request.user
-				referral.created_date = datetime.now()
-				referral.updated_date = datetime.now()
-				referral.save()
-				referral.referred.add(referred)
-				referral.save()
+			form2 = forms.CreateReferralForm(organization=request.user, data=data)
+
+			if form2.is_valid():
+				referral = form2.save()
+			else:
+				return render_to_response('message.html',
+            			dict(title='Invalid Referral!', message=form2.non_field_errors),
+            			context_instance=RequestContext(request))
 
 
 			# +1 on number of referrals this organization has recorded
@@ -176,11 +173,11 @@ def add_referral(request):
 			else:
 				#add a referrer point for this referral
 				try:
-					referral_point = models.ReferrerPoints.objects.get(referrer__pk=referrer.pk)
+					referral_point = models.ReferrerPoints.objects.get(referrer=referrer.pk, organization=request.user)
 					referral_point.value += request.user.get_profile().direct_referal_value
 					referral_point.save()
 				except models.ReferrerPoints.DoesNotExist:
-					referral_point = models.ReferrerPoints(referrer=referrer, entity_active=True, value=request.user.get_profile().direct_referal_value)
+					referral_point = models.ReferrerPoints(referrer=referrer, organization=request.user, entity_active=True, value=request.user.get_profile().direct_referal_value)
 
 					referral_point.save()
 
@@ -191,7 +188,8 @@ def add_referral(request):
 	return render_to_response('add_referral.html',
                 dict(title='Adding A Referral',
                 	form = form,
-                	form1 = form1),
+                	form1 = form1,
+                	form2 = form2),
                 context_instance=RequestContext(request))
 
 def calculate_gifts(request, template='calcluate_gifts_wait.html'):

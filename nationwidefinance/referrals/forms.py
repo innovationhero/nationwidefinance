@@ -74,19 +74,57 @@ class CreateUserForm(forms.ModelForm):
 		model = User
 		exclude = ('is_active', 'last_login', 'date_joined','is_superuser','is_staff','username','password')
 
-class CreateReferralForm(forms.Form):
+class CreateReferralForm(forms.ModelForm):
 
-	referred = forms.IntegerField()
-	referrer = forms.MultipleChoiceField()
+	department = forms.ModelChoiceField(required=False, queryset=models.Department.objects.all())
+
+	def __init__(self, *args, **kwargs):
+
+		
+
+		
+		# referred = kwargs.pop('referred') if kwargs.get('referred') else None
+		# referrer = kwargs.pop('referrer') if kwargs.get('referrer') else None
+
+		organization = kwargs.pop('organization')
+
+		super(CreateReferralForm, self).__init__(*args, **kwargs)
+
+		# self.data['referred'] = referred.pk if referred else None
+		# self.data['referrer'] = referrer.pk if referrer else None
+
+		# self.data['organization'] = organization.pk
+
+		self.fields['department'].queryset = organization.get_profile().departments.all()
+
+	def clean(self):
+		try:
+			referral = models.EntityReferral.objects.get(organization=self.data.get('organization'), 
+							referrer=self.cleaned_data.get('referrer'),
+							referred=self.cleaned_data.get('referred'),
+							department=self.cleaned_data.get('department'))
+			raise forms.ValidationError('This referral has already been recorded')
+
+		except models.EntityReferral.DoesNotExist:
+			return self.cleaned_data
 
 	def save(self):
-		refferer_entity = models.Entity.objects.get(pk=referrer)
-		referral.entity_active = True
+		
+		referral = super(CreateReferralForm, self).save(commit=False)
 		referral.created_date = datetime.now()
 		referral.updated_date = datetime.now()
+		referral.entity_active = True
 		referral.save()
-		super(CreateReferral, self).save_m2m()
+
+		self.save_m2m()
+
 		return referral
+		
+
+	class Meta:
+		model = models.EntityReferral
+		exclude = ('created_date', 'updated_date', 'entity_active')
+
 
 ## It appears one form class can be used for creating a profile and signing up
 class CreateProfileForm(forms.ModelForm):
@@ -94,7 +132,7 @@ class CreateProfileForm(forms.ModelForm):
 	inherit_from_plan = forms.ChoiceField(required=True, choices=[('1', 'Inherit from plan'), ('0', 'Custom Choice')])
 	post_to_facebook = forms.BooleanField(required=False)
 	post_to_twitter = forms.BooleanField(required=False)
-	department = forms.ModelMultipleChoiceField(required=False, queryset=models.Department.objects.all())
+	departments = forms.ModelMultipleChoiceField(required=False, queryset=models.Department.objects.all())
 	entity_type = forms.ChoiceField(required=True, choices=[('','Select'), ('org', 'Organization'), ('indv', 'Individual')])
 	plan = forms.ModelChoiceField(required=False, widget=forms.Select, queryset=models.EntityPlan.objects.filter(entity_active=True))
 	industry = forms.ModelChoiceField(required=False, widget=forms.Select, queryset=models.Industry.objects.filter(entity_active=True))
@@ -118,6 +156,7 @@ class CreateProfileForm(forms.ModelForm):
 	def __init__(self,user=None,*args,**kwargs):
 
 		self.user = user
+		
 		super(CreateProfileForm,self).__init__(*args,**kwargs)
 
 		if self.instance.pk:
@@ -210,6 +249,11 @@ class CreateProfileForm(forms.ModelForm):
 		self.instance.updated_date = datetime.now()
 
 		self.instance.save()
+
+		self.instance.departments.clear()
+
+		for dept in self.cleaned_data.get('departments'):
+			self.instance.departments.add(dept)
 		
 
 	class Meta:

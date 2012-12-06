@@ -15,18 +15,13 @@ $(function(){
 
 		conditons = {
 			'org' : org_list,
-			'indv' : [[false,$("#org")],[true,$("#contact")],[true,$("#address")],[false, $("#customize")],[true,$("#submit_btn")]]
+			'indv' : [[false,$("#org")],[true,$("#contact")],[true,$("#address")],[false, $("#customize")],[false, $("#depts")],[true,$("#submit_btn")]]
 		}
 
 		result_function = nationwide.utils.show_hide;
 
 		nationwide.utils.select_processor($select,conditons,result_function);
 	}
-
-	$("form:button").on('click', function(){
-		alert($(this).attr('id'));
-		return false;
-	});
 
 	$("select[name=entity_type]").on('change',function(event){
 		nationwide.utils.entity_selector_helper($(this));

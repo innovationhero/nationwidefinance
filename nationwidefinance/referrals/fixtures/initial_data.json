@@ -1,5 +1,26 @@
 [
   {
+    "model": "referrals.Department",
+    "pk": 1,
+    "fields": {
+      "department": "Accounting"
+    }
+  },
+  {
+    "model": "referrals.Department",
+    "pk": 2,
+    "fields": {
+      "department": "Finance"
+    }
+  },
+  {
+    "model": "referrals.Department",
+    "pk": 3,
+    "fields": {
+      "department": "IT"
+    }
+  },
+  {
     "model": "referrals.EntityPlan",
     "pk": 1,
     "fields": {

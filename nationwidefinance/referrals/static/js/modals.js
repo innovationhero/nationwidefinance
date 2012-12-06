@@ -1,7 +1,7 @@
 var nationwide = nationwide || {};
 nationwide.utils = nationwide.utils || {};
 
-nationwide.utils.modal_factory = function ($html,title, $buttons,width,height) {
+nationwide.utils.modal_factory = function ($html,title, $buttons, width, height) {
     return $('<div></div>').appendTo('body')
                     .html($html)
                     .dialog({

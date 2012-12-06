@@ -31,12 +31,11 @@
 				<div style="float:left;width:20%;padding-left:20px;">{{form.business_name}}</div>
 				<div >{% if form.business_name.errors %} <span class="error">{{ form.business_name.errors|join:", " }}</span>{% endif %}</div>
 			</div>
-			<div style="100%;height:50px;">
-				<div style="float:left;width:20%;text-align:right;">Department</div>
+			<div id="depts" style="width:100%;height:100px">	
+				<div style="float:left;width:20%;text-align:right;">Departments</div>
 				<div style="float:left;width:15%;padding-left:20px;">
-					<input type="text" name="department"/>
+					{{form.departments}}
 				</div>
-				<div><button id="add_dept1">Add Department</button></div>
 			</div>
 			<div id="org_div" style="width:100%;float:left;height:50px">
 				<div style="width:20%;text-align:right;float:left;">Select Plan:</div>

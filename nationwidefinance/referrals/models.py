@@ -44,6 +44,7 @@ class EntityReferral(models.Model):
 	referrer = models.ForeignKey(User, related_name='referrer')
 	referred = models.ManyToManyField(User, related_name='referred')
 	organization = models.ForeignKey(User, related_name='entity_referred')
+	department = models.ForeignKey('Department', blank=True, null=True)
 
 	created_date = models.DateTimeField()
 	updated_date = models.DateTimeField()
@@ -58,13 +59,14 @@ class EntityReferral(models.Model):
 
 class ReferrerPoints(models.Model):
 
-	referrer = models.ForeignKey(User, null=False, blank=False)
+	referrer = models.ForeignKey(User, null=False, blank=False, related_name='points_referrer')
+	organization = models.ForeignKey(User, related_name='points_org')
 	value = models.IntegerField()
 	entity_active = models.BooleanField()
 
 	def __unicode__(self):
-		return '%s %s has %d points' % (self.referrer.first_name, self.referrer.last_name,
-			self.value)
+		return '%s %s has %d points with %s' % (self.referrer.first_name, self.referrer.last_name,
+			self.value, self.organization.get_profile().business_name)
 
 	class Meta:
 		verbose_name_plural = "Referral Points"
@@ -98,6 +100,9 @@ class Department(models.Model):
 	def __unicode__(self):
 		return self.department
 
+	class Meta:
+		ordering = ['department']
+
 class EntityProfile(models.Model):
 	
 	entity_type = models.CharField(max_length=10)
@@ -106,7 +111,7 @@ class EntityProfile(models.Model):
 	plan = models.ForeignKey(EntityPlan, blank=True, null=True)
 	industry = models.ForeignKey(Industry, null=True, blank=True)
 	entity_contact = models.ForeignKey(EntityContact)
-	department = models.ManyToManyField(Department)
+	departments = models.ManyToManyField(Department, blank=True, null=True)
 
 	referrals_made = models.IntegerField(null=True, blank=True)
 
