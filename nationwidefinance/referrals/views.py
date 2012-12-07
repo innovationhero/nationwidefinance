@@ -409,7 +409,8 @@ def search_referrers(request):
 		results = [[str(referrer.referrer.first_name), 
 				str(referrer.referrer.last_name), 
 				str(referrer.referrer.email), 
-				str(referrer.organization.get_profile().business_name)] for referrer in referrers]
+				str(referrer.organization.get_profile().business_name),
+				str(referrer.department if referrer.department else '')] for referrer in referrers]
 		
 		
 
