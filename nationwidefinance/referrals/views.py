@@ -3,6 +3,7 @@ import urlparse
 
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login as django_login, logout as django_logout
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.utils import simplejson
@@ -384,3 +385,60 @@ def post_to_twitter(request):
 		return render_to_response('post_to_twitter.html',
             dict(title='Posting to Twitter',form=form),
             context_instance=RequestContext(request))
+
+
+@login_required
+def search_referrers(request):
+	if request.method == 'GET':
+		return render_to_response('search_referrers.html',
+            dict(title='Search For Referrers'),
+            context_instance=RequestContext(request))
+
+	else:
+		first_name = request.POST.get('first_name','').replace('*', '')
+		last_name = request.POST.get('last_name','').replace('*', '')
+		business_name = request.POST.get('business_name','').replace('*', '')
+		email = request.POST.get('email','').replace('*', '')
+
+		referrers = models.EntityReferral.objects.filter(referrer__first_name__icontains=first_name,
+						referrer__last_name__icontains=last_name,
+						referrer__email__icontains=email,
+						organization__entityprofile__business_name__icontains=business_name
+			)
+
+		results = [[str(referrer.referrer.first_name), 
+				str(referrer.referrer.last_name), 
+				str(referrer.referrer.email), 
+				str(referrer.organization.get_profile().business_name)] for referrer in referrers]
+		
+		
+
+		return render_to_response('search_referrers.html',
+            dict(title='Search For Referrers', results=results),
+            context_instance=RequestContext(request))
+
+@login_required
+def search_organization(request):
+	if request.method == 'GET':
+		return render_to_response('search_organizations.html',
+            dict(title='Search For Referrers'),
+            context_instance=RequestContext(request))
+
+	else:
+		business_name = request.POST.get('business_name','').replace('*', '')
+		
+
+		organizations = models.EntityProfile.objects.filter(business_name__icontains=business_name)
+
+		results = [[str(organization.business_name), 
+			str(organization.entity_contact.first_name), 
+			str(organization.entity_contact.last_name), 
+			str(organization.entity_contact.email)] for organization in organizations]
+		
+		
+
+		return render_to_response('search_organizations.html',
+            dict(title='Search For Referrers', results=results),
+            context_instance=RequestContext(request))
+
+

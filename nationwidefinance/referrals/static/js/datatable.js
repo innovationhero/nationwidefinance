@@ -1,7 +1,7 @@
 var nationwide = nationwide || {};
 nationwide.utils = nationwide.utils || {};
 
-nationwide.utils.datatable_factory = function(server_side,aaData,aoColumns,col0) {
+nationwide.utils.datatable_factory = function(server_side, aaData, aoColumns, col0) {
 
 
 	var Abstract_Datatable = {

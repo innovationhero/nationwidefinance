@@ -54,6 +54,12 @@
 					<a href="{% url add_referral %}">Add Referral</a>
 				</div>
 				<div style="float:right;width:150px;">
+					<a href="{% url search_referrers %}">Search Referrers</a>
+				</div>
+				<div style="float:right;width:150px;">
+					<a href="{% url search_organization %}">Other Organizations</a>
+				</div>
+				<div style="float:right;width:150px;">
 					<a href="{% url calculate_gifts %}" style="color:green;font-weight:bold;">Send Gifts</a>
 				</div>
 				{%if user.get_profile.is_facebook_user %}

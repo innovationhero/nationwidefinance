@@ -20,5 +20,7 @@ urlpatterns = patterns('nationwidefinance.referrals.views',
 	url(r'^add_referral_autocomplete/', 'add_referral_autocomplete', name='add_referral_autocomplete'),
 	url(r'^post_to_facebook/', 'post_to_facebook', name='post_to_facebook'),
 	url(r'^post_to_twitter/', 'post_to_twitter', name='post_to_twitter'),
+	url(r'^search_referrers/', 'search_referrers', name='search_referrers'),
+	url(r'^search_organization/', 'search_organization', name='search_organization'),
 	
 )
