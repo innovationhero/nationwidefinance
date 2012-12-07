@@ -428,11 +428,17 @@ def search_organization(request):
 
 	else:
 		business_name = request.POST.get('business_name','').replace('*', '')
-		
+		country = request.POST.get('country','').replace('*', '')
+		industry = request.POST.get('industry','').replace('*', '')
 
-		organizations = models.EntityProfile.objects.filter(business_name__icontains=business_name)
+		organizations = models.EntityProfile.objects.filter(business_name__icontains=business_name,
+					country__name__icontains=country,
+					industry__name__icontains=industry
+			)
 
-		results = [[str(organization.business_name), 
+		results = [[str(organization.business_name),
+			str(organization.industry.name), 
+			str(organization.country.name), 
 			str(organization.entity_contact.first_name), 
 			str(organization.entity_contact.last_name), 
 			str(organization.entity_contact.email)] for organization in organizations]
