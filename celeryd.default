@@ -16,8 +16,6 @@ ENV_PYTHON="$VIRTUAL_ENV_DIR/bin/python"
 # How to call "manage.py celeryd_multi"
 CELERYD_MULTI="$ENV_PYTHON $CELERYD_CHDIR/manage.py celeryd_multi"
 
-CELERYBEAT = "$ENV_PYTHON $CELERYD_CHDIR/manage.py celerybeat"
-
 # How to call "manage.py celeryctl"
 CELERYCTL="$ENV_PYTHON $CELERYD_CHDIR/manage.py celeryctl"
 
@@ -40,3 +38,5 @@ CELERYBEAT_GROUP="celery"
 
 # Name of the projects settings module.
 export DJANGO_SETTINGS_MODULE="nationwidefinance.settings"
+
+CELERYBEAT = "$ENV_PYTHON $CELERYD_CHDIR/manage.py celerybeat"
