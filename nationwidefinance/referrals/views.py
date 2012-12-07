@@ -245,7 +245,7 @@ def view_referrers(request):
 		sublist = []
 		sublist.append(str(referral.referrer.first_name))
 		sublist.append(str(referral.referrer.last_name))
-		sublist.append(str(models.ReferrerPoints.objects.get(referrer__email=referral.referrer.email).value))
+		sublist.append(str(models.ReferrerPoints.objects.get(referrer__email=referral.referrer.email, organization__email=request.user.email).value))
 		aaData.append(sublist)
 
 
