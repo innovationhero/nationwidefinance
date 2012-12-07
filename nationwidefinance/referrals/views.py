@@ -440,6 +440,7 @@ def search_organization(request):
 
 		results = [[str(organization.business_name),
 			str(organization.industry.name), 
+			str(organization.state),
 			str(organization.country.name), 
 			str(organization.entity_contact.first_name), 
 			str(organization.entity_contact.last_name), 
