@@ -11,3 +11,4 @@ simplejson
 httplib2
 oauth2
 python-twitter
+django-paypal
