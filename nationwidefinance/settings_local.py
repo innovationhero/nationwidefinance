@@ -85,6 +85,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'nationwidefinance.middleware.checkprofile.CheckProfileMiddleware',
+    'pagination.middleware.PaginationMiddleware'
 )
 
 ROOT_URLCONF = 'nationwidefinance.urls'
@@ -113,6 +114,8 @@ INSTALLED_APPS = (
     'djcelery',
     'kombu.transport.django',
     'paypal.standard.ipn',
+    'postman',
+    'pagination',
 )
 
 AUTHENTICATION_BACKENDS = (

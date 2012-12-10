@@ -7,12 +7,15 @@ nationwide.helpers = {};
 /**
 	Utility function to perform all Ajax GET and POST calls
 */
-nationwide.utils.do_ajax = function (type, url, data, success, error) {
+nationwide.utils.do_ajax = function (type, url, data, success, error, dataType) {
+	if (typeof(dataType) == 'undefined') {
+		var dataType = 'json';
+	}
     return $.ajax({
             url: url,
 	        type: type,
 	        data: data,
-	        dataType: 'json',
+	        dataType: dataType,
 	        headers: {
 	               "X-CSRFToken": $("input[name='csrfmiddlewaretoken']").val(),
 	        },

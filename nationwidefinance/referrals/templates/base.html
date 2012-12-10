@@ -25,57 +25,64 @@
 </head>
 <body>
 	<div id="screen"></div>
+	<div id="modal"></div>
 	<div style="width:100%;height:50px;">
 		{%if user.is_authenticated%}
-			<div style="float:right;width:150px;">
+			<div style="float:right;width:125px;">
 				<a href="{% url logout_user %}">Logout</a>
 			</div>
 			{% ifequal user.get_profile.entity_type 'org' %}
 				
 			{%endifequal%}
 			{%if user.get_profile %}
-				<div style="float:right;width:150px;">
+				<div style="float:right;width:125px;">
 					<a href="{% url edit_profile %}">Edit Profile</a>
 				</div>
 			{%endif%}
 			{%if not user.get_profile.business_name %}
-				<div style="float:right;width:150px;">
+				<div style="float:right;width:125px;">
 					<a href="{% url view_referred %}">View Referred</a>
 				</div>
 				{%if user.get_profile.is_facebook_user %}
-					<div style="float:right;width:150px;">
+					<div style="float:right;width:125px;">
 						<a href="{% url post_to_facebook %}">Post to Facebook</a>
 					</div>
 				{%endif%}
 				{%if user.get_profile.is_twitter_user %}
-					<div style="float:right;width:150px;">
+					<div style="float:right;width:125px;">
 						<a href="{% url post_to_twitter %}">Post to Twitter</a>
 					</div>
 				{%endif%}
 			{%else%}
-				<div style="float:right;width:150px;">
+				<div style="float:right;width:125px;">
+					<a href="{% url send_message %}">Send Message</a>
+				</div>
+				<div style="float:right;width:125px;">
+					<a href="{% url postman_inbox %}">View Inbox</a>
+				</div>
+				<div style="float:right;width:125px;">
 					<a href="{% url add_referral %}">Add Referral</a>
 				</div>
-				<div style="float:right;width:150px;">
+				<div style="float:right;width:125px;">
 					<a href="{% url search_referrers %}">Search Referrers</a>
 				</div>
 				<div style="float:right;width:150px;">
 					<a href="{% url search_organization %}">Other Organizations</a>
 				</div>
-				<div style="float:right;width:150px;">
+				<div style="float:right;width:125px;">
 					<a href="{% url calculate_gifts %}" style="color:green;font-weight:bold;">Send Gifts</a>
 				</div>
 				{%if user.get_profile.is_facebook_user %}
-					<div style="float:right;width:150px;">
+					<div style="float:right;width:125px;">
 						<a href="{% url post_to_facebook %}">Post to Facebook</a>
 					</div>
 				{%endif%}
 				{%if user.get_profile.is_twitter_user %}
-					<div style="float:right;width:150px;">
+					<div style="float:right;width:125px;">
 						<a href="{% url post_to_twitter %}">Post to Twitter</a>
 					</div>
 				{%endif%}
-				<div style="float:right;width:150px;">
+				<div style="float:right;width:125px;">
 					<a href="{% url view_referrers %}">View Referrers</a>
 				</div>
 			{%endif%}
@@ -85,7 +92,7 @@
 			<div style="float:right;width:120px;"><a href="{%url socialauth_begin 'yahoo'%}">Yahoo Login</a></div> 
 			<div style="float:right;width:120px;"><a href="{%url socialauth_begin 'facebook'%}">Facebook Login</a></div>
 			<div style="float:right;width:120px;"><a href="{%url socialauth_begin 'twitter'%}">Twitter Login</a></div>
-			<div style="float:right;width:150px;"><a href="{%url auth_login %}">Nationwide Login</a></div> 
+			<div style="float:right;width:125px;"><a href="{%url auth_login %}">Nationwide Login</a></div> 
 			<div style="float:right;width:120px;"><a href="{%url registration_register %}">Register</a></div> 
 		{%endif%}
 		<div style="float:right;width:120px;">

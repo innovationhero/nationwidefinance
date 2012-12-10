@@ -24,5 +24,6 @@ urlpatterns = patterns('nationwidefinance.referrals.views',
 	url(r'^search_organization/', 'search_organization', name='search_organization'),
 	url(r'^get_plan_price/', 'get_plan_price', name='get_plan_price'),
 	url(r'^nationwide_paypal_return/', 'nationwide_paypal_return', name='nationwide_paypal_return'),
+	url(r'^send_message/', 'send_message', name='send_message'),
 	
 )

@@ -1,7 +1,7 @@
 var nationwide = nationwide || {};
 nationwide.utils = nationwide.utils || {};
 
-nationwide.utils.datatable_factory = function(server_side, aaData, aoColumns, col0) {
+nationwide.utils.datatable_factory = function(server_side, aaData, aoColumns, col0, fnRowCallback) {
 
 
 	var Abstract_Datatable = {
@@ -19,19 +19,7 @@ nationwide.utils.datatable_factory = function(server_side, aaData, aoColumns, co
         "sPaginationType" : "full_numbers",
         "aaData"          :  aaData,
         "aoColumns"       : aoColumns,
-		fnRowCallback     : function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
-			if (typeof(col0) != 'undefined') {
-				var id = aData[0];
-				var email = aData[1];
-				var $elm = $("<"+col0['tag']+"/>",
-						col0['props']
-					);
-				$elm.attr('id',id);
-				$elm.attr('name',email);
-				$('td:eq(0)', nRow).html($elm);
-			}
-
-		}
+		fnRowCallback     : fnRowCallback
 		
 	};
 	return Abstract_Datatable;

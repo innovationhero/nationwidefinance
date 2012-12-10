@@ -9,6 +9,7 @@
 	
 	
 				var aaColumns = [
+					{'sTitle' : ''}, 
 					{'sTitle' : 'Organization Name'},
 					{'sTitle' : 'Industry'},
 					{'sTitle' : 'State'},
@@ -17,8 +18,19 @@
 					{'sTitle' :  'Contact Email'}
 				]
 
+				
 
-				var referred_table = nationwide.utils.datatable_factory(false, {{results|safe}}, aaColumns);
+				var referred_table = nationwide.utils.datatable_factory(false, {{results|safe}}, aaColumns, "button",
+					function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+						var id = aData[0];
+						var $elm = $("<button>",{html : "Send Message"});
+						$elm.attr('id',id);
+						$elm.on('click', function(){
+							window.location.href = '/referrals/send_message?org_id=' + $(this).attr('id');
+						});
+						$('td:eq(0)', nRow).html($elm);
+					}
+				);
 
 				$("#results").dataTable(referred_table);
 

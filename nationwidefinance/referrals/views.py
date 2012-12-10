@@ -1,6 +1,7 @@
 from datetime import datetime
 import urlparse
 import urllib2, urllib
+import base64
 
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login as django_login, logout as django_logout
@@ -19,6 +20,7 @@ from celery.result import AsyncResult
 import twitter
 
 from paypal.standard.forms import PayPalPaymentsForm
+from postman.forms import WriteForm
 
 from nationwidefinance.referrals import models
 from nationwidefinance.referrals import utils
@@ -468,18 +470,57 @@ def search_organization(request):
                     state__icontains=state
             )
 
-        results = [[str(organization.business_name),
-            str(organization.industry.name), 
-            str(organization.state),
-            str(organization.country.name), 
-            str(organization.entity_contact.first_name), 
-            str(organization.entity_contact.last_name), 
-            str(organization.entity_contact.email)] for organization in organizations]
-        
         
 
-        return render_to_response('search_organizations.html',
+        results = [[
+                str(base64.b64encode('%s&%s' % (organization.entity_contact.id, organization.entity_contact.email))),
+                str(organization.business_name),
+                str(organization.industry.name), 
+                str(organization.state),
+                str(organization.country.name), 
+                str(organization.entity_contact.first_name), 
+                str(organization.entity_contact.last_name), 
+                str(organization.entity_contact.email)] for organization in organizations]
+        
+        
+        if request.is_ajax():
+            template = 'ajax_org_results.html'
+        else:
+            template = 'search_organizations.html'
+
+        return render_to_response(template,
             dict(title='Search For Referrers', results=results),
+            context_instance=RequestContext(request))
+
+
+@login_required
+def send_message(request, template='send_message.html'):
+    saved = False
+    org = False
+    if request.method == 'GET':
+        if request.GET.get('org_id'):
+            data = base64.b64decode(request.GET.get('org_id')).split('&')
+            entity_contact = models.EntityContact.objects.get(id=data[0], email=data[1])
+            
+            org = entity_contact.entityprofile_set.get()
+            form = WriteForm(initial = dict(recipients = org.user.username))
+        
+        else:
+            form = WriteForm()
+    else:
+        form = WriteForm(sender=request.user, data=request.POST)
+        if form.is_valid():
+            org = form.cleaned_data.get('recipients')[0].get_profile()
+            if form.save():
+                form.instance.moderation_status = "a"
+                form.instance.save()
+            saved = True
+        else:
+            if request.POST.get('recipients'):
+                org = User.objects.get(username=request.POST.get('recipients')).get_profile()
+    
+    return render_to_response(template,
+            dict(title='Send a Private Message', form = form, saved = saved, org = org),
             context_instance=RequestContext(request))
 
 
