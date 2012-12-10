@@ -74,6 +74,7 @@ class ReferrerPoints(models.Model):
 class EntityPlan(models.Model):
 	
 	plan_name = models.CharField(max_length=100)
+	price = models.CharField(max_length=10)
 	plan_description = models.CharField(max_length=2000)
 	max_referrals_allowed = models.IntegerField(null=True, blank=True)
 

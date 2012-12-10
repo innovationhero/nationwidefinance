@@ -112,6 +112,7 @@ INSTALLED_APPS = (
     'south',
     'djcelery',
     'kombu.transport.django',
+    'paypal.standard.ipn',
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -138,7 +139,10 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.messages.context_processors.messages',
     'social_auth.context_processors.social_auth_by_type_backends',
     'django.core.context_processors.request',
-    'django.core.context_processors.static'
+    'django.core.context_processors.static',
+    'nationwidefinance.referrals.context_processors.paypal_button_image',
+    'nationwidefinance.referrals.context_processors.paypal_cc_image',
+    'nationwidefinance.referrals.context_processors.paypal_action_url',
 )
 
 # A sample logging configuration. The only tangible logging

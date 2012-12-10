@@ -22,7 +22,7 @@
   },
   {
     "model": "referrals.EntityPlan",
-    "pk": 1,
+    "pk": "1",
     "fields": {
       "plan_name": "Basic Plan",
       "plan_description": "Basic Plan",
@@ -33,13 +33,14 @@
       "unlimited_referrals" : "False",
       "can_add_entity" : "False",
       "can_use_social_media" : "False",
-      "entity_active" : "True"
+      "entity_active" : "True",
+      "price" : "100.00"
 
     }
   },
   {
     "model": "referrals.EntityPlan",
-    "pk": 2,
+    "pk": "2",
     "fields": {
       "plan_name": "Premium Plan",
       "plan_description": "Premim Plan",
@@ -50,7 +51,26 @@
       "unlimited_referrals" : "False",
       "can_add_entity" : "False",
       "can_use_social_media" : "False",
-      "entity_active" : "True"
+      "entity_active" : "True",
+      "price" : "200.00"
+
+    }
+  },
+  {
+    "model": "referrals.EntityPlan",
+    "pk": "3",
+    "fields": {
+      "plan_name": "Platinum Plan",
+      "plan_description": "Platinum Plan",
+      "max_referrals_allowed" : "40",
+      "num_referrals_for_gift" : "20",
+      "direct_referal_value" : "20",
+      "indirect_referral_value" : "10",
+      "unlimited_referrals" : "False",
+      "can_add_entity" : "False",
+      "can_use_social_media" : "False",
+      "entity_active" : "True",
+      "price" : "300.00"
 
     }
   },

@@ -7,7 +7,7 @@ class CheckProfileMiddleware():
 
 	def process_request(self, request):
 
-		if request.path == '/referrals/create_profile/' or request.path == '/referrals/logout/' or 'admin' in request.path: return None
+		if request.path == '/referrals/get_plan_price/' or request.path == '/referrals/create_profile/' or request.path == '/referrals/logout/' or 'admin' in request.path: return None
 
 		if not request.user.is_authenticated(): return None
 		

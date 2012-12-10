@@ -5,6 +5,6 @@ from django.utils import simplejson
 
 
 def home(request,template='index.html'):
-	return render_to_response(template,
+    return render_to_response(template,
                               dict(title='Welcome to ',),
                               context_instance=RequestContext(request))
