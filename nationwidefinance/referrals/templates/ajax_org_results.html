@@ -1,0 +1,46 @@
+<html>
+<head>
+	<script>
+			var nationwide = nationwide || {};
+			nationwide.utils = nationwide.utils || {};
+
+			$(function(){
+	
+	
+				var aaColumns = [
+					{'sTitle' : ''}, 
+					{'sTitle' : 'Organization Name'},
+					{'sTitle' : 'Industry'},
+					{'sTitle' : 'State'},
+					{'sTitle' : 'Country'},
+					{'sTitle' : 'Contact Last Name'},
+					{'sTitle' :  'Contact Email'}
+				]
+
+				
+
+				var referred_table = nationwide.utils.datatable_factory(false, {{results|safe}}, aaColumns, "button",
+					function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+						var id = aData[0];
+						var $elm = $("<button>",{html : "Select"});
+						$elm.attr('id',id);
+						$elm.on('click', function(){
+							window.location.href = '/referrals/send_message?org_id=' + $(this).attr('id');
+						});
+						$('td:eq(0)', nRow).html($elm);
+					}
+				);
+
+				$("#results").dataTable(referred_table);
+
+				$("#results tr td").css({'text-align' : 'left', 'padding-left' : '25px'});
+
+			});
+		</script>
+	</head>
+<body>
+	<div style="width:100%">
+		<table id="results"></table>
+	</div>
+</body>
+</html>
