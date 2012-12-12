@@ -10,6 +10,8 @@ The system features the ability to login via GMail, Facebook, Twitter, and Yahoo
 Twitter and Facebook users can post directly to Twitter and Facebook from the system, as well as schedule a weekly task
 to post various messages to Twitter and Facebook.
 
+Private Messages can be sent between users to make recommendation and for networking.
+
 The system also enables organizations to record referrals, made by various people to indiviual departement within the
 organization.  Any one person referring a organization or one of its departement accrues points as set by the organization.
 
