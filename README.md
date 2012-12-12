@@ -13,6 +13,7 @@ to post various messages to Twitter and Facebook.
 Private Messages can be sent between users to make recommendations and for networking.
 
 The system also enables organizations to record referrals, made by various people to indiviual departement within the
-organization.  Any one person referring a organization or one of its departement accrues points as set by the organization.
+organization.  Any one person referring a organization or one of its departement accrues points as set by the organization,
+towards winning a gift after a certain number of points are achieved.
 
 When a person who was referred, also makes a referral, the original referrer is awarded points as set by the orgnization.
