@@ -1,0 +1,9 @@
+.idea
+*.pyc
+*.pyo
+*.bak
+local_settings.py
+build
+env
+.DS_Store
+.smb*

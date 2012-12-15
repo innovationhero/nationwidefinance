@@ -1,0 +1,40 @@
+{%extends "base.html"%}
+
+{%block header_tag %}
+
+    
+
+<script>
+var nationwide = nationwide || {};
+nationwide.utils = nationwide.utils || {};
+
+$(function(){
+	
+	
+	var aaColumns = [
+		{'sTitle' : 'First Name'},
+		{'sTitle' : 'Last Name'},
+		{'sTitle' :  'Organization'}
+	]
+
+
+	var referred_table = nationwide.utils.datatable_factory(false, {{aaData|safe}}, aaColumns);
+
+	$("#referred_table").dataTable(referred_table);
+
+	$("#referred_table tr td").css({'text-align' : 'left', 'padding-left' : '25px'});
+
+});
+</script>
+
+
+{%endblock%}
+
+{%block content %}
+
+<div style="width:90%;margin-left:50px;padding-top:100px;">
+	<table id="referred_table"></table>
+</div>
+
+
+{%endblock%}

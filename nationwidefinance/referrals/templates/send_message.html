@@ -1,0 +1,55 @@
+{%extends "base.html" %}
+{%block header_tag %}
+
+<style>
+.error {
+	color : red;
+}
+</style>
+
+	<script src="{{STATIC_URL}}js/send_message.js"></script>
+{%endblock%}
+
+
+
+{%block content%}
+	<form method="post" name="frm_create_profile" id="frm_create_profile">
+		{%csrf_token%}
+		<div style="width:100%;height:50px;">
+			<h3>Send a Private Message to Another Organization</h3>
+		</div>
+
+		<div style="width:100%;height:50px;">
+			<div style="float:left;width:20%;text-align:right;text-align:right;">Organizaton:</div>
+			<div style="float:left;width:20%;padding-left:20px;">
+				<div style="display:none;">{{form.recipients}}</div>
+				<input type="text" name="business_name" value="{{org.business_name}}"/>
+				<input type="hidden" name="moderation_status" value="a"/>
+				<a id="org_lookup"> 
+					<img src="/static/admin/img/selector-search.gif" width="16" height="16" alt="Lookup">
+				</a>
+			</div>
+			<div>{% if form.recipients.errors %} <span class="error">{{ form.recipients.errors|join:", " }}</span>{% endif %}</div>
+		</div>
+		<div style="width:100%;height:50px;">
+			<div style="float:left;width:20%;text-align:right;text-align:right;">Subject:</div>
+			<div style="float:left;width:20%;padding-left:20px;">{{form.subject}}</div>
+			<div>{% if form.subject.errors %} <span class="error">{{ form.subject.errors|join:", " }}</span>{% endif %}</div>
+		</div>
+		<div style="width:100%;height:200px;">
+			<div style="float:left;width:20%;text-align:right;text-align:right;">Body:</div>
+			<div style="float:left;width:20%;padding-left:20px;">{{form.body}}</div>
+			<div>{% if form.body.errors %} <span class="error">{{ form.body.errors|join:", " }}</span>{% endif %}</div>
+		</div>
+		{% if not saved %}
+			<div style="width:50%;height:50px;text-align:center;" >
+				<input type="submit" value="Send Message"/>
+			</div>
+		{%else%}
+			<div style="width:50%;height:50px;text-align:center;" >
+				<h3>Message Successfuly Sent <a href="/messages/sent">Click Here</a> To View Sent Message</h3>
+			</div>
+		{%endif%}
+	</form>
+
+{%endblock%}

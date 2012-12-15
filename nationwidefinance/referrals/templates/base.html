@@ -1,0 +1,194 @@
+<!--
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+</head>
+<body>
+	<div id="screen"></div>
+	<div id="modal"></div>
+	<div style="width:100%;height:50px;">
+		{%if user.is_authenticated%}
+			<div style="float:right;width:125px;">
+				<a href="{% url logout_user %}">Logout</a>
+			</div>
+			{% ifequal user.get_profile.entity_type 'org' %}
+				
+			{%endifequal%}
+			{%if user.get_profile %}
+				<div style="float:right;width:125px;">
+					<a href="{% url edit_profile %}">Edit Profile</a>
+				</div>
+			{%endif%}
+			{%if not user.get_profile.business_name %}
+				<div style="float:right;width:125px;">
+					<a href="{% url view_referred %}">View Referred</a>
+				</div>
+				{%if user.get_profile.is_facebook_user %}
+					<div style="float:right;width:125px;">
+						<a href="{% url post_to_facebook %}">Post to Facebook</a>
+					</div>
+				{%endif%}
+				{%if user.get_profile.is_twitter_user %}
+					<div style="float:right;width:125px;">
+						<a href="{% url post_to_twitter %}">Post to Twitter</a>
+					</div>
+				{%endif%}
+			{%else%}
+				<div style="float:right;width:125px;">
+					<a href="{% url send_message %}">Send Message</a>
+				</div>
+				<div style="float:right;width:125px;">
+					<a href="{% url postman_inbox %}">View Inbox</a>
+				</div>
+				<div style="float:right;width:125px;">
+					<a href="{% url postman_sent %}">View Outbox</a>
+				</div>
+				<div style="float:right;width:125px;">
+					<a href="{% url add_referral %}">Add Referral</a>
+				</div>
+				<div style="float:right;width:125px;">
+					<a href="{% url search_referrers %}">Search Referrers</a>
+				</div>
+				<div style="float:right;width:150px;">
+					<a href="{% url search_organization %}">Other Organizations</a>
+				</div>
+				<div style="float:right;width:125px;">
+					<a href="{% url calculate_gifts %}" style="color:green;font-weight:bold;">Send Gifts</a>
+				</div>
+				{%if user.get_profile.is_facebook_user %}
+					<div style="float:right;width:125px;">
+						<a href="{% url post_to_facebook %}">Post to Facebook</a>
+					</div>
+				{%endif%}
+				{%if user.get_profile.is_twitter_user %}
+					<div style="float:right;width:125px;">
+						<a href="{% url post_to_twitter %}">Post to Twitter</a>
+					</div>
+				{%endif%}
+				<div style="float:right;width:125px;">
+					<a href="{% url view_referrers %}">View Referrers</a>
+				</div>
+			{%endif%}
+		{%else%}
+		{%endif%}
+		<div style="float:right;width:120px;">
+			<a href="{% url auth_password_reset %}">Reset Password</a>
+		</div>
+	</div>
+	{%if request.user.get_profile %}
+		<div style="width:100%;height:50px">
+			{% ifequal user.get_profile.entity_type 'org' %}
+				<h3>Welcome {{user.get_profile.business_name}}.  You're logged in as an Organization</h3>
+			{%else%}
+				<h3>Welcome {{user.first_name}}.  You are logged in as an Individual</h3>
+			{%endifequal%}
+		</div>
+	{%endif%}
+</body>
+</html>
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US" xmlns:og="http://ogp.me/ns#" xmlns:fb="https://www.facebook.com/2008/fbml">
+
+<head profile="http://gmpg.org/xfn/11">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta property="og:title" content="Referral Buddy" />
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="http://www.referralbuddy.com" />
+	<meta property="og:image" content="{{STATIC_URL}}images/screenshot.png" />
+	<meta property="og:site_name" content="Referral Buddy" />
+	<meta property="og:email" content="sam@webiken.net"/>
+    <meta property="og:phone_number" content="+409 813 4403"/>
+	<meta property="fb:admins" content="540766654" />
+
+	<title>{%block title %}{{title}}{%endblock%}</title>
+	
+	<link rel="shortcut icon" type="image/x-icon" href="{{STATIC_URL}}images/favicon.ico" />
+
+	<style type="text/css" media="screen">
+		@import url( {{STATIC_URL}}css/style.css );
+	</style>
+			
+	<link href="http://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic" rel="stylesheet" type="text/css" />
+	<link href="{{STATIC_URL}}css/orbit-1.2.3.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery.ui.all.css">
+	<link rel="stylesheet" href="{{STATIC_URL}}css/demo_table.css">
+	<link rel="stylesheet" href="{{STATIC_URL}}css/jquery.dataTables.css">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
+	<script src="{{STATIC_URL}}js/app.js"></script>
+	<script src="{{STATIC_URL}}js/datatable.js"></script>
+	<script src="{{STATIC_URL}}js/jquery.dataTables.min.js"></script>
+	<script src="{{STATIC_URL}}js/modals.js"></script>
+	<script src="{{STATIC_URL}}js/jquery.form.js"></script>
+	
+    
+	<link rel='stylesheet' id='contact-form-7-css'  href='{{STATIC_URL}}css/style.v3.css?ver=3.0' type='text/css' media='all' />
+	
+	<meta name="description" content="Referral Buddy" />
+	<meta name="keywords" content="referral buddy " />
+	<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+	{%block header_tag%}
+	{%endblock%}
+</head>
+
+<!--[if lte IE 8 ]>  
+	<body class="ie"> 
+<![endif]-->
+	<!--[if (gte IE 9)|!(IE)]><!--> 
+	<body> <!--<![endif]-->
+		<div id="topbar">
+			<ul>
+				<li class="fb"><a href="http://www.facebook.com/sam.hammamy">facebook.com/sam.hammmay</a></li>
+				<li class="email"><a href="mailto:info@webiken.net">info@webiken.net</a></li>
+				<li class="mobile">(408) 813-4403</li>
+				<li class="tel">(408) 813-4403</li>
+			</ul>
+		</div>
+		<div id="container">
+			{%block menu%}
+				{%include "menu.html" %}
+			{%endblock%}
+			{%block content%}
+			{%endblock%}
+			<div class="clear"></div>
+	
+	<div id="footer">
+	
+		<div class="logoFooter">
+			<h3>Referral Buddy</h3>
+		</div>
+		<ul>
+			<li>
+				<a href="/services">Services</a>
+				<ul>
+					<li>Service I</li>
+					<li>Service II</li>
+					<li>Service II</li>
+				</ul>
+			</li>
+			<li>
+				<a href="/services">Concept</a>
+				<ul>
+					<li>Concept I</li>
+					<li>Concept II</li>
+					<li>Concept III</li>
+				</ul>
+			</li>
+			<li class="copyright">
+				<span class="right">
+					&copy;2012 Nation Wide Finance<br style="margin-bottom: 4px;" />
+				</span>
+			</li>
+		</ul>
+	
+	</div>
+
+		</div>
+	</body>
+</html>

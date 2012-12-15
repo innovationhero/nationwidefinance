@@ -1,0 +1,65 @@
+div.wpcf7 {
+	margin: 0;
+	padding: 0;
+}
+
+div.wpcf7-response-output {
+	padding: 8px 5px;
+}
+
+div.wpcf7-mail-sent-ok {
+	background: url(../images/checkmark_icon.png) no-repeat 10px center rgba(0,0,0,0.8); color: #ddd; font-size: 12px; text-align: left; border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px; border: none; padding-left: 32px;
+}
+
+div.wpcf7-mail-sent-ng {
+	border: 2px solid #ff0000;
+}
+
+div.wpcf7-spam-blocked {
+	border: 2px solid #ffa500;
+}
+
+div.wpcf7-validation-errors {
+	background: url(../images/attention_icon.png) no-repeat 10px center rgba(0,0,0,0.8); color: #ddd; font-size: 12px; text-align: left; border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px; border: none; padding-left: 32px;
+}
+
+span.wpcf7-form-control-wrap {
+	position: relative;
+}
+
+span.wpcf7-not-valid-tip {
+	position: absolute;
+	top: 20%;
+	left: 20%;
+	z-index: 100;
+	background: #fff;
+	border: 1px solid #ff0000;
+	font-size: 10pt;
+	width: 280px;
+	padding: 2px;
+	display: none;
+}
+
+span.wpcf7-not-valid-tip-no-ajax {
+	color: #f00;
+	font-size: 10pt;
+	display: block;
+}
+
+span.wpcf7-list-item {
+	margin-left: 0.5em;
+}
+
+.wpcf7-display-none {
+	display: none;
+}
+
+div.wpcf7 img.ajax-loader {
+	border: none;
+	vertical-align: middle;
+	margin-left: 4px;
+}
+
+div.wpcf7 .watermark {
+	color: #888;
+}

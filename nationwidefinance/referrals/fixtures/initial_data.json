@@ -1,0 +1,363 @@
+[
+  {
+    "model": "referrals.Department",
+    "pk": 1,
+    "fields": {
+      "department": "Accounting"
+    }
+  },
+  {
+    "model": "referrals.Department",
+    "pk": 2,
+    "fields": {
+      "department": "Finance"
+    }
+  },
+  {
+    "model": "referrals.Department",
+    "pk": 3,
+    "fields": {
+      "department": "IT"
+    }
+  },
+  {
+    "model": "referrals.EntityPlan",
+    "pk": "1",
+    "fields": {
+      "plan_name": "Basic Plan",
+      "plan_description": "Basic Plan",
+      "max_referrals_allowed" : "10",
+      "num_referrals_for_gift" : "10",
+      "direct_referal_value" : "5",
+      "indirect_referral_value" : "2",
+      "unlimited_referrals" : "False",
+      "can_add_entity" : "False",
+      "can_use_social_media" : "False",
+      "entity_active" : "True",
+      "price" : "100.00"
+
+    }
+  },
+  {
+    "model": "referrals.EntityPlan",
+    "pk": "2",
+    "fields": {
+      "plan_name": "Premium Plan",
+      "plan_description": "Premim Plan",
+      "max_referrals_allowed" : "20",
+      "num_referrals_for_gift" : "10",
+      "direct_referal_value" : "10",
+      "indirect_referral_value" : "4",
+      "unlimited_referrals" : "False",
+      "can_add_entity" : "False",
+      "can_use_social_media" : "False",
+      "entity_active" : "True",
+      "price" : "200.00"
+
+    }
+  },
+  {
+    "model": "referrals.EntityPlan",
+    "pk": "3",
+    "fields": {
+      "plan_name": "Platinum Plan",
+      "plan_description": "Platinum Plan",
+      "max_referrals_allowed" : "40",
+      "num_referrals_for_gift" : "20",
+      "direct_referal_value" : "20",
+      "indirect_referral_value" : "10",
+      "unlimited_referrals" : "False",
+      "can_add_entity" : "False",
+      "can_use_social_media" : "False",
+      "entity_active" : "True",
+      "price" : "300.00"
+
+    }
+  },
+  {
+    "model": "referrals.Industry",
+    "pk": 1,
+    "fields": {
+      "name": "Accounting",
+      "description": "Accounting",
+      "entity_active" : "True"
+    }
+  },
+  {
+    "model": "referrals.Industry",
+    "pk": 1,
+    "fields": {
+      "name": "Accounting",
+      "description": "Accounting",
+      "entity_active" : "True"
+    }
+  },
+  {
+    "model": "referrals.Industry",
+    "pk": 1,
+    "fields": {
+      "name": "Accounting",
+      "description": "Accounting",
+      "entity_active" : "True"
+    }
+  },
+  {
+    "model": "referrals.Industry",
+    "pk": 2,
+    "fields": {
+      "name": "Advertising & Marketing",
+      "description": "Advertising & Marketing",
+      "entity_active" : "True"
+    }
+    },
+    {
+    "model": "referrals.Industry",
+    "pk": 3,
+    "fields": {
+      "name": "Arts",
+      "description": "Arts",
+      "entity_active" : "True"
+    }},
+  {
+    "model": "referrals.Industry",
+    "pk": 4,
+    "fields": {
+      "name": "Banking",
+      "description": "Banking",
+      "entity_active" : "True"
+    }},
+  {
+    "model": "referrals.Industry",
+    "pk": 5,
+    "fields": {
+      "name": "Biotech & Pharmaceuticals",
+      "description": "Biotech & Pharmaceuticals",
+      "entity_active" : "True"
+    }},
+  {
+    "model": "referrals.Industry",
+    "pk": 6,
+    "fields": {
+      "name": "Economy",
+      "description": "Economy",
+      "entity_active" : "True"
+    }},
+  {
+    "model": "referrals.Industry",
+    "pk": 7,
+    "fields": {
+      "name": "Education",
+      "description": "Education",
+      "entity_active" : "True"
+    }},
+  {
+    "model": "referrals.Industry",
+    "pk": 8,
+    "fields": {
+      "name": "Energy & Utilities",
+      "description": "Energy & Utilities",
+      "entity_active" : "True"
+    }},
+  {
+    "model": "referrals.Industry",
+    "pk": 9,
+    "fields": {
+      "name": "Entrepreneur",
+      "description": "Entrepreneur",
+      "entity_active" : "True"
+    }},
+  {
+    "model": "referrals.Industry",
+    "pk": 10,
+    "fields": {
+      "name": "Fashion",
+      "description": "Fashion",
+      "entity_active" : "True"
+    }},
+  {
+    "model": "referrals.Industry",
+    "pk": 11,
+    "fields": {
+      "name": "Finance",
+      "description": "Finance",
+      "entity_active" : "True"
+    }},
+  {
+    "model": "referrals.Industry",
+    "pk": 12,
+    "fields": {
+      "name": "Health Care",
+      "description": "Health Care",
+      "entity_active" : "True"
+    }},
+  {
+    "model": "referrals.Industry",
+    "pk": 13,
+    "fields": {
+      "name": "Health & Wellness",
+      "description": "Health & Wellness",
+      "entity_active" : "True"
+    }},
+  {
+    "model": "referrals.Industry",
+    "pk": 14,
+    "fields": {
+      "name": "Hospitality & Tourism",
+      "description": "Hospitality & Tourism",
+      "entity_active" : "True"
+    }},
+  {
+    "model": "referrals.Industry",
+    "pk": 15,
+    "fields": {
+      "name": "Human Resources",
+      "description": "Human Resourcespreneur",
+      "entity_active" : "True"
+    }},
+  {
+    "model": "referrals.Industry",
+    "pk": 16,
+    "fields": {
+      "name": "Law",
+      "description": "Law",
+      "entity_active" : "True"
+    }},
+  {
+    "model": "referrals.Industry",
+    "pk": 17,
+    "fields": {
+      "name": "Manufacturing",
+      "description": "Manufacturing",
+      "entity_active" : "True"
+    }},
+  {
+    "model": "referrals.Industry",
+    "pk": 18,
+    "fields": {
+      "name": "Media & Entertainment",
+      "description": "Media & Entertainment",
+      "entity_active" : "True"
+    }},
+  {
+    "model": "referrals.Industry",
+    "pk": 19,
+    "fields": {
+      "name": "Nonprofits",
+      "description": "Nonprofits",
+      "entity_active" : "True"
+    }},
+  {
+    "model": "referrals.Industry",
+    "pk": 20,
+    "fields": {
+      "name": "Politics",
+      "description": "Politics",
+      "entity_active" : "True"
+    }},
+  {
+    "model": "referrals.Industry",
+    "pk": 21,
+    "fields": {
+      "name": "Publishing",
+      "description": "Publishing",
+      "entity_active" : "True"
+    }},
+  {
+    "model": "referrals.Industry",
+    "pk": 22,
+    "fields": {
+      "name": "Professional Services",
+      "description": "Professional Services",
+      "entity_active" : "True"
+    }},
+  {
+    "model": "referrals.Industry",
+    "pk": 23,
+    "fields": {
+      "name": "Real Estate",
+      "description": "Real Estate",
+      "entity_active" : "True"
+    }},
+  {
+    "model": "referrals.Industry",
+    "pk": 24,
+    "fields": {
+      "name": "Restaurants",
+      "description": "Restaurants",
+      "entity_active" : "True"
+    }},
+  {
+    "model": "referrals.Industry",
+    "pk": 25,
+    "fields": {
+      "name": "Retail & Apparel",
+      "description": "Retail & Apparel",
+      "entity_active" : "True"
+    }},
+  {
+    "model": "referrals.Industry",
+    "pk": 26,
+    "fields": {
+      "name": "Small Business",
+      "description": "Small Business",
+      "entity_active" : "True"
+    }},
+  {
+    "model": "referrals.Industry",
+    "pk": 27,
+    "fields": {
+      "name": "Social Media",
+      "description": "Social Media",
+      "entity_active" : "True"
+    }},
+  {
+    "model": "referrals.Industry",
+    "pk": 28,
+    "fields": {
+      "name": "Media & Entertainment",
+      "description": "Media & Entertainment",
+      "entity_active" : "True"
+    }},
+  {
+    "model": "referrals.Industry",
+    "pk": 29,
+    "fields": {
+      "name": "Sports & Fitness",
+      "description": "Sports & Fitness",
+      "entity_active" : "True"
+    }},
+  {
+    "model": "referrals.Industry",
+    "pk": 30,
+    "fields": {
+      "name": "Startups",
+      "description": "Startups",
+      "entity_active" : "True"
+    }},
+  {
+    "model": "referrals.Industry",
+    "pk": 31,
+    "fields": {
+      "name": "Technology - All areas",
+      "description": "Technology - All areas",
+      "entity_active" : "True"
+    }},
+  {
+    "model": "referrals.Industry",
+    "pk": 22,
+    "fields": {
+      "name": "Telecommunications",
+      "description": "Telecommunications",
+      "entity_active" : "True"
+    }},
+  {
+    "model": "referrals.Industry",
+    "pk": 23,
+    "fields": {
+      "name": "Transportation",
+      "description": "Transportation",
+      "entity_active" : "True"
+    }
+
+  }
+]

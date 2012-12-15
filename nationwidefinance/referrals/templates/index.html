@@ -1,0 +1,64 @@
+{%extends "base.html" %}
+
+{%block content%}
+<div id="feature">	
+	<div class="featureContent">
+		<h2>Referral Buddy</h2>
+		<p>Website Description Here</p>
+		<ul>
+			<li><a href="{%url auth_login %}" class="bigbutton">Register Now</a></li>
+			<li style="padding-top: 2px;"><a href="{%url home %}" class="graybutton">Learn more &rarr;</a></li>
+		</ul>
+	</div>
+	<div class="clear"></div>
+</div>
+
+<div id="main">
+	<div id="col1">
+		<div class="panel">
+			<h2 class="underline">services</h2>
+			<ul>
+				<li><h3>Referral Buddy Services Here</h3></li>
+			</ul>
+		</div>
+	
+	</div>
+	<div id="col2">
+		<div class="panel">
+			<h2 class="underline">Client Reviews</h2>
+				<div class="testi">
+					<p>&#8220;Client Review Here&#8221;</p>
+				</div>
+			
+			<h4>John Weald</h4>
+			<h5>Client Company Here</h5>
+		</div>
+		
+	<div class="panel">
+		<h2>Contact Us</h2>
+		<h3>Send a message using the form below</h3>
+		<div>
+			<form action="{% url contact_us%}" method="post" class="wpcf7-form">
+				{%csrf_token%}
+				<p>
+					
+						Full Name:<br/><input type="text" name="fullname" value=""  size="40" title="Your Full Name" />
+					
+				</p>
+				<p>
+					
+						Email:<br/><input type="text" name="email" value="" size="40" title="Email" />
+					
+				</p>
+				<p>
+						Message:<br/>
+						<textarea name="message" cols="40" rows="10" title="Your Message">
+						</textarea>
+				</p>
+					<input type="submit" value="send message" class="wpcf7-submit pageLinks submit" />
+					<div class="clear"></div>
+			</form>
+		</div>		
+	</div>
+</div>
+{%endblock%}
