@@ -99,7 +99,7 @@ body
 { padding-bottom: 20px; margin-bottom: 40px; overflow: hidden; padding-top: 30px; margin-bottom: 30px; }
 	
 	a.logo
-	{ display: block; background: url(../images/logo.png) no-repeat; width: 239px; height: 70px; float: left; text-indent: -9999px; }
+	{ display: block; background: url(../images/logo.png) no-repeat; width: 239px; height: 91px; float: left; text-indent: -9999px; }
 	
 	.nav
 	{ overflow: hidden; float: right; list-style: none; padding-bottom: 14px; text-shadow: 1px 1px 0 #fff; }
