@@ -1,35 +1,56 @@
 {%extends "base.html" %}
 
 {%block content%}
-<div id="feature">	
-	<div class="featureContent">
-		<h2>Referral Buddy</h2>
-		<p>Website Description Here</p>
-		<ul>
-			<li><a href="{%url registration_register %}" class="bigbutton">Register Now</a></li>
-			<li style="padding-top: 2px;"><a href="{%url home %}" class="graybutton">Learn more &rarr;</a></li>
-		</ul>
+<div class="top">
+	<div class="col1">
+	<div style="overflow:auto;">
+		<div class="logo"></div>
+		<div class="descr">
+			<legend>ReferralBuddy</legend>
+			<div>
+				<h4>Website Description Here</h4>
+			</div>
+		</div>
 	</div>
-	<div class="clear"></div>
+	<div class="btn-reg">
+		<ul>
+		<li><a href="{%url registration_register %}" class="btn">Register Now</a></li>
+		<li ><a href="{%url home %}" class="btn">Learn more &rarr;</a></li>
+	</ul>
+	</div>
+	</div>
+	<div class="col2">
+		<div>
+			<legend>Pyramind Marketing</legend>
+		</div>
+		<div>
+			<img src="{{STATIC_URL}}images/pyramid.jpg"/>
+		</div>
+		<div>
+			<h4>Concept Description Here</h4>
+		</div>
+	</div>
 </div>
 
-<div id="main">
-	<div id="col1">
-		<div class="panel">
-			<h2 class="underline">services</h2>
+<hr/>
+<!--
+<div class="top">
+	<div >
+		<div >
+			<h2>services</h2>
 			<ul>
 				<li><h3>Referral Buddy Services Here</h3></li>
 			</ul>
 		</div>
 	
 	</div>
-	<div id="col2">
+	<div >
 		
-	<div class="panel">
+	<div >
 		<h2>Contact Us</h2>
 		<h3>Send a message using the form below</h3>
 		<div>
-			<form action="{% url contact_us%}" method="post" class="wpcf7-form">
+			<form action="{% url contact_us%}" method="post" >
 				{%csrf_token%}
 				<p>
 					
@@ -52,4 +73,5 @@
 		</div>		
 	</div>
 </div>
+-->
 {%endblock%}

@@ -1,4 +1,4 @@
-{%load menu_tags%}
+<!--{%load menu_tags%}
 <div id="header">
 				<a href="{%url home%}" class="logo">Referral Buddy</a>
 				<ul id="menu-main" class="nav">
@@ -117,3 +117,111 @@
 
 				});
 			</script>
+-->
+<div class="navbar">
+        <div class="navbar-inner">
+            <div class="container">
+                <ul class="nav">
+                    <a class="brand" href="#">ReferralBuddy</a>
+                    <li class="active"><a href="{%url home%}">Home</a></li>
+                    <li><a href="{%url home%}">About</a></li>
+                    {%if user.is_authenticated%}
+						{%if user.get_profile %}
+							<li >
+								<a href="{% url edit_profile %}">Edit Profile</a>
+							</li>
+							{%if user.get_profile.is_facebook_user %}
+								<li>
+									<a href="{% url post_to_facebook %}">Post to Facebook</a>
+								</li>
+							{%endif%}
+							{%if user.get_profile.is_twitter_user %}
+								<li >
+									<a href="{% url post_to_twitter %}">Post to Twitter</a>
+								</li>
+							{%endif%}
+						{%endif%}
+						{%ifequal user.get_profile.entity_type "indv" %}
+							<li >
+								<a href="{% url view_referred %}">View Referred</a>
+							</li>
+						{%endifequal%}
+						{%ifequal user.get_profile.entity_type "org" %}
+							<li class="dropdown" id="referralmenu">
+								<a class="dropdown-toggle" data-toggle="dropdown" href="#">Referrals<b class="caret"></b></a>
+								<ul class="dropdown-menu">	
+									<li >
+										<a href="{% url add_referral %}">Add Referral</a>
+									</li>
+									<li >
+										<a href="{% url search_referrers %}">Search Referrers</a>
+									</li>
+									<li >
+										<a href="{% url view_referrers %}">View Referrers</a>
+									</li>
+									<li >
+										<a href="{% url calculate_gifts %}">Send Gifts</a>
+									</li>
+								</ul>
+							</li>
+							<li class="dropdown" id="messagesmenu">
+								<a class="dropdown-toggle" data-toggle="dropdown" href="#">Messages<b class="caret"></b></a>
+								<ul class="dropdown-menu">	
+									<li >
+										<a href="{% url send_message %}">Send Message</a>
+									</li>
+									<li >
+										<a href="{% url postman_inbox %}">View Inbox</a>
+									</li>
+									<li >
+										<a href="{% url postman_sent %}">View Outbox</a>
+									</li>
+									<li >
+										<a href="{% url search_organization %}">Organization</a>
+									</li>
+								</ul>
+							</li>
+						{%endifequal%}
+						<li  class="{%active request "logout_user"%}">
+							<a href="{%url logout_user%}">Logout</a>
+						</li>
+					{%else%}
+						<li class="dropdown" id="registermenu">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#">Register<b class="caret"></b></a>
+							<ul class="dropdown-menu">	
+								<li >
+									<a href="{% url socialauth_begin 'google' %}">With Gmail</a>
+								</li>
+								<li >
+									<a href="{%url socialauth_begin 'facebook'%}">With Facebok</a>
+								</li>
+								<li >
+									<a href="{%url socialauth_begin 'twitter'%}">With Twitter</a>
+								</li>
+								<li >
+									<a href="{% url registration_register %}">ReferralBuddy</a>
+								</li>
+							</ul>
+						</li>
+						<li class="dropdown" id="loginmenu">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#">Login<b class="caret"></b></a>
+							<ul class="dropdown-menu">	
+								<li >
+									<a href="{% url socialauth_begin 'google' %}">With Gmail</a>
+								</li>
+								<li >
+									<a href="{%url socialauth_begin 'facebook'%}">With Facebok</a>
+								</li>
+								<li >
+									<a href="{%url socialauth_begin 'twitter'%}">With Twitter</a>
+								</li>
+								<li >
+									<a href="{%url auth_login %}">ReferralBuddy</a>
+								</li>
+							</ul>
+						</li>
+					{%endif%}
+                </ul>
+            </div>
+        </div>
+    </div>
