@@ -16,10 +16,13 @@ body {
 	margin: 0 auto;
 }
 
-.top {
+.main {
 	overflow: auto;
-	
 	margin-bottom: 50px;
+}
+
+.main .top {
+	width: 40%;
 }
 
 .descr {
