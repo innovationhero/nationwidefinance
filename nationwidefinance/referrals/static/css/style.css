@@ -57,7 +57,7 @@ b, strong {
 	}
 	
 body
-{ background: url(../images/Opera-Background-Simple.jpg) repeat-x fixed top center #d3d3d3; color: #333; font-family: "Helvetica Neue", Arial, Helvetica, sans-serif !important; }
+{ background: #CECECE; color: #333; font-family: "Arial" ,sans-serif !important; }
 
 #container
 { width: 940px; padding: 20px 20px 0 20px; margin: 0 auto; }
@@ -108,7 +108,7 @@ body
 		{ float: left; padding-top: 36px; }
 		
 			.nav li a
-			{ font-family: 'HeroRegular'; font-size: 14px; text-decoration: none; color: #777; text-transform: uppercase; padding: 0 0 11px 0; margin: 0 12px; -webkit-transition: all 0.2s linear; -moz-transition: all 0.2s linear; transition: all 0.2s linear; }
+			{  font-size: 14px; text-decoration: none; color: #660099; text-transform: uppercase; padding: 0 0 11px 0; margin: 0 12px; -webkit-transition: all 0.2s linear; -moz-transition: all 0.2s linear; transition: all 0.2s linear; }
 			
 				.nav li a:hover, .nav li.current-menu-item a, .nav li.current-menu-ancestor a
 				{ color: #000; border-bottom: 3px solid #8D00A8; }
@@ -148,7 +148,7 @@ body
 			{ float: left; margin-right: 20px; overflow: hidden; }
 			
 			.bigbutton
-			{ display: block; border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px; background: #8D00A8; color: #fff; text-decoration: none; padding: 8px 18px; font-size: 18px; border: 1px solid #5b2583; text-shadow: 1px 1px 1px #3d165a; font-family: 'HeroRegular'; text-transform: uppercase; -webkit-transition: all 0.2s linear; -moz-transition: all 0.2s linear; transition: all 0.2s linear; }
+			{ display: block; border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px; background: #660099; color: #fff; text-decoration: none; padding: 8px 18px; font-size: 18px; border: 1px solid #5b2583; text-shadow: 1px 1px 1px #3d165a; font-family: 'HeroRegular'; text-transform: uppercase; -webkit-transition: all 0.2s linear; -moz-transition: all 0.2s linear; transition: all 0.2s linear; }
 				
 				.bigbutton span
 				{ display: block; font-family: 'PT Sans'; font-style: italic; font-size: 14px; text-transform: none; margin-bottom: 3px; }
@@ -178,7 +178,7 @@ body
 	{ float: left; width: 540px; font-size: 14px; }
 	
 		h2
-		{ font-family: 'HeroLight'; font-size: 42px; color: #8D00A8; margin-bottom: 3px; text-transform: uppercase; line-height: .9em; }
+		{ font-size: 42px; color: #660099; margin-bottom: 3px; text-transform: uppercase; line-height: .9em; }
 		
 			h2.underline
 			{ border-bottom: 1px solid #bbb; padding-bottom: 12px; margin-bottom: 24px; }
