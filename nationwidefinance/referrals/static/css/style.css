@@ -12,14 +12,14 @@ body {
 }
 
 .row-fluid {
-	width: 80%;
-	margin: 0 auto;
+	margin-top: 50px;
 }
 
 .top {
 	overflow: auto;
-	
 	margin-bottom: 50px;
+	float: left;
+	width: 90%;
 }
 
 .descr {
@@ -119,4 +119,28 @@ legend {
 	float: none;
 	list-style-type: none;
 	color: #666;
+}
+
+.top-right {
+	float: right;
+	width: 10%;
+
+}
+
+.content {
+	width: 80%;
+	float:left;
+	margin-left: 50px;
+}
+
+.menu {
+	padding-right: 40px;
+}
+
+.menu ul li {
+	list-style-type: none;
+}
+
+.menu ul li a {
+	color: #6B0082;
 }

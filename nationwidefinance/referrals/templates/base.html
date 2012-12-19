@@ -58,14 +58,14 @@
 			</ul>
 		</div>
 	-->
-	{%block menu%}
-		{%include "menu.html" %}
-	{%endblock%}
+	
 	<div class="container-fluid">
       	<div class="row-fluid">
              <div class="span9">
 				{%block content%}
-	
+				{%endblock%}
+				{%block menu%}
+				{%include "menu.html" %}
 				{%endblock%}
 			</div>
 		</div>

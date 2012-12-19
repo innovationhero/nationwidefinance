@@ -1,128 +1,7 @@
-<!--{%load menu_tags%}
-<div id="header">
-				<a href="{%url home%}" class="logo">Referral Buddy</a>
-				<ul id="menu-main" class="nav">
-					<li id="menu-item-1" class="menu-item menu-item-type-custom menu-item-object-custom {%active request "home"%}">
-						<a href="{%url home%}">Home</a>
-					</li>
-					<li id="menu-item-1" class="menu-item menu-item-type-custom menu-item-object-custom current_page_item menu-item-home ">
-						<a href="{%url home%}">About</a>
-					</li>
-					{%if user.is_authenticated%}
-						{%if user.get_profile %}
-							<li id="menu-item-3" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3">
-								<a href="{% url edit_profile %}">Edit Profile</a>
-							</li>
-							{%if user.get_profile.is_facebook_user %}
-								<li id="menu-item-4" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4">
-									<a href="{% url post_to_facebook %}">Post to Facebook</a>
-								</li>
-							{%endif%}
-							{%if user.get_profile.is_twitter_user %}
-								<li id="menu-item-5" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5">
-									<a href="{% url post_to_twitter %}">Post to Twitter</a>
-								</li>
-							{%endif%}
-						{%endif%}
-						{%ifequal user.get_profile.entity_type "indv" %}
-							<li id="menu-item-6" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6">
-								<a href="{% url view_referred %}">View Referred</a>
-							</li>
-						{%endifequal%}
-						{%ifequal user.get_profile.entity_type "org" %}
-							<li id="referrals" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7">
-								<a href="javascript:void(0);">Referrals</a>
-								<ul class="sub-menu">	
-									<li id="menu-item-8" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
-										<a href="{% url add_referral %}">Add Referral</a>
-									</li>
-									<li id="menu-item-9" class="menu-item menu-item-type-post_type menu-item-object-portfolio menu-item-9">
-										<a href="{% url search_referrers %}">Search Referrers</a>
-									</li>
-									<li id="menu-item-10" class="menu-item menu-item-type-post_type menu-item-object-portfolio menu-item-10">
-										<a href="{% url view_referrers %}">View Referrers</a>
-									</li>
-									<li id="menu-item-1" class="menu-item menu-item-type-post_type menu-item-object-portfolio menu-item-11">
-										<a href="{% url calculate_gifts %}">Send Gifts</a>
-									</li>
-								</ul>
-							</li>
-							<li id="messages" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-16">
-								<a href="http://www.ronniemoralesdesign.com/portfolio/">Messages</a>
-								<ul class="sub-menu">	
-									<li id="menu-item-13" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-13">
-										<a href="{% url send_message %}">Send Message</a>
-									</li>
-									<li id="menu-item-14" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-14">
-										<a href="{% url postman_inbox %}">View Inbox</a>
-									</li>
-									<li id="menu-item-15" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15">
-										<a href="{% url postman_sent %}">View Outbox</a>
-									</li>
-									<li id="menu-item-16" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-16">
-										<a href="{% url search_organization %}">Organization</a>
-									</li>
-								</ul>
-							</li>
-						{%endifequal%}
-						<li id="menu-item-1" class="menu-item menu-item-type-custom menu-item-object-custom {%active request "logout_user"%}">
-							<a href="{%url logout_user%}">Logout</a>
-						</li>
-					{%else%}
-						<li id="register" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-17 {%active request "registration_register"%}">
-							<a href="javascipt:void(0);">Register</a>
-							<ul class="sub-menu">	
-								<li id="menu-item-18" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-18">
-									<a href="{% url socialauth_begin 'google' %}">With Gmail</a>
-								</li>
-								<li id="menu-item-19" class="menu-item menu-item-type-post_type menu-item-object-portfolio menu-item-19">
-									<a href="{%url socialauth_begin 'facebook'%}">With Facebok</a>
-								</li>
-								<li id="menu-item-20" class="menu-item menu-item-type-post_type menu-item-object-portfolio menu-item-20">
-									<a href="{%url socialauth_begin 'twitter'%}">With Twitter</a>
-								</li>
-								<li id="menu-item-21" class="menu-item menu-item-type-post_type menu-item-object-portfolio menu-item-21">
-									<a href="{% url registration_register %}">ReferralBuddy</a>
-								</li>
-							</ul>
-						</li>
-						<li id="login" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-22">
-							<a href="http://www.ronniemoralesdesign.com/portfolio/">Login</a>
-							<ul class="sub-menu">	
-								<li id="menu-item-23" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-23">
-									<a href="{% url socialauth_begin 'google' %}">With Gmail</a>
-								</li>
-								<li id="menu-item-24" class="menu-item menu-item-type-post_type menu-item-object-portfolio menu-item-24">
-									<a href="{%url socialauth_begin 'facebook'%}">With Facebok</a>
-								</li>
-								<li id="menu-item-25" class="menu-item menu-item-type-post_type menu-item-object-portfolio menu-item-25">
-									<a href="{%url socialauth_begin 'twitter'%}">With Twitter</a>
-								</li>
-								<li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-portfolio menu-item-26">
-									<a href="{%url auth_login %}">ReferralBuddy</a>
-								</li>
-							</ul>
-						</li>
-					{%endif%}
-				</ul>
-			</div>
-			<script>
-				$(function(){
-					$("#register, #login, #referrals, #messages").mouseenter(function(){
-						$(this).find("ul").css('display','block');
-					}).mouseleave(function(){
-						$(this).find("ul").css('display','none');
-					});
-
-
-				});
-			</script>
--->
-<div class="navbar">
-        <div class="navbar-inner">
-            <div class="container">
-                <ul class="nav">
-                    <a class="brand" href="#">ReferralBuddy</a>
+<div class="menu">
+        <div class="top top-right">
+            <div >
+                <ul >
                     <li class="active"><a href="{%url home%}">Home</a></li>
                     <li><a href="{%url home%}">About</a></li>
                     {%if user.is_authenticated%}
@@ -148,8 +27,8 @@
 						{%endifequal%}
 						{%ifequal user.get_profile.entity_type "org" %}
 							<li class="dropdown" id="referralmenu">
-								<a class="dropdown-toggle" data-toggle="dropdown" href="#">Referrals<b class="caret"></b></a>
-								<ul class="dropdown-menu">	
+								<a  data-toggle="dropdown" href="#">Referrals<b class="caret"></b></a>
+								<ul >	
 									<li >
 										<a href="{% url add_referral %}">Add Referral</a>
 									</li>
@@ -182,7 +61,7 @@
 								</ul>
 							</li>
 						{%endifequal%}
-						<li  class="{%active request "logout_user"%}">
+						<li  >
 							<a href="{%url logout_user%}">Logout</a>
 						</li>
 					{%else%}
