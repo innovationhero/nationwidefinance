@@ -18,7 +18,8 @@ body {
 
 .top {
 	overflow: auto;
-	height: 500px;
+	height: 550px;
+	margin-bottom: 50px;
 }
 
 .descr {
@@ -57,7 +58,65 @@ legend {
 	width: 40%;
 }
 
-.clo2 div {
-	margin-top: 50px;
 
+
+.col2 h4 {
+	color: #6B0082;	
+}
+
+.col2 p {
+	font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+.contact-form p {
+	overflow: auto;
+	margin-top: 25px;
+}
+
+.contact-form input[type="submit"] {
+	margin-left: 85px;
+}
+
+.contact-form p label {
+	float: left;
+	width: 20%;
+}
+
+.contact-form p input {
+	float: left;
+	width: 50%;
+}
+
+.footer legend {
+	width: 100%;
+	text-align: center;
+	height: 55px;
+	padding-top: 25px; 
+}
+
+.footer {
+	background: rgba(0, 0, 0, 0.8);
+	color: #666;
+	margin-top: 30px;
+}
+
+.footer, .footer a {
+	background: whiteSmoke;
+	width: 100%;
+	height: 200px;
+	color: #6B0082;
+}
+
+.footer ul li {
+	float : left;
+	width: 30%;
+	list-style-type: none;
+	color: #6B0082;
+	margin-left: 15px;
+}
+
+.footer ul li ul li {
+	float: none;
+	list-style-type: none;
+	color: #666;
 }

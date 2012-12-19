@@ -32,46 +32,44 @@
 	</div>
 </div>
 
-<hr/>
-<!--
+
 <div class="top">
-	<div >
-		<div >
-			<h2>services</h2>
-			<ul>
-				<li><h3>Referral Buddy Services Here</h3></li>
+	<div class="col1">
+		<div>
+			<legend>Benefits of ReferralBuddy</legend>
+			<ul class="unstyled">
+				<li><h4>Reason 1</h4></li>
+				<li><h4>Reason 2</h4></li>
 			</ul>
 		</div>
-	
 	</div>
+	<div class="col2">
 	<div >
-		
-	<div >
-		<h2>Contact Us</h2>
-		<h3>Send a message using the form below</h3>
-		<div>
-			<form action="{% url contact_us%}" method="post" >
+		<legend>Contact Us</legend>
+		<h4>Send a message using the form below</h4>
+		<div >
+			<form action="{% url contact_us%}" method="post" class="contact-form">
 				{%csrf_token%}
 				<p>
 					
-						Full Name:<br/><input type="text" name="fullname" value=""  size="40" title="Your Full Name" />
+						<label>Full Name:</label><input type="text" name="fullname" value=""  size="40" title="Your Full Name" />
 					
 				</p>
 				<p>
 					
-						Email:<br/><input type="text" name="email" value="" size="40" title="Email" />
+						<label>Email:</label><input type="text" name="email" value="" size="40" title="Email" />
 					
 				</p>
 				<p>
-						Message:<br/>
+						<label>Message:</label>
 						<textarea name="message" cols="40" rows="10" title="Your Message">
 						</textarea>
 				</p>
-					<input type="submit" value="send message" class="wpcf7-submit pageLinks submit" />
-					<div class="clear"></div>
+				</p>
+					<input type="submit" value="Send Message" class="btn" />
+				</p>
 			</form>
 		</div>		
 	</div>
 </div>
--->
 {%endblock%}
