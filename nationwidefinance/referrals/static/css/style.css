@@ -182,6 +182,17 @@ legend {
 .btn-fb {
 	background-color: #115375;
 	color: white;
-	width: 180px !important;
+	height: 40px !important;
+}
+
+.btn-tw {
+	background-color: #21A1DF;
+	color: white;
+	height: 40px !important;
+}
+
+.btn-rf {
+	background-color: #F80007;
+	color: white;
 	height: 40px !important;
 }
