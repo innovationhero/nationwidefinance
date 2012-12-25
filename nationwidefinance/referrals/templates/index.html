@@ -3,73 +3,50 @@
 {%block content%}
 <div class="top">
 	<div class="col1">
-	<div style="overflow:auto;">
-		<div class="logo"></div>
-		<div class="descr">
-			<legend>ReferralBuddy</legend>
+		<div>
+			<div class="logo"></div>
 			<div>
-				<h4>Website Description Here</h4>
+				<h4 class="desc-text">Referral Buddy gives any business the tools to turbo-charge and manage their referral traffic turning their customers into <span>"Brand Embassadors"</span>.  Referral Buddy can make you more <span>MONEY</span> by using the referral power of your existing and new customers....<a href="#">CLICK HERE TO CONTINUE</a></h4>
+			</div>
+		</div>
+		<div>
+			<div class="pcks undrlined">PACKAGES</div>
+			<div class="pcks-li">
+				<ul>
+					<li>
+						<div class="undrlined">FREE</div>
+						<div>Limit</div>
+						<div>10 referrals</div>
+					</li>
+					<li>
+						<div class="undrlined">FREE</div>
+						<div>Limit</div>
+						<div>10 referrals</div>
+					</li>
+					<li>
+						<div class="undrlined">FREE</div>
+						<div>Limit</div>
+						<div>10 referrals</div>
+					</li>
+				</ul>
 			</div>
 		</div>
 	</div>
-	<div class="btn-reg">
-		<ul>
-		<li><a href="{%url registration_register %}" class="btn">Register Now</a></li>
-		<li ><a href="{%url home %}" class="btn">Learn more &rarr;</a></li>
-	</ul>
-	</div>
-	</div>
 	<div class="col2">
 		<div>
-			<legend>Pyramind Marketing</legend>
+			<div>
+				<legend>Pyramind Marketing</legend>
+			</div>
+			<div>
+				<img src="{{STATIC_URL}}images/pyramid.jpg"/>
+			</div>
 		</div>
 		<div>
-			<img src="{{STATIC_URL}}images/pyramid.jpg"/>
+			<div class="reg undrlined">REGISTER NOW</div>
+			<div>
+				{%include "registration/reg_frm.html"%}
+			</div>
 		</div>
-		<div>
-			<h4>Concept Description Here</h4>
-		</div>
-	</div>
-</div>
-
-
-<div class="top">
-	<div class="col1">
-		<div>
-			<legend>Benefits of ReferralBuddy</legend>
-			<ul class="unstyled">
-				<li><h4>Reason 1</h4></li>
-				<li><h4>Reason 2</h4></li>
-			</ul>
-		</div>
-	</div>
-	<div class="col2">
-	<div >
-		<legend>Contact Us</legend>
-		<h4>Send a message using the form below</h4>
-		<div >
-			<form action="{% url contact_us%}" method="post" class="contact-form">
-				{%csrf_token%}
-				<p>
-					
-						<label>Full Name:</label><input type="text" name="fullname" value=""  size="40" title="Your Full Name" />
-					
-				</p>
-				<p>
-					
-						<label>Email:</label><input type="text" name="email" value="" size="40" title="Email" />
-					
-				</p>
-				<p>
-						<label>Message:</label>
-						<textarea name="message" cols="40" rows="10" title="Your Message">
-						</textarea>
-				</p>
-				</p>
-					<input type="submit" value="Send Message" class="btn" />
-				</p>
-			</form>
-		</div>		
 	</div>
 </div>
 {%endblock%}

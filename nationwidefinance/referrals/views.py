@@ -29,11 +29,13 @@ from nationwidefinance.referrals.tasks import CalculateGifts
 
 from nationwidefinance.referrals.facebook_sdk import GraphAPI, GraphAPIError
 
+from nationwidefinance.registration.forms import RegistrationForm
+
 
 def home(request,template='index.html'):
-
+    form = RegistrationForm()
     return render_to_response(template,
-                              dict(title='Welcome to Nationwide Finance',),
+                              dict(title='Welcome to Nationwide Finance', form=form),
                               context_instance=RequestContext(request))
 
 
